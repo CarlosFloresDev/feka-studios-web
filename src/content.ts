@@ -147,10 +147,8 @@ export const ceniza: Game = {
   ],
   trailer: {
     youtube: null,
-    // Teaser actual. Cuando esté el tráiler final, cambia esta ruta o usa `youtube`.
-    mp4: '/media/ceniza/teaser-v2.mp4',
-    captions: '/media/ceniza/teaser-v2.vtt',
-    poster: '/media/ceniza/teaser-poster.webp',
+    mp4: '/media/ceniza/trailer-alfa.mp4',
+    poster: '/media/ceniza/trailer-alfa-poster.webp',
   },
   shots: [
     { src: '/media/ceniza/colonia_vigente.webp', w: 1600, h: 900, alt: { es: 'La colonia de día, entre chimeneas, con el aviso de construir un generador', en: 'The colony by day among smokestacks, prompting you to build a generator' } },
