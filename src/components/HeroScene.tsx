@@ -90,7 +90,7 @@ function Sigil({ progress, reduced }: { progress: { current: number }; reduced: 
     const f = reduced ? 1 : flicker(t);
 
     const baseX = narrow ? 0 : 1.95;
-    const baseY = narrow ? 0.85 : 0.15;
+    const baseY = narrow ? 1.0 : 0.15;
     const px = reduced ? 0 : state.pointer.x;
     const py = reduced ? 0 : state.pointer.y;
     const k = 1 - Math.pow(0.002, delta);
@@ -105,7 +105,7 @@ function Sigil({ progress, reduced }: { progress: { current: number }; reduced: 
     if (light.current) light.current.intensity = 18 * f * (1 - p * 0.5);
   });
 
-  const s = narrow ? 0.018 : 0.021;
+  const s = narrow ? 0.0145 : 0.021;
   return (
     <group ref={group}>
       <group scale={[s, -s, s]}>
