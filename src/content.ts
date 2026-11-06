@@ -162,7 +162,7 @@ export const ceniza: Game = {
   links: [
     { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.0-alpha', primary: true },
     { label: { es: 'Web del juego', en: 'Game website' }, href: 'https://ceniza-neon.chefsitturchey.workers.dev/' },
-    { label: { es: 'itch.io (pronto)', en: 'itch.io (soon)' }, href: null }, // PROVISIONAL
+    { label: { es: 'Jugar en itch.io', en: 'Play on itch.io' }, href: 'https://chefsitturchey.itch.io/ceniza-neon' },
   ],
 };
 
