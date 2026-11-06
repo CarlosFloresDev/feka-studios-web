@@ -130,7 +130,7 @@ export type Game = {
 export const ceniza: Game = {
   id: 'ceniza-neon',
   title: 'Ceniza Neón',
-  status: { es: 'Alfa 0.1 disponible', en: 'Alpha 0.1 available' },
+  status: { es: 'Alfa 0.2 disponible', en: 'Alpha 0.2 available' },
   pitch: {
     es: 'Construye la colonia de día. Defiéndela de noche.',
     en: 'Build the colony by day. Hold it by night.',
@@ -142,7 +142,7 @@ export const ceniza: Game = {
   facts: [
     { label: { es: 'Género', en: 'Genre' }, value: { es: 'Colonia, asedio y supervivencia 2D', en: '2D colony, siege and survival' } },
     { label: { es: 'Motor', en: 'Engine' }, value: { es: 'Godot 4', en: 'Godot 4' } },
-    { label: { es: 'Versión', en: 'Version' }, value: { es: '0.1.0 alfa', en: '0.1.0 alpha' } },
+    { label: { es: 'Versión', en: 'Version' }, value: { es: '0.2.0 alfa', en: '0.2.0 alpha' } },
     { label: { es: 'Plataformas', en: 'Platforms' }, value: { es: 'Windows, Android y navegador', en: 'Windows, Android and browser' } },
   ],
   trailer: {
@@ -160,7 +160,7 @@ export const ceniza: Game = {
     { src: '/media/ceniza/flooded.webp', w: 1600, h: 900, alt: { es: 'Muelles inundados al anochecer', en: 'Flooded docks at dusk' } },
   ],
   links: [
-    { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.1.0-alpha', primary: true },
+    { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.0-alpha', primary: true },
     { label: { es: 'Web del juego', en: 'Game website' }, href: 'https://ceniza-neon.chefsitturchey.workers.dev/' },
     { label: { es: 'itch.io (pronto)', en: 'itch.io (soon)' }, href: null }, // PROVISIONAL
   ],
@@ -229,6 +229,15 @@ export const proyecto3 = {
 export type Post = { date: string | null; title: L; body: L; href?: string | null };
 
 export const devlog: Post[] = [
+  {
+    date: '2026-11-06',
+    title: { es: 'Ceniza Neón 0.2 alfa: Boss Rush y jefes más duros', en: 'Ceniza Neón 0.2 alpha: Boss Rush and tougher bosses' },
+    body: {
+      es: 'Boss Rush con ranking de tiempos, jefes con ataques cuerpo a cuerpo, novela visual al empezar y ganar cada jefe, fondos animados en los cinco distritos y un tutorial con flecha guía.',
+      en: 'Boss Rush with a time ranking, bosses with melee attacks, visual novel scenes before and after each boss, animated backdrops in all five districts and a guided tutorial.',
+    },
+    href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.0-alpha',
+  },
   {
     date: '2026-11-01',
     title: { es: 'Ceniza Neón 0.1 alfa ya se puede jugar', en: 'Ceniza Neón 0.1 alpha is out' },
