@@ -60,7 +60,7 @@ export const studio = {
 export const contact = {
   /** PROVISIONAL: pon aquí el correo real del estudio. Mientras sea null,
       la web muestra "Correo en camino" y no inventa ninguna dirección. */
-  email: null as string | null,
+  email: 'fekastudios@gmail.com' as string | null,
   /** PROVISIONAL: correo para prensa (si es distinto). */
   pressEmail: null as string | null,
   /** PROVISIONAL: URL de un formulario de boletín (Buttondown, Mailchimp,
