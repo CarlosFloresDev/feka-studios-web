@@ -73,7 +73,7 @@ export const contact = {
 /** Redes. href: null = se muestra como "Pronto" sin enlace. PROVISIONAL. */
 export const socials: Link[] = [
   { label: { es: 'GitHub', en: 'GitHub' }, href: 'https://github.com/chefsitturchey-web' },
-  { label: { es: 'itch.io', en: 'itch.io' }, href: null },
+  { label: { es: 'itch.io', en: 'itch.io' }, href: 'https://chefsitturchey.itch.io' },
   { label: { es: 'YouTube', en: 'YouTube' }, href: null },
   { label: { es: 'TikTok', en: 'TikTok' }, href: null },
   { label: { es: 'X / Twitter', en: 'X / Twitter' }, href: null },
