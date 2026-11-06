@@ -151,13 +151,12 @@ export const ceniza: Game = {
     poster: '/media/ceniza/trailer-alfa-poster.webp',
   },
   shots: [
+    { src: '/media/ceniza/bossrush_inicio_02.webp', w: 1600, h: 900, alt: { es: 'Boss Rush contra el Recaudador: la pista avisa de su zona roja', en: 'Boss Rush against the Recaudador: a hint warns about its red zone' } },
     { src: '/media/ceniza/colonia_vigente.webp', w: 1600, h: 900, alt: { es: 'La colonia de día, entre chimeneas, con el aviso de construir un generador', en: 'The colony by day among smokestacks, prompting you to build a generator' } },
-    { src: '/media/ceniza/madre_arena.webp', w: 1600, h: 900, alt: { es: 'Combate contra Madre Cero en una arena circular', en: 'Boss fight against Madre Cero in a circular arena' } },
-    { src: '/media/ceniza/foundry.webp', w: 1600, h: 900, alt: { es: 'La fundición en llamas bajo un cielo de humo', en: 'The foundry burning under a smoky sky' } },
+    { src: '/media/ceniza/distrito_02.webp', w: 1600, h: 900, alt: { es: 'Escena de novela visual: Mara y el Portador al empezar el capítulo I', en: 'Visual novel scene: Mara and the Portador at the start of chapter I' } },
+    { src: '/media/ceniza/bossrush_combate_02.webp', w: 1600, h: 900, alt: { es: 'Boss Rush con cronómetro y pista para golpear al jefe por los lados', en: 'Boss Rush with a timer and a hint to hit the boss from the sides' } },
     { src: '/media/ceniza/caldera_arena.webp', w: 1600, h: 900, alt: { es: 'Combate contra Santa Caldera sobre rejillas al rojo', en: 'Boss fight against Santa Caldera on glowing grates' } },
-    { src: '/media/ceniza/novela_visual.webp', w: 1600, h: 900, alt: { es: 'Escena de diálogo con Mara a la llegada', en: 'Dialogue scene with Mara on arrival' } },
-    { src: '/media/ceniza/network.webp', w: 1600, h: 900, alt: { es: 'La red, una catedral de cables y luz verde', en: 'The network, a cathedral of cables and green light' } },
-    { src: '/media/ceniza/flooded.webp', w: 1600, h: 900, alt: { es: 'Muelles inundados al anochecer', en: 'Flooded docks at dusk' } },
+    { src: '/media/ceniza/madre_arena.webp', w: 1600, h: 900, alt: { es: 'Combate contra Madre Cero en una arena circular', en: 'Boss fight against Madre Cero in a circular arena' } },
   ],
   links: [
     { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.0-alpha', primary: true },
@@ -308,7 +307,7 @@ export const ui = {
   },
   sections: {
     featured: { es: 'Nuestro primer juego', en: 'Our first game' },
-    shotsHint: { es: 'Capturas de la alfa 0.1', en: 'Screenshots from alpha 0.1' },
+    shotsHint: { es: 'Capturas de la alfa 0.2', en: 'Screenshots from alpha 0.2' },
     devlog: { es: 'Diario de desarrollo', en: 'Devlog' },
     studio: { es: 'Tres programadores y una linterna', en: 'Three programmers and a flashlight' },
     team: { es: 'Equipo', en: 'Team' },
