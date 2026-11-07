@@ -142,7 +142,7 @@ export const ceniza: Game = {
   facts: [
     { label: { es: 'Género', en: 'Genre' }, value: { es: 'Colonia, asedio y supervivencia 2D', en: '2D colony, siege and survival' } },
     { label: { es: 'Motor', en: 'Engine' }, value: { es: 'Godot 4', en: 'Godot 4' } },
-    { label: { es: 'Versión', en: 'Version' }, value: { es: '0.2.0 alfa', en: '0.2.0 alpha' } },
+    { label: { es: 'Versión', en: 'Version' }, value: { es: '0.2.1 alfa', en: '0.2.1 alpha' } },
     { label: { es: 'Plataformas', en: 'Platforms' }, value: { es: 'Windows, Android y navegador', en: 'Windows, Android and browser' } },
   ],
   trailer: {
@@ -159,7 +159,7 @@ export const ceniza: Game = {
     { src: '/media/ceniza/madre_arena.webp', w: 1600, h: 900, alt: { es: 'Combate contra Madre Cero en una arena circular', en: 'Boss fight against Madre Cero in a circular arena' } },
   ],
   links: [
-    { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.0-alpha', primary: true },
+    { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.1-alpha', primary: true },
     { label: { es: 'Web del juego', en: 'Game website' }, href: 'https://ceniza-neon.chefsitturchey.workers.dev/' },
     { label: { es: 'Jugar en itch.io', en: 'Play on itch.io' }, href: 'https://chefsitturchey.itch.io/ceniza-neon' },
   ],
