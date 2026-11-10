@@ -1,6 +1,5 @@
 .scroll-light { position: relative; isolation: isolate; }
 .scroll-light::after { content: ''; pointer-events: none; position: absolute; inset: 0; z-index: 2; background: linear-gradient(110deg, transparent 35%, rgb(207 224 185 / .1) 48%, rgb(222 241 208 / .24) 50%, transparent 64%); transform: translateX(var(--light-position, -120%)); clip-path: inset(0); }
-.cn .scroll-light::after { background: linear-gradient(110deg, transparent 35%, rgb(156 195 217 / .12) 46%, rgb(242 169 78 / .26) 50%, transparent 64%); }
 .scroll-blood { position: fixed; z-index: 12; top: 84px; left: 0; right: 0; height: 150px; pointer-events: none; opacity: .6; }
 .scroll-blood .drip { top: 0; transform: scaleY(.04); }
 .vstory.zone, .varchive.zone { padding: clamp(24px, 4vw, 56px); border-top: 1px solid var(--line); }
@@ -8,8 +7,8 @@
 .vp[data-zone-now='piso'] .fx--fog { background-color: rgb(124 97 38 / .035); }
 .vp[data-zone-now='matadero'] .fx--fog { background-color: rgb(134 175 182 / .045); }
 .vp[data-zone-now='alcantarillas'] .fx--fog { background-color: rgb(49 99 64 / .065); }
-.vhero__visual > img, .cn-hero-art > img { position: absolute; inset: 0; display: block; }
-.vhero__visual, .cn-hero-art { overflow: hidden; }
+.vhero__visual > img { position: absolute; inset: 0; display: block; }
+.vhero__visual { overflow: hidden; }
 .atmospheric-canvas { pointer-events: none; }
 @media (max-width: 720px) { .scroll-blood { top: 115px; } }
 @media (prefers-reduced-motion: reduce) { .scroll-light::after { opacity: .35; } .vp .fx--fog { transition-duration: 1.5s; } }

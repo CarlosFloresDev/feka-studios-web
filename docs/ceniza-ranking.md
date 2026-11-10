@@ -1,6 +1,6 @@
 # Ranking de Ceniza en Feka
 
-El worker propio `worker/index.mjs` sirve `/api/ceniza/ranking` y delega las demás peticiones a `env.ASSETS.fetch`, conservando el fallback SPA de Wrangler. La pestaña `/ceniza/descargar` consulta el endpoint del mismo dominio.
+El worker `worker/index.mjs` sirve `/api/ceniza/ranking` con la misma D1 y resuelve los archivos originales bajo `/ceniza/`, incluido su 404. La p?gina `/ceniza/descargar/` consulta el endpoint del mismo dominio. El resto de Feka conserva el fallback SPA de Wrangler.
 
 Binding D1: `DB`, base `ceniza-ranking`, ID `727e64fc-e9e2-4aa3-82fe-bd5688627e91`. Es la misma base que usa el juego publicado; no crear ni vaciar tablas en producción. El worker de `Ceniza-Neon-Web` se utilizó únicamente como fuente de lectura.
 

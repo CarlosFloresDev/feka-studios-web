@@ -1,0 +1,13 @@
+
+# BEGIN CENIZA
+/ceniza/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-src https://itch.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+/ceniza/media/*
+  Cache-Control: public, max-age=86400
+/ceniza/audio/*
+  Cache-Control: public, max-age=604800
+# END CENIZA

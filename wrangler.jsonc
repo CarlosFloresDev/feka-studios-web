@@ -4,6 +4,6 @@
   "compatibility_date": "2026-10-29",
   "main": "worker/index.mjs",
   "d1_databases": [{ "binding": "DB", "database_name": "ceniza-ranking", "database_id": "727e64fc-e9e2-4aa3-82fe-bd5688627e91" }],
-  "assets": { "directory": "./dist", "not_found_handling": "single-page-application", "binding": "ASSETS", "run_worker_first": ["/api/*"] },
+  "assets": { "directory": "./dist", "not_found_handling": "single-page-application", "binding": "ASSETS", "html_handling": "none", "run_worker_first": ["/api/*", "/ceniza", "/ceniza/*"] },
   "workers_dev": true
 }

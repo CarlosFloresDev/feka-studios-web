@@ -1,0 +1,208 @@
+{
+  "pages": [
+    {
+      "route": "/ceniza/banda-sonora/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000036127167630057806
+    },
+    {
+      "route": "/ceniza/bitacora/alfa-0-2-boss-rush-y-jefes-mas-duros/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/bitacora/caminar-es-mas-que-mover-un-sprite/",
+      "identicalScreenshot": true,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/bitacora/cinco-capitulos-una-ruta/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00011591292274124764
+    },
+    {
+      "route": "/ceniza/bitacora/cinco-jefes-cinco-lenguajes/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.0003063547418386128
+    },
+    {
+      "route": "/ceniza/bitacora/el-diseno-aprobado-llega-al-combate/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000059249123560134504
+    },
+    {
+      "route": "/ceniza/bitacora/el-errante-empieza-a-moverse/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/bitacora/el-ferrocarril-llega-a-la-arena/",
+      "identicalScreenshot": true,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/bitacora/el-primer-paso/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/bitacora/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00012123776249226626
+    },
+    {
+      "route": "/ceniza/bitacora/la-historia-encuentra-sus-rostros/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.0002542917004595837
+    },
+    {
+      "route": "/ceniza/bitacora/lo-que-ya-existe-y-lo-que-falta/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.0005684983125266227
+    },
+    {
+      "route": "/ceniza/bitacora/una-ciudad-que-respira/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.0004963399200391175
+    },
+    {
+      "route": "/ceniza/comunidad/",
+      "identicalScreenshot": true,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/contacto/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000014490815052612806
+    },
+    {
+      "route": "/ceniza/descargar/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.0002704188388835692
+    },
+    {
+      "route": "/ceniza/prensa/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000013134497251859036
+    },
+    {
+      "route": "/ceniza/privacidad/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000010372781820503001
+    },
+    {
+      "route": "/ceniza/roadmap/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000020432348494135917
+    },
+    {
+      "route": "/ceniza/universo/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00012148781468084329
+    },
+    {
+      "route": "/ceniza/wiki/boss-rush/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/wiki/ciclo-dia-noche/",
+      "identicalScreenshot": true,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/wiki/controles-y-accesibilidad/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.0000013293346945720606
+    },
+    {
+      "route": "/ceniza/wiki/cooperativo/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00003246462475371664
+    },
+    {
+      "route": "/ceniza/wiki/coro-sumergido/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000003965017219503354
+    },
+    {
+      "route": "/ceniza/wiki/escuadras-y-portales/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00003708198489751888
+    },
+    {
+      "route": "/ceniza/wiki/experiencia-y-mejoras/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.000057999257609502596
+    },
+    {
+      "route": "/ceniza/wiki/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00005058586474313387
+    },
+    {
+      "route": "/ceniza/wiki/madre-cero/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00019383032855200245
+    },
+    {
+      "route": "/ceniza/wiki/murallas-y-torretas/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00003419741047727396
+    },
+    {
+      "route": "/ceniza/wiki/nucleo-y-construccion/",
+      "identicalScreenshot": true,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/wiki/operaciones-y-viaje/",
+      "identicalScreenshot": true,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/wiki/prefecto/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00037644874032308586
+    },
+    {
+      "route": "/ceniza/wiki/primeros-pasos/",
+      "identicalScreenshot": true,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/wiki/recaudador/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0
+    },
+    {
+      "route": "/ceniza/wiki/reclutas-y-profesiones/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00020534500153528972
+    },
+    {
+      "route": "/ceniza/wiki/santa-caldera/",
+      "identicalScreenshot": false,
+      "pixelDifference": 0.00038525408769973985
+    }
+  ],
+  "resources": 257,
+  "regression": [
+    "/",
+    "/vacas/",
+    "/vacas/historia",
+    "/vacas/jugabilidad",
+    "/vacas/archivo",
+    "/vacas/personajes",
+    "/vacas/bitacora"
+  ],
+  "errors": [],
+  "ranking": [
+    "http://127.0.0.1:8787/api/ceniza/ranking"
+  ]
+}

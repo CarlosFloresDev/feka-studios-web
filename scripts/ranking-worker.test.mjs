@@ -33,7 +33,29 @@ test('hourly limit, database failure, OPTIONS and unsupported method',async()=>{
   assert.equal((await worker.fetch(request('DELETE'),{})).status,405);
 });
 test('other requests delegate to ASSETS for SPA handling',async()=>{
-  const req=new Request('https://feka.test/ceniza/wiki');let received;
+  const req=new Request('https://feka.test/vacas/historia');let received;
   const res=await worker.fetch(req,{ASSETS:{fetch(r){received=r;return new Response('SPA');}}});
   assert.equal(received,req);assert.equal(await res.text(),'SPA');
+});
+
+test('Ceniza redirects directories and serves explicit HTML without SPA fallback', async () => {
+  let received;
+  const env = { ASSETS: { fetch(r) { received = r; return new Response('Ceniza', { headers: { 'X-Frame-Options': 'DENY' } }); } } };
+  for (const route of ['/ceniza', '/ceniza/wiki', '/ceniza/descargar']) {
+    const response = await worker.fetch(new Request('https://feka.test' + route), env);
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get('Location'), 'https://feka.test' + route + '/');
+  }
+  for (const route of ['/ceniza/', '/ceniza/wiki/', '/ceniza/descargar/']) {
+    const response = await worker.fetch(new Request('https://feka.test' + route), env);
+    assert.equal(new URL(received.url).pathname, route + 'index.html');
+    assert.equal(response.status, 200);
+  }
+  for (const route of ['/ceniza/no-existe', '/ceniza/wiki/no-existe/', '/ceniza/media/no-existe.webp', '/ceniza/%ZZ']) {
+    const response = await worker.fetch(new Request('https://feka.test' + route), env);
+    assert.equal(new URL(received.url).pathname, '/ceniza/404.html');
+    assert.equal(response.status, 404);
+    assert.equal(response.headers.get('X-Frame-Options'), 'DENY');
+    assert.equal(await response.text(), 'Ceniza');
+  }
 });

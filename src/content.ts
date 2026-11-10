@@ -8,7 +8,7 @@
    Busca "PROVISIONAL" para ver los valores pendientes de confirmar.
 
    Rutas de imágenes y vídeos: relativas a /public (por ejemplo
-   "/media/ceniza/citadel.webp" = public/media/ceniza/citadel.webp).
+   "/media/ceniza/foundry.webp" = public/media/ceniza/foundry.webp).
    Límite de Cloudflare: 25 MiB por archivo. Los tráileres grandes, mejor
    en YouTube (campo `youtube`).
    ===================================================================== */
@@ -161,7 +161,7 @@ export const ceniza: Game = {
   ],
   links: [
     { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.1-alpha', primary: true },
-    { label: { es: 'Web del juego', en: 'Game website' }, href: '/ceniza' },
+    { label: { es: 'Web del juego', en: 'Game website' }, href: '/ceniza/' },
     { label: { es: 'Jugar en itch.io', en: 'Play on itch.io' }, href: 'https://chefsitturchey.itch.io/ceniza-neon' },
   ],
 };

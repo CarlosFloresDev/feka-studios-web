@@ -2,6 +2,29 @@
 // GET  /api/ceniza/ranking        -> top 20 {name, seconds, hits, date}
 // POST /api/ceniza/ranking        -> {name, seconds, hits, version} -> {place}
 // El juego funciona sin conexión: si esta API no responde, solo deja de verse el top online.
+import cenizaAssets from './ceniza-assets.mjs';
+
+async function serveCeniza(request, env, url) {
+  let relative;
+  try {
+    relative = decodeURIComponent(url.pathname.slice('/ceniza'.length)).replace(/^\//, '');
+  } catch {
+    relative = null;
+  }
+  const index = relative === null ? null : relative ? relative.replace(/\/$/, '') + '/index.html' : 'index.html';
+  const file = cenizaAssets.has(relative) ? relative : cenizaAssets.has(index) ? index : null;
+  if (file && file === index && !url.pathname.endsWith('/')) {
+    url.pathname += '/';
+    return Response.redirect(url.toString(), 308);
+  }
+  // Consultar solo archivos conocidos evita que ASSETS devuelva el fallback SPA.
+  const assetUrl = new URL(request.url);
+  assetUrl.pathname = '/ceniza/' + (file || '404.html');
+  const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+  if (file) return response;
+  return new Response(response.body, { status: 404, headers: response.headers });
+}
+
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -75,6 +98,9 @@ async function submit(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === '/ceniza' || url.pathname.startsWith('/ceniza/')) {
+      return serveCeniza(request, env, url);
+    }
     if (url.pathname === "/api/ceniza/ranking") {
       if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
       try {
