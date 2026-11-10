@@ -10,7 +10,7 @@ const browser = await chromium.launch();
 const report = {};
 try {
   for (const [name, width, height] of [['escritorio', 1440, 900], ['movil', 390, 844]]) {
-    const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1 });
+    const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, isMobile: width === 390, hasTouch: width === 390 });
     const page = await context.newPage();
     const errors = [];
     const goreRequests = [];
@@ -80,19 +80,39 @@ try {
       assert.equal(await page.locator('html').getAttribute('lang'), 'en');
       assert.equal(await page.locator('.vtabs').getAttribute('aria-label'), 'Vacas sections');
       assert.equal(await overflow(), 0);
+      await shot(`english-${id || 'inicio'}`);
     }
     await shot('english');
     await page.getByRole('button', { name: 'ES', exact: true }).click();
     await page.goto(base + '/', { waitUntil: 'networkidle' });
-    await page.locator('#vacas').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1200);
+    assert.equal(await overflow(), 0, 'Hero de Feka');
+    await shot('portada-inicio');
+    if (width === 390) {
+      await page.getByRole('button', { name: 'Abrir menú' }).click();
+      await page.getByRole('button', { name: 'EN', exact: true }).click();
+      assert.equal(await page.locator('html').getAttribute('lang'), 'en');
+      await shot('portada-menu-english');
+      await page.keyboard.press('Escape');
+      assert.equal(await page.getByRole('button', { name: 'Open menu' }).getAttribute('aria-expanded'), 'false');
+      await page.getByRole('button', { name: 'Open menu' }).click();
+      await page.getByRole('button', { name: 'ES', exact: true }).click();
+      await page.keyboard.press('Escape');
+    }
+    await page.evaluate(() => window.scrollTo({ top: document.querySelector('#vacas').offsetTop - 90, behavior: 'instant' }));
     await page.waitForTimeout(1200);
     await shot('portada-vacas');
     assert.ok(await page.locator('a[href="/vacas"]').count());
     assert.ok(await page.getByText('Vacas: Acto V «La matanza»', { exact: true }).count());
     assert.equal(await overflow(), 0, 'Portada');
-    await page.locator('#juegos').scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollTo({ top: document.querySelector('#juegos').offsetTop, behavior: 'instant' }));
     await page.waitForTimeout(700);
     await shot('portada-ceniza');
+    for (const id of ['diario', 'estudio', 'prensa', 'contacto']) {
+      await page.evaluate(id => window.scrollTo({ top: document.getElementById(id).offsetTop - 90, behavior: 'instant' }), id);
+      assert.equal(await overflow(), 0, `Portada / ${id}`);
+      await shot(`portada-${id}`);
+    }
     assert.deepEqual(errors, [], 'Errores del navegador');
     report[name] = result;
     await context.close();

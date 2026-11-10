@@ -169,7 +169,7 @@ export const ceniza: Game = {
 export const vacas: Game = {
   id: 'vacas',
   title: 'Vacas',
-  status: { es: 'En desarrollo · Acto VI en curso', en: 'In development · Act VI under way' },
+  status: { es: 'En desarrollo · 6 actos y 3 finales, pulido final', en: 'In development · 6 acts and 3 endings, final polish' },
   pitch: {
     es: 'Un RPG de terror psicológico. La carne recuerda.',
     en: 'A psychological horror RPG. The flesh remembers.',
@@ -718,8 +718,8 @@ export const vacasPage: {
       "en": "Steven is twenty-five and lives in a flat that smells of stale tobacco, under his mother’s rule. He gets a job at the slaughterhouse. There, behind a vent, something with brown eyes starts talking to him."
     },
     "stamp": {
-      "es": "En desarrollo · Acto VI en curso",
-      "en": "In development · Act VI under way"
+      "es": "En desarrollo · 6 actos y 3 finales, pulido final",
+      "en": "In development · 6 acts and 3 endings, final polish"
     },
     "download": {
       "es": "Descarga: próximamente",

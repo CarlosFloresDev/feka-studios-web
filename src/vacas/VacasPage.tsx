@@ -16,8 +16,6 @@ import { useLang } from '../i18n';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-document.documentElement.classList.add('vp-root');
-
 /* ------------------------------------------------------------ almacenamiento */
 const KEY_ADULT = 'feka-vacas-adulto';
 const KEY_GORE = 'feka-vacas-gore';
@@ -167,19 +165,22 @@ function HeroArt({ art }: { art: string }) {
   const host = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [capable, setCapable] = useState(false);
+  const [foreground, setForeground] = useState(!document.hidden);
   useEffect(() => {
     const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean; effectiveType?: string } };
     const mq = window.matchMedia('(max-width: 720px), (prefers-reduced-motion: reduce)');
     const check = () => setCapable(!mq.matches && !nav.connection?.saveData && !/2g/.test(nav.connection?.effectiveType || '') && (nav.deviceMemory ?? 8) >= 4);
     check();
     mq.addEventListener('change', check);
+    const visibility = () => setForeground(!document.hidden);
+    document.addEventListener('visibilitychange', visibility);
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
     if (host.current) observer.observe(host.current);
-    return () => { observer.disconnect(); mq.removeEventListener('change', check); };
+    return () => { observer.disconnect(); mq.removeEventListener('change', check); document.removeEventListener('visibilitychange', visibility); };
   }, []);
   return <div ref={host} className="vhero__visual" aria-hidden>
     <img className="vhero__still" src={`/media/vacas/${art}`} alt="" fetchPriority="high" />
-    {capable && !reduced && <SceneBoundary key={art}><Suspense fallback={null}><Scene art={art} active={visible} /></Suspense></SceneBoundary>}
+    {capable && !reduced && <SceneBoundary key={art}><Suspense fallback={null}><Scene art={art} active={visible && foreground} /></Suspense></SceneBoundary>}
   </div>;
 }
 
@@ -192,12 +193,14 @@ function Page({ reveal }: { reveal: Reveal }) {
   const root = useRef<HTMLDivElement>(null);
   const main = useRef<HTMLElement>(null);
   const navigating = useRef(false);
+  const pendingFocus = useRef(false);
+  const keyboardNavigation = useRef(false);
   const [view, setView] = useState(currentView);
   const selected = vacasViews.find(v => v.id === view);
   const v = selected || vacasViews[0];
   const routeTween = useRef<gsap.core.Tween | null>(null);
   useEffect(() => {
-    const back = () => { routeTween.current?.kill(); navigating.current = false; setView(currentView()); window.scrollTo({ top: 0, behavior: 'instant' }); };
+    const back = () => { routeTween.current?.kill(); navigating.current = false; pendingFocus.current = true; keyboardNavigation.current = true; setView(currentView()); window.scrollTo({ top: 0, behavior: 'instant' }); };
     window.addEventListener('popstate', back);
     return () => { window.removeEventListener('popstate', back); routeTween.current?.kill(); };
   }, []);
@@ -206,35 +209,50 @@ function Page({ reveal }: { reveal: Reveal }) {
   const navigate = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    if (id === view || navigating.current) return;
+    if (id === view) return;
+    routeTween.current?.kill();
     navigating.current = true;
+    keyboardNavigation.current = event.detail === 0;
     const change = () => {
       window.history.pushState({}, '', pathFor(id));
+      pendingFocus.current = true;
       setView(id);
       window.scrollTo({ top: 0, behavior: 'instant' });
       navigating.current = false;
-      requestAnimationFrame(() => main.current?.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true }));
     };
-    if (reduced) change();
-    else routeTween.current = gsap.to(main.current, { opacity: 0, y: -12, duration: 0.18, onComplete: change });
+    if (reduced || event.detail === 0) change();
+    else contextSafe(() => { routeTween.current = gsap.to(main.current, { opacity: 0, duration: 0.12, ease: 'power2.out', onComplete: change }); })();
   };
 
-  useGSAP(() => {
+  const { contextSafe } = useGSAP(() => {
     gsap.set(main.current, { opacity: 1, y: 0 });
-    root.current?.style.setProperty('--veneno', '0');
+    let mounted = true;
+    const fill = root.current?.querySelector<HTMLElement>('.vbar__fill');
+    const poison = root.current?.querySelector<HTMLElement>('.vbar__poison');
+    const effects = root.current?.querySelectorAll<HTMLElement>('.fx');
+    if (fill) fill.style.transform = 'scaleX(1)';
+    if (poison) poison.style.transform = 'scaleX(0)';
     const sanity = root.current?.querySelector('[data-sanity]');
     if (sanity) sanity.textContent = '100';
-    if (!reduced) {
-      gsap.fromTo('.vhero__copy > *', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.09, ease: 'power2.out' });
-      gsap.fromTo('.vhero__visual', { opacity: 0 }, { opacity: 1, duration: 0.9 });
+    if (!reduced && !keyboardNavigation.current) {
+      gsap.fromTo('.vhero__copy > *', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.28, stagger: 0.035, ease: 'power3.out', clearProps: 'transform,opacity' });
     }
     ScrollTrigger.create({ trigger: main.current, start: 'top top', end: 'bottom bottom', onUpdate: self => {
-      root.current?.style.setProperty('--veneno', String(self.progress));
+      if (fill) fill.style.transform = `scaleX(${1 - self.progress * 0.88})`;
+      if (poison) poison.style.transform = `scaleX(${self.progress * 0.88})`;
+      effects?.forEach(el => el.style.setProperty('--veneno', String(self.progress)));
       const number = root.current?.querySelector('[data-sanity]');
       if (number) number.textContent = String(Math.round(100 - self.progress * 88));
     } });
-    document.fonts.ready.then(() => ScrollTrigger.refresh());
-  }, { scope: root, dependencies: [view, reduced], revertOnUpdate: true });
+    document.fonts.ready.then(() => { if (mounted) ScrollTrigger.refresh(); });
+    return () => { mounted = false; };
+  }, { scope: root, dependencies: [view, reduced, lang], revertOnUpdate: true });
+
+  useEffect(() => {
+    if (!pendingFocus.current) return;
+    main.current?.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true });
+    pendingFocus.current = false;
+  }, [view]);
 
   const Link = ({ id, children, className = '' }: { id: string; children: ReactNode; className?: string }) => <a href={pathFor(id)} className={className} onClick={e => navigate(e, id)}>{children}</a>;
   return <div className="vp" ref={root} data-zone-now={v.zone}>
@@ -291,6 +309,14 @@ export default function VacasPage() {
   const { t } = useLang();
   const [adult, setAdult] = useState(readAdult);
   const [revealed, setRevealed] = useState(readRevealed);
+
+  useEffect(() => {
+    document.documentElement.classList.add('vp-root');
+    const theme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    const previous = theme?.content;
+    if (theme) theme.content = '#141318';
+    return () => { document.documentElement.classList.remove('vp-root'); if (theme && previous) theme.content = previous; };
+  }, []);
 
   useEffect(() => { if (!adult) document.title = t(vp.meta.title); }, [t, adult]);
 

@@ -1,0 +1,85 @@
+{
+  "escritorio": {
+    "routes": {
+      "/vacas": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900,
+        "title": "VACAS"
+      },
+      "/vacas/historia": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900,
+        "title": "NADIE SALE LIMPIO."
+      },
+      "/vacas/jugabilidad": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900,
+        "title": "RESPIRA. RESISTE."
+      },
+      "/vacas/galeria": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900,
+        "title": "MIRA BAJO LA PIEL."
+      },
+      "/vacas/personajes": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900,
+        "title": "TE ESTÁN MIRANDO."
+      },
+      "/vacas/bitacora": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900,
+        "title": "EL TURNO CONTINÚA."
+      }
+    },
+    "errors": []
+  },
+  "movil": {
+    "routes": {
+      "/vacas": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844,
+        "title": "VACAS"
+      },
+      "/vacas/historia": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844,
+        "title": "NADIE SALE LIMPIO."
+      },
+      "/vacas/jugabilidad": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844,
+        "title": "RESPIRA. RESISTE."
+      },
+      "/vacas/galeria": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844,
+        "title": "MIRA BAJO LA PIEL."
+      },
+      "/vacas/personajes": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844,
+        "title": "TE ESTÁN MIRANDO."
+      },
+      "/vacas/bitacora": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844,
+        "title": "EL TURNO CONTINÚA."
+      }
+    },
+    "errors": []
+  },
+  "movimientoReducido": "Sin 3D ni descarga de R3F"
+}

@@ -39,6 +39,18 @@ function Nav() {
   const { t, lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setOpen(false); menuButton.current?.focus(); }
+    };
+    const mq = window.matchMedia('(min-width: 861px)');
+    const close = () => { if (mq.matches) setOpen(false); };
+    document.addEventListener('keydown', escape);
+    mq.addEventListener('change', close);
+    return () => { document.removeEventListener('keydown', escape); mq.removeEventListener('change', close); };
+  }, [open]);
   useEffect(() => {
     const st = ScrollTrigger.create({ start: 80, end: 'max', onToggle: (s) => setSolid(s.isActive) });
     return () => st.kill();
@@ -53,10 +65,10 @@ function Nav() {
   return (
     <header className="nav" data-solid={solid || open} data-open={open}>
       <div className="wrap nav__inner">
-        <a href="#top" className="nav__logo" aria-label="Feka Studios, inicio">
+        <a href="#top" className="nav__logo" aria-label={lang === 'es' ? 'Feka Studios, inicio' : 'Feka Studios, home'}>
           <img src="/press/feka-logo.svg" alt="Feka Studios" width="190" height="64" />
         </a>
-        <nav aria-label="Principal" style={{ display: 'contents' }}>
+        <nav aria-label={lang === 'es' ? 'Principal' : 'Main'} style={{ display: 'contents' }}>
           <ul className="nav__links" id="menu">
             {links.map(([href, l]) => (
               <li key={href}><a href={href} onClick={() => setOpen(false)}>{t(l)}</a></li>
@@ -69,7 +81,7 @@ function Nav() {
             </li>
           </ul>
         </nav>
-        <button type="button" className="nav__menu" aria-expanded={open} aria-controls="menu" aria-label={open ? 'Cerrar menú' : 'Abrir menú'} onClick={() => setOpen(!open)}>
+        <button ref={menuButton} type="button" className="nav__menu" aria-expanded={open} aria-controls="menu" aria-label={lang === 'es' ? (open ? 'Cerrar menú' : 'Abrir menú') : (open ? 'Close menu' : 'Open menu')} onClick={() => setOpen(!open)}>
           {open ? <X size={22} /> : <List size={22} />}
         </button>
       </div>
@@ -84,13 +96,16 @@ function Hero({ reduced }: { reduced: boolean }) {
   const progress = useRef(0);
   const [active, setActive] = useState(true);
   const [gl] = useState(hasWebGL);
+  const [foreground, setForeground] = useState(!document.hidden);
 
   useEffect(() => {
     const el = root.current;
     if (!el) return;
     const io = new IntersectionObserver(([e]) => setActive(e.isIntersecting), { rootMargin: '100px' });
     io.observe(el);
-    return () => io.disconnect();
+    const visibility = () => setForeground(!document.hidden);
+    document.addEventListener('visibilitychange', visibility);
+    return () => { io.disconnect(); document.removeEventListener('visibilitychange', visibility); };
   }, []);
 
   useGSAP(() => {
@@ -102,15 +117,16 @@ function Hero({ reduced }: { reduced: boolean }) {
     });
     const mm = gsap.matchMedia();
     mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: 0.25 });
-      tl.to('.hero h1 .line > span', { y: 0, duration: 1.3, stagger: 0.09 })
-        .to('.hero__sub', { opacity: 1, duration: 1 }, '-=0.9')
-        .to('.hero__ctas', { opacity: 1, duration: 1 }, '-=0.8');
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+      tl.fromTo('h1 .line > span', { yPercent: 105 }, { yPercent: 0, duration: 0.7, stagger: 0.06 })
+        .fromTo('.hero__sub', { opacity: 0 }, { opacity: 1, duration: 0.35 }, '-=0.45')
+        .fromTo('.hero__ctas', { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.25');
       gsap.to('.hero__content', {
         yPercent: -18, opacity: 0, ease: 'none',
         scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom 30%', scrub: true },
       });
     });
+    return () => mm.revert();
   }, { scope: root });
 
   const lines = t(studio.tagline).split(/(?<=\s)(?=\S)/).reduce<string[]>((acc, w, i, all) => {
@@ -124,9 +140,9 @@ function Hero({ reduced }: { reduced: boolean }) {
   return (
     <section className="hero" id="top" ref={root} aria-labelledby="hero-title">
       <div className="hero__canvas">
-        {gl ? (
+        {gl && !reduced ? (
           <Suspense fallback={<img className="hero__fallback" src="/press/feka-marca.svg" alt="" />}>
-            <HeroScene progress={progress} reduced={reduced} active={active} />
+            <HeroScene progress={progress} reduced={reduced} active={active && foreground} />
           </Suspense>
         ) : (
           <img className="hero__fallback" src="/press/feka-marca.svg" alt="" />
@@ -170,7 +186,8 @@ function Ceniza({ reduced }: { reduced: boolean }) {
       // la imagen clave se aleja levemente al entrar
       gsap.fromTo('.ceniza__key img', { scale: 1.12 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.ceniza__key', start: 'top bottom', end: 'bottom top', scrub: true } });
     });
-  }, { scope: root, dependencies: [reduced] });
+    return () => mm.revert();
+  }, { scope: root, dependencies: [reduced], revertOnUpdate: true });
 
   const [first, ...rest] = ceniza.title.split(' ');
   return (
@@ -230,26 +247,17 @@ function Ceniza({ reduced }: { reduced: boolean }) {
 function Vacas({ reduced }: { reduced: boolean }) {
   const { t } = useLang();
   const root = useRef<HTMLElement>(null);
-  useGSAP(() => {
+  useGSAP((_context, contextSafe) => {
     if (reduced) return;
-    // cada mapa se "enciende" como un fluorescente viejo al entrar en pantalla
-    gsap.set('.vacas__map img', { opacity: 0.05 });
+    gsap.set('.vacas__map img', { opacity: 0.35 });
     ScrollTrigger.batch('.vacas__map', {
       start: 'top 82%',
       once: true,
-      onEnter: (els) => {
-        els.forEach((el, i) => {
-          const img = el.querySelector('img');
-          gsap.timeline({ delay: i * 0.15 })
-            .to(img, { opacity: 0.7, duration: 0.05 })
-            .to(img, { opacity: 0.1, duration: 0.08 })
-            .to(img, { opacity: 0.85, duration: 0.04 })
-            .to(img, { opacity: 0.3, duration: 0.12 })
-            .to(img, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-        });
-      },
+      onEnter: contextSafe!((els: Element[]) => {
+        gsap.to(els.map(el => el.querySelector('img')), { opacity: 1, duration: 0.28, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' });
+      }),
     });
-  }, { scope: root, dependencies: [reduced] });
+  }, { scope: root, dependencies: [reduced], revertOnUpdate: true });
 
   return (
     <section className="vacas section" id={vacas.id} ref={root} aria-labelledby="vacas-title">
@@ -485,8 +493,10 @@ export default function App() {
   const { t } = useLang();
   useEffect(() => {
     // las fuentes cambian alturas: recalcular disparadores
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
-  }, []);
+    let mounted = true;
+    document.fonts?.ready.then(() => { if (mounted) ScrollTrigger.refresh(); });
+    return () => { mounted = false; };
+  }, [t]);
   return (
     <>
       <a className="skip" href="#main">{t(ui.nav.skip)}</a>

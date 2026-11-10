@@ -14,9 +14,9 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script>
       // la imagen grande de la portada solo se precarga en la portada
-      if (!/^\/vacas\/?$/i.test(location.pathname)) {
+      if (!/^\/vacas(?:\/|$)/i.test(location.pathname)) {
         var l = document.createElement('link');
-        l.rel = 'preload'; l.as = 'image'; l.href = '/media/ceniza/citadel.webp';
+        l.rel = 'preload'; l.as = 'image'; l.href = '/media/ceniza/periphery_alive_v2.webp';
         document.head.appendChild(l);
       }
     </script>
