@@ -168,20 +168,22 @@ export const ceniza: Game = {
 export const vacas: Game = {
   id: 'vacas',
   title: 'Vacas',
-  status: { es: 'En desarrollo', en: 'In development' },
+  status: { es: 'En desarrollo · Acto V en curso', en: 'In development · Act V under way' },
   pitch: {
     es: 'Terror psicológico inspirado en una novela de culto.',
     en: 'Psychological horror inspired by a cult novel.',
   },
   description: {
-    es: 'Steven trabaja en un matadero y vuelve cada noche a un piso donde manda su madre. Bajo la ciudad, en las alcantarillas, una vaca le habla por una rejilla. Un juego de exploración, sigilo y cordura que se rompe poco a poco.',
-    en: 'Steven works at a slaughterhouse and comes home every night to a flat ruled by his mother. Beneath the city, in the sewers, a cow speaks to him through a vent. A game of exploration, stealth and slowly breaking sanity.',
+    es: 'Steven trabaja en un matadero y vuelve cada noche a un piso donde manda su madre. Bajo la ciudad, en las alcantarillas, una vaca le habla por una rejilla. Un RPG de exploración, persecuciones y combates mentales por turnos, con una cordura que se rompe poco a poco.',
+    en: 'Steven works at a slaughterhouse and comes home every night to a flat ruled by his mother. Beneath the city, in the sewers, a cow speaks to him through a vent. An RPG of exploration, chases and turn-based mental battles, with a sanity that slowly breaks.',
   },
   facts: [
-    { label: { es: 'Género', en: 'Genre' }, value: { es: 'Terror psicológico', en: 'Psychological horror' } },
+    { label: { es: 'Género', en: 'Genre' }, value: { es: 'RPG de terror psicológico', en: 'Psychological horror RPG' } },
     { label: { es: 'Motor', en: 'Engine' }, value: { es: 'RPG Maker XP', en: 'RPG Maker XP' } },
-    { label: { es: 'Progreso', en: 'Progress' }, value: { es: 'Actos I y II construidos', en: 'Acts I and II built' } },
-    { label: { es: 'Contenido', en: 'Content' }, value: { es: 'Violencia y temas adultos', en: 'Violence and mature themes' } },
+    { label: { es: 'Progreso', en: 'Progress' }, value: { es: 'Actos I a IV construidos, de seis', en: 'Acts I to IV built, out of six' } },
+    { label: { es: 'Duración', en: 'Length' }, value: { es: '8 a 12 horas, 3 finales', en: '8 to 12 hours, 3 endings' } },
+    { label: { es: 'Contenido', en: 'Content' }, value: { es: 'Para adultos: violencia y gore', en: 'Adults only: violence and gore' } },
+    { label: { es: 'Descarga', en: 'Download' }, value: { es: 'Próximamente', en: 'Coming soon' } },
   ],
   trailer: {
     youtube: null, // PROVISIONAL: añadir cuando exista
@@ -195,7 +197,10 @@ export const vacas: Game = {
     { src: '/media/vacas/acto2_mapa7.webp', w: 960, h: 640, alt: { es: 'Los corrales del matadero', en: 'The slaughterhouse pens' } },
     { src: '/media/vacas/acto2_mapa11.webp', w: 960, h: 480, alt: { es: 'Las cámaras frías', en: 'The cold rooms' } },
   ],
-  links: [],
+  /** La página propia del juego vive en /vacas (textos en `vacasPage`, más abajo). */
+  links: [
+    { label: { es: 'Página de Vacas', en: 'Vacas game page' }, href: '/vacas', primary: true },
+  ],
 };
 
 /** Tercer juego. Rellena name/description/images cuando haya material:
@@ -223,11 +228,68 @@ export const proyecto3 = {
 };
 
 // ---------------------------------------------------------------------
-// DIARIO / NOTICIAS (lo más nuevo arriba)
+// BITÁCORA / NOTICIAS (lo más nuevo arriba)
 // ---------------------------------------------------------------------
 export type Post = { date: string | null; title: L; body: L; href?: string | null };
 
 export const devlog: Post[] = [
+  {
+    date: '2026-11-10',
+    title: { es: 'Vacas: intro de Feka Studios', en: 'Vacas: Feka Studios intro' },
+    body: {
+      es: 'El juego ya arranca con la intro animada del estudio: el logo, una gota que cae y salpica, y «presenta».',
+      en: 'The game now opens with the animated studio intro: the logo, a drop that falls and splashes, and "presents".',
+    },
+    href: '/vacas',
+  },
+  {
+    date: '2026-11-10',
+    title: { es: 'Vacas: audio integrado', en: 'Vacas: audio is in' },
+    body: {
+      es: 'Ciento veinte sonidos y pistas: ambiente propio en los 21 mapas, música de persecución y de jefes, pasos distintos según el suelo y pantalla de créditos.',
+      en: 'A hundred and twenty sounds and tracks: its own ambience on all 21 maps, chase and boss music, footsteps that change with the floor, and a credits screen.',
+    },
+  },
+  {
+    date: '2026-11-09',
+    title: { es: 'Vacas: interfaz propia', en: 'Vacas: a custom interface' },
+    body: {
+      es: 'Título y fin de partida animados, pausa, ajustes que se guardan, combate rediseñado, barras de cordura y veneno, y diálogos de novela visual.',
+      en: 'Animated title and game over screens, pause, settings that persist, redesigned combat, sanity and poison bars, and visual novel dialogue.',
+    },
+  },
+  {
+    date: '2026-11-09',
+    title: { es: 'Vacas: Acto IV, «Bajo la ciudad»', en: 'Vacas: Act IV, "Beneath the city"' },
+    body: {
+      es: 'Cinco mapas de alcantarillas, linterna con batería, reputación con la manada, persecuciones, tres visiones y un jefe.',
+      en: 'Five sewer maps, a battery-powered flashlight, reputation with the herd, chases, three visions and a boss.',
+    },
+  },
+  {
+    date: '2026-11-09',
+    title: { es: 'Vacas: revisión de mapas', en: 'Vacas: map review' },
+    body: {
+      es: 'Los 16 primeros mapas, repasados uno a uno: escala de los objetos corregida, más detalle, luz y ambiente.',
+      en: 'The first 16 maps, reviewed one by one: fixed object scale, more detail, light and atmosphere.',
+    },
+  },
+  {
+    date: '2026-11-09',
+    title: { es: 'Vacas: Acto III', en: 'Vacas: Act III' },
+    body: {
+      es: 'La vecina de arriba y su teoría del veneno: cinco mapas, puzles de inventario, una persecución, tres visiones, un jefe y una elección que pesa.',
+      en: 'The upstairs neighbour and her theory of poison: five maps, inventory puzzles, a chase, three visions, a boss and a choice that matters.',
+    },
+  },
+  {
+    date: '2026-11-09',
+    title: { es: 'Vacas: arte HD-2D', en: 'Vacas: HD-2D art' },
+    body: {
+      es: 'Guía de estilo con gore real y arte nuevo para todo el juego: personajes, retratos, enemigos, sustos, fondos de combate y ventanas.',
+      en: 'A style guide with real gore and new art across the game: characters, portraits, enemies, scares, battle backdrops and windows.',
+    },
+  },
   {
     date: '2026-11-06',
     title: { es: 'Ceniza Neón 0.2 alfa: Boss Rush y jefes más duros', en: 'Ceniza Neón 0.2 alpha: Boss Rush and tougher bosses' },
@@ -238,6 +300,22 @@ export const devlog: Post[] = [
     href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.0-alpha',
   },
   {
+    date: '2026-11-02',
+    title: { es: 'Vacas: Acto II, «La cadena»', en: 'Vacas: Act II, "The line"' },
+    body: {
+      es: 'El matadero entero: corrales, línea de despiece y cámaras frías, con minijuegos de trabajo, sigilo y la primera voz detrás de la rejilla.',
+      en: 'The whole slaughterhouse: pens, cutting line and cold rooms, with work minigames, stealth and the first voice behind the vent.',
+    },
+  },
+  {
+    date: '2026-11-01',
+    title: { es: 'Vacas: Acto I, «El piso»', en: 'Vacas: Act I, "The flat"' },
+    body: {
+      es: 'Empieza el proyecto. El piso, la escalera y la calle ya se recorren, con la barra de veneno y los eventos del primer acto.',
+      en: 'The project begins. The flat, the stairwell and the street are playable, with the poison bar and the events of the first act.',
+    },
+  },
+  {
     date: '2026-11-01',
     title: { es: 'Ceniza Neón 0.1 alfa ya se puede jugar', en: 'Ceniza Neón 0.1 alpha is out' },
     body: {
@@ -245,14 +323,6 @@ export const devlog: Post[] = [
       en: 'First public build for Windows, Android and the browser. Colony, night sieges and the first bosses.',
     },
     href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.1.0-alpha',
-  },
-  {
-    date: null,
-    title: { es: 'Vacas: actos I y II construidos', en: 'Vacas: acts I and II built' },
-    body: {
-      es: 'El piso, la escalera, la calle y el matadero ya se recorren de principio a fin. Seguimos con el tercer acto.',
-      en: 'The flat, the stairwell, the street and the slaughterhouse are playable end to end. Act III is next.',
-    },
   },
   {
     date: null,
@@ -291,7 +361,7 @@ export const press = {
 export const ui = {
   nav: {
     games: { es: 'Juegos', en: 'Games' },
-    devlog: { es: 'Diario', en: 'Devlog' },
+    devlog: { es: 'Bitácora', en: 'Devlog' },
     studio: { es: 'Estudio', en: 'Studio' },
     press: { es: 'Prensa', en: 'Press' },
     contact: { es: 'Contacto', en: 'Contact' },
@@ -308,7 +378,7 @@ export const ui = {
   sections: {
     featured: { es: 'Nuestro primer juego', en: 'Our first game' },
     shotsHint: { es: 'Capturas de la alfa 0.2', en: 'Screenshots from alpha 0.2' },
-    devlog: { es: 'Diario de desarrollo', en: 'Devlog' },
+    devlog: { es: 'Bitácora', en: 'Devlog' },
     studio: { es: 'Tres programadores y una linterna', en: 'Three programmers and a flashlight' },
     team: { es: 'Equipo', en: 'Team' },
     press: { es: 'Kit de prensa', en: 'Press kit' },
@@ -339,5 +409,395 @@ export const ui = {
   footer: {
     rights: { es: 'Todos los derechos reservados.', en: 'All rights reserved.' },
     top: { es: 'Volver arriba', en: 'Back to top' },
+  },
+};
+
+// ---------------------------------------------------------------------
+// PÁGINA DE VACAS (/vacas)
+// ---------------------------------------------------------------------
+// Norma: el juego se presenta como "inspirado en una novela de culto".
+// No se nombra el libro ni a su autor en ningún texto de la web.
+//
+// Imágenes: las que llevan `gore` salen tapadas con una tarjeta que dice lo
+// que contienen y un botón "Ver de todos modos". Las demás se ven normal.
+// `pixel: true` = mapa en pixel art, se amplía sin suavizado.
+// Las imágenes se generan con `node scripts/vacas-media.mjs <ruta a Vacas>`.
+
+export type VacasImg = {
+  /** Identificador estable: se guarda en el navegador al destapar la imagen. */
+  id: string;
+  src: string;
+  w: number;
+  h: number;
+  alt: L;
+  caption?: L;
+  /** Si existe, la imagen va tapada. Es el texto del aviso. */
+  gore?: L;
+  pixel?: boolean;
+};
+
+export type VacasZone = {
+  id: 'piso' | 'matadero' | 'alcantarillas';
+  /** Rótulo corto de la zona (se ve en la barra superior). */
+  name: L;
+  title: L;
+  body: L[];
+  cast: { img: VacasImg; name: L; line: L }[];
+  features: { title: L; body: L; img?: VacasImg }[];
+  gallery: VacasImg[];
+};
+
+const M = '/media/vacas/';
+
+export const vacasPage = {
+  meta: {
+    title: { es: 'Vacas · Feka Studios', en: 'Vacas · Feka Studios' },
+  },
+
+  /** Aviso de entrada (+18). */
+  gate: {
+    badge: { es: '+18', en: '18+' },
+    title: { es: 'Contenido para adultos', en: 'Adult content' },
+    body: {
+      es: 'Vacas es un juego de terror para mayores de 18 años. Esta página muestra violencia, sangre y gore. Las imágenes más explícitas están tapadas y solo se ven si tú lo pides.',
+      en: 'Vacas is a horror game for people aged 18 and over. This page shows violence, blood and gore. The most explicit images are covered and only shown if you ask.',
+    },
+    accept: { es: 'Tengo 18 años o más: continuar', en: 'I am 18 or older: continue' },
+    leave: { es: 'Volver a Feka Studios', en: 'Back to Feka Studios' },
+  },
+
+  /** Tarjeta que tapa las imágenes con gore. */
+  cover: {
+    show: { es: 'Ver de todos modos', en: 'Show anyway' },
+    hide: { es: 'Volver a tapar', en: 'Cover again' },
+  },
+
+  bar: {
+    back: { es: 'Feka Studios', en: 'Feka Studios' },
+    sanity: { es: 'Cordura', en: 'Sanity' },
+  },
+
+  hero: {
+    tagline: { es: 'La carne recuerda.', en: 'The flesh remembers.' },
+    pitch: {
+      es: 'Terror psicológico inspirado en una novela de culto.',
+      en: 'Psychological horror inspired by a cult novel.',
+    },
+    lead: {
+      es: 'Steven tiene veinticinco años y vive en un piso que huele a tabaco viejo, bajo el mando de su madre. Consigue trabajo en el matadero. Allí, detrás de una rejilla, algo con los ojos castaños empieza a hablarle.',
+      en: 'Steven is twenty-five and lives in a flat that smells of stale tobacco, under his mother’s rule. He gets a job at the slaughterhouse. There, behind a vent, something with brown eyes starts talking to him.',
+    },
+    stamp: { es: 'En desarrollo', en: 'In development' },
+    download: { es: 'Descarga: próximamente', en: 'Download: coming soon' },
+    progress: { es: 'Ver cómo va el juego', en: 'See how the game is going' },
+    img: {
+      id: 'rejilla', src: M + 'v_rejilla.webp', w: 1280, h: 960,
+      alt: { es: 'El ojo castaño de una vaca que mira entre los barrotes oxidados de una rejilla', en: 'The brown eye of a cow looking through the rusted bars of a vent' },
+    } as VacasImg,
+  },
+
+  /** Etiqueta con los datos del juego. */
+  tag: {
+    title: { es: 'Ficha', en: 'Fact sheet' },
+    rows: [
+      { label: { es: 'Género', en: 'Genre' }, value: { es: 'RPG de terror psicológico', en: 'Psychological horror RPG' } },
+      { label: { es: 'Motor', en: 'Engine' }, value: { es: 'RPG Maker XP', en: 'RPG Maker XP' } },
+      { label: { es: 'Arte', en: 'Art' }, value: { es: 'Pixel art HD-2D con gore real', en: 'HD-2D pixel art with real gore' } },
+      { label: { es: 'Estructura', en: 'Structure' }, value: { es: '6 actos', en: '6 acts' } },
+      { label: { es: 'Duración', en: 'Length' }, value: { es: '8 a 12 horas', en: '8 to 12 hours' } },
+      { label: { es: 'Finales', en: 'Endings' }, value: { es: '3', en: '3' } },
+      { label: { es: 'Estudio', en: 'Studio' }, value: { es: 'Feka Studios', en: 'Feka Studios' } },
+      { label: { es: 'Descarga', en: 'Download' }, value: { es: 'Próximamente', en: 'Coming soon' } },
+    ] as { label: L; value: L }[],
+  },
+
+  labels: {
+    cast: { es: 'Quién vive aquí', en: 'Who lives here' },
+    gallery: { es: 'El lugar', en: 'The place' },
+    visions: { es: 'Las visiones', en: 'The visions' },
+    visionsLead: {
+      es: 'Lo que Steven no puede digerir toma forma y hay que plantarle cara. Estas son algunas.',
+      en: 'What Steven cannot stomach takes shape and has to be faced. These are a few of them.',
+    },
+  },
+
+  zones: [
+    {
+      id: 'piso',
+      name: { es: 'El piso', en: 'The flat' },
+      title: { es: 'Un piso amarillo de nicotina', en: 'A flat yellowed by nicotine' },
+      body: [
+        {
+          es: 'Papel pintado que se despega, una tele de los años cincuenta y una madre que lo oye todo. Aquí el juego es rutina: cumplir las tareas, esconderse a tiempo y no hacer ruido.',
+          en: 'Peeling wallpaper, a television from the fifties and a mother who hears everything. Here the game is routine: do the chores, hide in time and keep quiet.',
+        },
+        {
+          es: 'La tele es el único sitio donde la cabeza descansa. También es donde se guarda la partida.',
+          en: 'The television is the only place where your head gets to rest. It is also where you save the game.',
+        },
+      ],
+      cast: [
+        {
+          img: { id: 'ret-steven', src: M + 'v_ret_steven.webp', w: 480, h: 680, alt: { es: 'Retrato de Steven: joven delgado, ojeroso, con camisa gastada', en: 'Portrait of Steven: a thin young man with sunken eyes and a worn shirt' } },
+          name: { es: 'Steven', en: 'Steven' },
+          line: { es: 'Veinticinco años y ninguna puerta propia.', en: 'Twenty-five years old and not one door of his own.' },
+        },
+        {
+          img: { id: 'ret-madre', src: M + 'v_ret_madre.webp', w: 480, h: 680, alt: { es: 'Retrato de la madre: mujer ancha con bata mostaza y gesto de ira', en: 'Portrait of the mother: a broad woman in a mustard robe, scowling' } },
+          name: { es: 'La madre', en: 'The mother' },
+          line: { es: 'En casa manda ella. Fuera de casa, también.', en: 'She rules the house. Outside the house, too.' },
+        },
+        {
+          img: { id: 'ret-perro', src: M + 'v_ret_perro.webp', w: 480, h: 680, alt: { es: 'Retrato de Perro: un mestizo tumbado de ojos cálidos', en: 'Portrait of Dog: a mongrel lying down, with warm eyes' } },
+          name: { es: 'Perro', en: 'Dog' },
+          line: { es: 'No puede caminar. Es lo único que Steven quiere.', en: 'He cannot walk. He is the only thing Steven loves.' },
+        },
+      ],
+      features: [
+        {
+          title: { es: 'Diálogos de novela visual', en: 'Visual novel dialogue' },
+          body: {
+            es: 'Las conversaciones se juegan a pantalla completa, con retratos que cambian de expresión. Lo que contestas se recuerda.',
+            en: 'Conversations play out full screen, with portraits that change expression. What you answer is remembered.',
+          },
+          img: { id: 'dialogo', src: M + 'v_dialogo.webp', w: 1280, h: 960, alt: { es: 'Pantalla de diálogo: retrato de Steven y el texto «La luz sigue encendida»', en: 'Dialogue screen: Steven’s portrait and the line "La luz sigue encendida"' } },
+        },
+        {
+          title: { es: 'Sustos que no avisan', en: 'Scares without warning' },
+          body: {
+            es: 'No todos llevan sangre. A veces basta con un ojo al otro lado del cristal.',
+            en: 'Not all of them carry blood. Sometimes an eye on the other side of the glass is enough.',
+          },
+          img: { id: 'susto-cristal', src: M + 'v_susto_cristal.webp', w: 1280, h: 960, alt: { es: 'Primer plano de un ojo que mira con rabia a través de un cristal agrietado', en: 'Close-up of an eye glaring through cracked glass' } },
+        },
+      ],
+      gallery: [
+        { id: 'mapa-piso', src: M + 'mapa2_el_piso.webp', w: 960, h: 704, pixel: true, alt: { es: 'Mapa del piso visto desde arriba: habitaciones, pasillo y cocina', en: 'Map of the flat from above: bedrooms, hallway and kitchen' }, caption: { es: 'El piso', en: 'The flat' } },
+        { id: 'mapa-escalera', src: M + 'mapa3_la_escalera.webp', w: 640, h: 480, pixel: true, alt: { es: 'Mapa del rellano de la escalera, con puertas de vecinos', en: 'Map of the stairwell landing, with the neighbours’ doors' }, caption: { es: 'La escalera', en: 'The stairwell' } },
+        { id: 'mapa-calle', src: M + 'mapa4_la_calle.webp', w: 1280, h: 640, pixel: true, alt: { es: 'Mapa de la calle frente al edificio, con farolas', en: 'Map of the street outside the building, with street lamps' }, caption: { es: 'La calle', en: 'The street' } },
+      ],
+    },
+    {
+      id: 'matadero',
+      name: { es: 'El matadero', en: 'The slaughterhouse' },
+      title: { es: 'Azulejo blanco y una cadena que no para', en: 'White tile and a line that never stops' },
+      body: [
+        {
+          es: 'Steven ficha, se pone el mono y aprende el oficio. El capataz quiere verlo matar. Los compañeros miran hacia otro lado.',
+          en: 'Steven clocks in, puts on the overalls and learns the trade. The foreman wants to see him kill. His workmates look the other way.',
+        },
+        {
+          es: 'Por una rejilla de ventilación, una vaca le habla en voz baja. Y en el piso de arriba, una vecina busca algo dentro de los cuerpos.',
+          en: 'Through a ventilation grille, a cow speaks to him in a low voice. And in the flat upstairs, a neighbour is looking for something inside bodies.',
+        },
+      ],
+      cast: [
+        {
+          img: { id: 'ret-capataz', src: M + 'v_ret_capataz.webp', w: 480, h: 680, alt: { es: 'Retrato del capataz: hombre corpulento y rapado con delantal manchado', en: 'Portrait of the foreman: a heavy, shaven-headed man in a stained apron' } },
+          name: { es: 'El capataz', en: 'The foreman' },
+          line: { es: 'Ocupa el pasillo entero. Quiere que aprendas.', en: 'He fills the whole corridor. He wants you to learn.' },
+        },
+        {
+          img: { id: 'ret-vecina', src: M + 'v_ret_vecina.webp', w: 480, h: 680, alt: { es: 'Retrato de la vecina: mujer de pelo claro con un tarro vacío en las manos', en: 'Portrait of the neighbour: a fair-haired woman holding an empty jar' } },
+          name: { es: 'La vecina de arriba', en: 'The upstairs neighbour' },
+          line: { es: 'Cree que el sufrimiento se queda dentro, como un veneno. Y que se puede encontrar.', en: 'She believes suffering stays inside, like a poison. And that it can be found.' },
+        },
+      ],
+      features: [
+        {
+          title: { es: 'Minijuegos del matadero', en: 'Slaughterhouse minigames' },
+          body: {
+            es: 'Cada turno es un trabajo corto de ritmo y precisión. Pagan dinero y abren zonas nuevas. Hacerlo bien también tiene un precio.',
+            en: 'Every shift is a short job of rhythm and precision. They pay money and open new areas. Doing it well has a price too.',
+          },
+        },
+        {
+          title: { es: 'Barra de cordura', en: 'Sanity bar' },
+          body: {
+            es: 'Lo que Steven ve y hace se acumula como un veneno. Cuanto más sube, más se tuercen las paredes, el sonido y lo que dice la gente.',
+            en: 'What Steven sees and does builds up like a poison. The higher it gets, the more the walls, the sound and what people say begin to warp.',
+          },
+          img: { id: 'estado', src: M + 'v_estado.webp', w: 1280, h: 960, alt: { es: 'Pantalla de estado con salud, aliento, cordura y veneno', en: 'Status screen with health, breath, sanity and poison' } },
+        },
+        {
+          title: { es: 'Combates mentales por turnos', en: 'Turn-based mental battles' },
+          body: {
+            es: 'Las visiones se pelean de frente y por turnos. No se gana con fuerza: se aguanta, se respira y se resiste.',
+            en: 'Visions are fought head-on, in turns. Strength does not win them: you hold on, you breathe and you endure.',
+          },
+          img: { id: 'combate-salon', src: M + 'v_combate_salon.webp', w: 1280, h: 960, alt: { es: 'Combate en el salón contra un televisor con una familia que grita en la pantalla', en: 'Battle in the living room against a television with a screaming family on screen' } },
+        },
+      ],
+      gallery: [
+        { id: 'mapa-corrales', src: M + 'acto2_mapa7.webp', w: 960, h: 640, pixel: true, alt: { es: 'Mapa de los corrales del matadero', en: 'Map of the slaughterhouse pens' }, caption: { es: 'Los corrales', en: 'The pens' } },
+        { id: 'mapa-cadena', src: M + 'm_cadena.webp', w: 1280, h: 768, pixel: true, alt: { es: 'Mapa de la línea de despiece, con dos canales de sangre a lo largo de la nave', en: 'Map of the cutting line, with two blood gutters running the length of the hall' }, caption: { es: 'La cadena', en: 'The line' } },
+        { id: 'mapa-camaras', src: M + 'acto2_mapa9.webp', w: 960, h: 640, pixel: true, alt: { es: 'Mapa de las cámaras frías', en: 'Map of the cold rooms' }, caption: { es: 'Las cámaras frías', en: 'The cold rooms' } },
+        { id: 'mapa-laboratorio', src: M + 'm_laboratorio.webp', w: 640, h: 480, pixel: true, alt: { es: 'Mapa de un laboratorio improvisado con camillas y estanterías', en: 'Map of a makeshift laboratory with stretchers and shelves' }, caption: { es: 'El laboratorio', en: 'The laboratory' } },
+        {
+          id: 'combate-matadero', src: M + 'g_combate_matadero.webp', w: 1280, h: 960,
+          alt: { es: 'Combate contra un enjambre de moscas en una nave del matadero cubierta de sangre', en: 'Battle against a swarm of flies in a blood-covered slaughterhouse hall' },
+          caption: { es: 'Combate en la nave', en: 'Battle in the hall' },
+          gore: { es: 'Matadero ensangrentado: sangre por el suelo y las mesas', en: 'Bloody slaughterhouse: blood across the floor and tables' },
+        },
+        {
+          id: 'combate-tarro', src: M + 'g_combate_tarro.webp', w: 1280, h: 960,
+          alt: { es: 'Combate contra un tarro gigante lleno de vísceras', en: 'Battle against a giant jar full of entrails' },
+          caption: { es: 'Combate contra un jefe', en: 'Boss battle' },
+          gore: { es: 'Gore explícito: vísceras y sangre', en: 'Explicit gore: entrails and blood' },
+        },
+      ],
+    },
+    {
+      id: 'alcantarillas',
+      name: { es: 'Las alcantarillas', en: 'The sewers' },
+      title: { es: 'Bajo la ciudad hay una manada', en: 'Beneath the city there is a herd' },
+      body: [
+        {
+          es: 'Aquí se avanza a oscuras, con una linterna que gasta batería y un agua que no deja ver el fondo. La manada lleva mucho tiempo abajo y no olvida cómo la tratas.',
+          en: 'Down here you move in the dark, with a flashlight that eats its battery and water that hides the bottom. The herd has been below for a long time and does not forget how you treat it.',
+        },
+        {
+          es: 'Hay persecuciones, escondites y un pacto que cambia lo que queda de juego.',
+          en: 'There are chases, hiding places and a pact that changes the rest of the game.',
+        },
+      ],
+      cast: [
+        {
+          img: { id: 'ret-vaca', src: M + 'v_ret_vaca.webp', w: 480, h: 680, alt: { es: 'Retrato de una vaca canela que mira entre barrotes', en: 'Portrait of a tan cow looking through bars' } },
+          name: { es: 'La vaca de la rejilla', en: 'The cow behind the vent' },
+          line: { es: 'Habla bajo. Sabe cómo te llamas.', en: 'She speaks softly. She knows your name.' },
+        },
+      ],
+      features: [
+        {
+          title: { es: 'Linterna con batería', en: 'Battery-powered flashlight' },
+          body: {
+            es: 'La luz dura lo que dura. Apagarla ahorra batería y sube el miedo.',
+            en: 'The light lasts as long as it lasts. Switching it off saves battery and raises the fear.',
+          },
+          img: { id: 'linterna', src: M + 'v_linterna.webp', w: 1280, h: 960, alt: { es: 'Túnel casi a oscuras, iluminado solo por el círculo de la linterna, con las barras de cordura y batería', en: 'A tunnel in near darkness, lit only by the flashlight’s circle, with sanity and battery bars' } },
+        },
+        {
+          title: { es: 'Persecuciones', en: 'Chases' },
+          body: {
+            es: 'La madre, el capataz, la manada con hambre. Si te ven, corre y busca dónde meterte.',
+            en: 'The mother, the foreman, the hungry herd. If they see you, run and find somewhere to hide.',
+          },
+        },
+        {
+          title: { es: 'Tres finales', en: 'Three endings' },
+          body: {
+            es: 'Lo que decides queda apuntado y cambia aliados, diálogos y desenlace. Ninguno de los tres sale gratis.',
+            en: 'What you decide is written down and changes allies, dialogue and outcome. None of the three comes free.',
+          },
+        },
+      ],
+      gallery: [
+        { id: 'mapa-alcantarilla', src: M + 'm_alcantarilla.webp', w: 704, h: 480, pixel: true, alt: { es: 'Mapa de un tramo de alcantarilla de ladrillo verde, con agua negra alrededor', en: 'Map of a stretch of green-brick sewer surrounded by black water' }, caption: { es: 'Los túneles', en: 'The tunnels' } },
+        { id: 'combate-tunel', src: M + 'v_combate_tunel.webp', w: 1280, h: 960, alt: { es: 'Combate en un túnel contra una figura encapuchada con el cuerpo de jaula', en: 'Battle in a tunnel against a hooded figure with a cage for a body' }, caption: { es: 'Combate contra un jefe', en: 'Boss battle' } },
+        {
+          id: 'susto-vaca', src: M + 'g_susto_vaca.webp', w: 1280, h: 960,
+          alt: { es: 'Susto: una cabeza de vaca desollada y cubierta de sangre pegada a un cristal', en: 'Scare: a flayed, blood-covered cow head pressed against glass' },
+          caption: { es: 'Un susto', en: 'A scare' },
+          gore: { es: 'Susto con gore explícito: cabeza de vaca desollada y sangre', en: 'Scare with explicit gore: flayed cow head and blood' },
+        },
+      ],
+    },
+  ] as VacasZone[],
+
+  /** Enemigos de los combates mentales (se muestran en la zona del matadero). */
+  visions: [
+    { id: 'vision-cencerro', src: M + 'v_vision_cencerro.webp', w: 640, h: 600, alt: { es: 'Un cencerro agrietado con costillas dentro', en: 'A cracked cowbell with ribs inside' }, caption: { es: 'El cencerro', en: 'The cowbell' } },
+    { id: 'vision-factura', src: M + 'v_vision_factura.webp', w: 640, h: 600, alt: { es: 'Una máscara cosida de papel con lacres y una balanza', en: 'A stitched paper mask with wax seals and a pair of scales' }, caption: { es: 'La factura', en: 'The invoice' } },
+    { id: 'vision-pastor', src: M + 'v_vision_pastor.webp', w: 640, h: 600, alt: { es: 'Una figura con capa, cayado y una jaula por cuerpo', en: 'A cloaked figure with a crook and a cage for a body' }, caption: { es: 'El pastor hueco', en: 'The hollow shepherd' } },
+    { id: 'vision-moscas', src: M + 'v_vision_moscas.webp', w: 640, h: 600, alt: { es: 'Un enjambre de moscas que forma una calavera', en: 'A swarm of flies forming a skull' }, caption: { es: 'El enjambre', en: 'The swarm' } },
+    {
+      id: 'vision-canal', src: M + 'g_vision_canal.webp', w: 640, h: 600,
+      alt: { es: 'Una canal colgada de un gancho con el costillar abierto', en: 'A carcass hanging from a hook with its ribcage open' },
+      caption: { es: 'La canal', en: 'The carcass' },
+      gore: { es: 'Gore explícito: costillar abierto y vísceras', en: 'Explicit gore: open ribcage and entrails' },
+    },
+    {
+      id: 'vision-vaca', src: M + 'g_vision_vaca.webp', w: 640, h: 600,
+      alt: { es: 'Una cabeza de vaca medio desollada con la lengua fuera', en: 'A half-flayed cow head with its tongue out' },
+      caption: { es: 'La res', en: 'The head of cattle' },
+      gore: { es: 'Gore explícito: cabeza desollada, hueso y sangre', en: 'Explicit gore: flayed head, bone and blood' },
+    },
+    {
+      id: 'vision-madre', src: M + 'g_vision_madre.webp', w: 640, h: 600,
+      alt: { es: 'La madre, enorme, con el cuerpo desgarrado bajo la bata', en: 'The mother, enormous, her body torn open under the robe' },
+      caption: { es: 'La Bestia', en: 'The Beast' },
+      gore: { es: 'Gore explícito: cuerpo desgarrado y sangre', en: 'Explicit gore: torn body and blood' },
+    },
+    {
+      id: 'vision-tarro', src: M + 'g_vision_tarro.webp', w: 640, h: 600,
+      alt: { es: 'Un tarro de cristal con una boca abierta entre vísceras', en: 'A glass jar with an open mouth among entrails' },
+      caption: { es: 'El tarro', en: 'The jar' },
+      gore: { es: 'Gore explícito: vísceras y dientes en un tarro', en: 'Explicit gore: entrails and teeth in a jar' },
+    },
+  ] as VacasImg[],
+
+  /** Estado del desarrollo. `state`: 'done' | 'now' | 'todo'. */
+  status: {
+    title: { es: 'Cómo va el juego', en: 'How the game is going' },
+    lead: {
+      es: 'Cuatro de los seis actos ya se juegan de principio a fin. El quinto está en marcha.',
+      en: 'Four of the six acts are playable from start to finish. The fifth is under way.',
+    },
+    states: {
+      done: { es: 'Construido', en: 'Built' },
+      now: { es: 'En curso', en: 'Under way' },
+      todo: { es: 'Pendiente', en: 'To do' },
+    },
+    acts: [
+      { n: 'I', name: { es: 'El piso', en: 'The flat' }, state: 'done' },
+      { n: 'II', name: { es: 'La cadena', en: 'The line' }, state: 'done' },
+      { n: 'III', name: { es: 'La vecina de arriba', en: 'The upstairs neighbour' }, state: 'done' },
+      { n: 'IV', name: { es: 'Bajo la ciudad', en: 'Beneath the city' }, state: 'done' },
+      { n: 'V', name: { es: 'El matadero, de noche', en: 'The slaughterhouse, at night' }, state: 'now' },
+      { n: 'VI', name: { es: 'Sin destripar', en: 'No spoilers' }, state: 'todo' },
+    ] as { n: string; name: L; state: 'done' | 'now' | 'todo' }[],
+    notes: [
+      {
+        title: { es: 'Audio integrado', en: 'Audio is in' },
+        body: {
+          es: 'Ambiente propio en cada mapa, música de persecución y de jefes, y pasos que suenan distinto según el suelo.',
+          en: 'Its own ambience on every map, chase and boss music, and footsteps that sound different on each floor.',
+        },
+      },
+      {
+        title: { es: 'Interfaz propia', en: 'Custom interface' },
+        body: {
+          es: 'Título, pausa, ajustes, combate y diálogos hechos a medida para el juego.',
+          en: 'Title, pause, settings, combat and dialogue built to fit the game.',
+        },
+      },
+      {
+        title: { es: 'Intro de Feka Studios', en: 'Feka Studios intro' },
+        body: {
+          es: 'El juego arranca con la intro animada del estudio.',
+          en: 'The game opens with the studio’s animated intro.',
+        },
+      },
+    ] as { title: L; body: L }[],
+    titleImg: {
+      id: 'titulo', src: M + 'v_titulo.webp', w: 1280, h: 960,
+      alt: { es: 'Pantalla de título de Vacas: un pasillo con un televisor encendido y el menú del juego', en: 'Vacas title screen: a corridor with a television switched on and the game menu' },
+      caption: { es: 'La pantalla de título', en: 'The title screen' },
+    } as VacasImg,
+    soonTitle: { es: 'Próximamente', en: 'Coming soon' },
+    soonBody: {
+      es: 'Todavía no hay descarga ni fecha. Cada avance se apunta en la bitácora del estudio.',
+      en: 'There is no download or date yet. Every step is logged in the studio devlog.',
+    },
+    devlog: { es: 'Leer la bitácora', en: 'Read the devlog' },
+    home: { es: 'Volver a Feka Studios', en: 'Back to Feka Studios' },
+  },
+
+  footer: {
+    note: {
+      es: 'Vacas es una obra de ficción para adultos. Contiene violencia gráfica, gore, maltrato y temas perturbadores.',
+      en: 'Vacas is a work of fiction for adults. It contains graphic violence, gore, abuse and disturbing themes.',
+    },
   },
 };

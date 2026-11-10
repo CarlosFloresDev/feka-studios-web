@@ -5,6 +5,9 @@ import { useGSAP } from '@gsap/react';
 import { ArrowUpRight, DownloadSimple, List, X, ArrowUp, EnvelopeSimple } from '@phosphor-icons/react';
 import { ceniza, contact, devlog, press, proyecto3, socials, studio, team, ui, vacas } from './content';
 import { useLang } from './i18n';
+import '@fontsource-variable/big-shoulders-display';
+import '@fontsource-variable/schibsted-grotesk';
+import './styles.css';
 import { Trailer } from './components/Trailer';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -261,6 +264,15 @@ function Vacas({ reduced }: { reduced: boolean }) {
               <div key={f.label.es}><dt>{t(f.label)}</dt><dd>{t(f.value)}</dd></div>
             ))}
           </dl>
+          <div className="vacas__ctas">
+            {vacas.links.map((l) =>
+              l.href ? (
+                <a key={l.label.es} className={`btn${l.primary ? ' btn--primary' : ''}`} href={l.href} {...ext(l.href)}>
+                  {t(l.label)} <ArrowUpRight size={18} aria-hidden />
+                </a>
+              ) : null,
+            )}
+          </div>
           <Trailer trailer={vacas.trailer} title={vacas.title} />
         </div>
         <div className="vacas__maps">

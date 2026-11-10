@@ -252,6 +252,7 @@ section { position: relative; }
 .vacas__status { color: var(--meat); }
 .vacas__pitch { font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 500; }
 .vacas__copy .facts { margin-top: 0.5rem; }
+.vacas__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .vacas__copy .trailer { margin-top: 0.5rem; }
 .vacas__maps { display: grid; gap: clamp(1rem, 3vw, 2.5rem); }
 .vacas__map { margin: 0; position: relative; background: #0d0a0c; overflow: hidden; }

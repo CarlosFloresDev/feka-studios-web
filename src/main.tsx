@@ -1,17 +1,20 @@
-import { StrictMode } from 'react';
+import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import '@fontsource-variable/big-shoulders-display';
-import '@fontsource-variable/schibsted-grotesk';
-import './styles.css';
-import App from './App';
 import { LangProvider } from './i18n';
 
 document.documentElement.classList.add('js');
 
+// Enrutado mínimo: /vacas tiene página propia; todo lo demás es la portada.
+// Cada página carga su código y sus estilos por separado.
+const isVacas = /^\/vacas\/?$/i.test(window.location.pathname);
+const Page = isVacas ? lazy(() => import('./vacas/VacasPage')) : lazy(() => import('./App'));
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <LangProvider>
-      <App />
+      <Suspense fallback={null}>
+        <Page />
+      </Suspense>
     </LangProvider>
   </StrictMode>,
 );

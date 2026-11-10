@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Feka Studios · Juegos de terror independientes</title>
-    <meta name="description" content="Feka Studios es un estudio independiente de juegos de terror. Ceniza Neón (alfa 0.1), Vacas (en desarrollo) y Proyecto 3." />
+    <meta name="description" content="Feka Studios es un estudio independiente de juegos de terror. Ceniza Neón (alfa 0.2), Vacas (en desarrollo) y Proyecto 3." />
     <meta name="theme-color" content="#08070b" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:title" content="Feka Studios" />
@@ -12,7 +12,14 @@
     <meta property="og:image" content="/media/ceniza/citadel.webp" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preload" as="image" href="/media/ceniza/citadel.webp" />
+    <script>
+      // la imagen grande de la portada solo se precarga en la portada
+      if (!/^\/vacas\/?$/i.test(location.pathname)) {
+        var l = document.createElement('link');
+        l.rel = 'preload'; l.as = 'image'; l.href = '/media/ceniza/citadel.webp';
+        document.head.appendChild(l);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
