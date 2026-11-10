@@ -169,7 +169,7 @@ export const ceniza: Game = {
 export const vacas: Game = {
   id: 'vacas',
   title: 'Vacas',
-  status: { es: 'En desarrollo · 6 actos y 3 finales, pulido final', en: 'In development · 6 acts and 3 endings, final polish' },
+  status: { es: 'Historia completa · 6 actos y 3 finales · en pruebas', en: 'Story complete · 6 acts and 3 endings · playtesting' },
   pitch: {
     es: 'Un RPG de terror psicológico. La carne recuerda.',
     en: 'A psychological horror RPG. The flesh remembers.',
@@ -244,6 +244,12 @@ export const proyecto3 = {
 };
 
 export const devlog: Post[] = [
+  { date: '2026-11-10', title: { es: 'Vacas: arte propio en los 32 mapas', en: 'Vacas: original art across all 32 maps' },
+    body: { es: 'Revisamos cada imagen del juego: enemigos nuevos para los actos V y VI, sustos, la madre envejecida, 50 iconos y utilería HD-2D en todos los mapas, sin mover un solo tile.', en: 'We reviewed every image in the game: new enemies for acts V and VI, scares, the aged mother, 50 icons and HD-2D props on every map, without moving a single tile.' }, href: '/vacas/galeria' },
+  { date: '2026-11-10', title: { es: 'Vacas: cinemáticas y repaso completo', en: 'Vacas: cinematics and full pass' },
+    body: { es: 'Apertura cinemática, tarjetas entre actos y finales reforzados. Revisamos el recorrido completo, de la partida nueva a los créditos, y ajustamos la dificultad.', en: 'Opening cinematic, act title cards and stronger endings. We checked the full run, from new game to credits, and tuned the difficulty.' }, href: '/vacas/bitacora' },
+  { date: '2026-11-10', title: { es: 'Vacas: Acto VI «Rey-dios» y los tres finales', en: 'Vacas: Act VI “God-king” and the three endings' },
+    body: { es: 'La historia ya se puede jugar de principio a fin: túneles profundos, la ciudad tomada, el regreso a casa y tres finales que dependen de tus decisiones.', en: 'The story is now playable from start to finish: deep tunnels, the taken city, the return home and three endings shaped by your choices.' }, href: '/vacas/bitacora' },
   { date: '2026-11-10', title: { es: 'Ceniza Neón dentro de Feka Studios', en: 'Ceniza Neón joins Feka Studios’ website' },
     body: { es: 'Alfa de prueba para Windows, Android y navegador. La página del juego reúne las descargas y el Top Boss Rush en línea.', en: 'Test alpha for Windows, Android and browser. The game page brings together downloads and the online Top Boss Rush.' }, href: '/ceniza/descargar' },
   { date: '2026-11-10', title: { es: 'Vacas: Acto V «La matanza»', en: 'Vacas: Act V “The slaughter”' },
@@ -730,8 +736,8 @@ export const vacasPage: {
       "en": "Steven is twenty-five and lives in a flat that smells of stale tobacco, under his mother’s rule. He gets a job at the slaughterhouse. There, behind a vent, something with brown eyes starts talking to him."
     },
     "stamp": {
-      "es": "En desarrollo · 6 actos y 3 finales, pulido final",
-      "en": "In development · 6 acts and 3 endings, final polish"
+      "es": "Historia completa · 6 actos y 3 finales · en pruebas",
+      "en": "Story complete · 6 acts and 3 endings · playtesting"
     },
     "download": {
       "es": "Descarga: próximamente",
