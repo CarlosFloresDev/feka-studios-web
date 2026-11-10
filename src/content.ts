@@ -168,7 +168,7 @@ export const ceniza: Game = {
 export const vacas: Game = {
   id: 'vacas',
   title: 'Vacas',
-  status: { es: 'En desarrollo · Acto V en curso', en: 'In development · Act V under way' },
+  status: { es: 'En desarrollo · Acto VI en curso', en: 'In development · Act VI under way' },
   pitch: {
     es: 'Terror psicológico inspirado en una novela de culto.',
     en: 'Psychological horror inspired by a cult novel.',
