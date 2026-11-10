@@ -6,7 +6,7 @@ const base = process.argv[2] || 'http://127.0.0.1:4173';
 const dir = process.argv[3] || 'capturas/vacas';
 const routes = ['', 'historia', 'jugabilidad', 'galeria', 'personajes', 'bitacora'];
 await mkdir(dir, { recursive: true });
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const report = {};
 try {
   for (const [name, width, height] of [['escritorio', 1440, 900], ['movil', 390, 844]]) {
@@ -40,8 +40,7 @@ try {
       const hero = await page.locator('.vhero').boundingBox();
       assert.ok(hero.height >= height - 1, 'Hero de pantalla completa');
       assert.equal(await overflow(), 0, route + ' / hero');
-      if (width === 390) assert.equal(await page.locator('canvas').count(), 0, 'Móvil: respaldo estático');
-      else assert.equal(await page.locator('.vhero canvas').count(), 1, 'Escritorio: R3F');
+      assert.equal(await page.locator('.vhero canvas').count(), 1, 'R3F en escritorio y móvil');
       await shot(id || 'inicio');
       await page.locator('img').evaluateAll(async imgs => {
         await Promise.all(imgs.map(async img => { img.loading = 'eager'; await img.decode(); }));
@@ -126,11 +125,11 @@ try {
   await page.goto(base + '/vacas', { waitUntil: 'networkidle' });
   await page.locator('.vtabs a[href="/vacas/personajes"]').click();
   await page.waitForURL('**/vacas/personajes');
-  assert.equal(await page.locator('canvas').count(), 0);
-  assert.equal(requests.some(url => /VacasScene-|react-three-fiber/.test(url)), false);
+  assert.equal(await page.locator('canvas').count(), 1, 'Movimiento reducido conserva R3F');
+  assert.equal(requests.some(url => /VacasScene-|react-three-fiber/.test(url)), true);
   await page.screenshot({ path: `${dir}/movimiento-reducido.jpg`, type: 'jpeg', quality: 78 });
   await reduced.close();
-  report.movimientoReducido = 'Sin 3D ni descarga de R3F';
+  report.movimientoReducido = 'R3F suave, c?mara estable y sin destellos';
   await writeFile(`${dir}/resultado.json`, JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
 } finally { await browser.close(); }

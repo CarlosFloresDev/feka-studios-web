@@ -1,0 +1,182 @@
+[
+  {
+    "mobile": false,
+    "reduced": false,
+    "route": "/vacas/historia",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 1440,
+      "height": 900
+    },
+    "effects": {
+      "hero": "matrix(1, 0, 0, 1, 0, 70.0002)",
+      "sanity": "89",
+      "drip": "translate3d(0px, 0px, 0px) scale(1, 0.2463)",
+      "lines": 10
+    }
+  },
+  {
+    "mobile": false,
+    "reduced": false,
+    "route": "/ceniza",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 1440,
+      "height": 900
+    },
+    "effects": {
+      "hero": "matrix(1, 0, 0, 1, 0, 70.0002)",
+      "lines": 3
+    }
+  },
+  {
+    "mobile": false,
+    "reduced": true,
+    "route": "/vacas/historia",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 1440,
+      "height": 900
+    },
+    "effects": {
+      "hero": "none",
+      "sanity": "89",
+      "drip": "translate3d(0px, 0px, 0px) scale(1, 0.2463)",
+      "lines": 10
+    }
+  },
+  {
+    "mobile": false,
+    "reduced": true,
+    "route": "/ceniza",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 1440,
+      "height": 900
+    },
+    "effects": {
+      "hero": "none",
+      "lines": 3
+    }
+  },
+  {
+    "mobile": true,
+    "reduced": false,
+    "route": "/vacas/historia",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1.5
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 390,
+      "height": 844
+    },
+    "effects": {
+      "hero": "matrix(1, 0, 0, 1, 0, 69.9997)",
+      "sanity": "82",
+      "drip": "translate3d(0px, 0px, 0px) scale(1, 0.3691)",
+      "lines": 10
+    }
+  },
+  {
+    "mobile": true,
+    "reduced": false,
+    "route": "/ceniza",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1.5
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 390,
+      "height": 844
+    },
+    "effects": {
+      "hero": "matrix(1, 0, 0, 1, 0, 69.9997)",
+      "lines": 4
+    }
+  },
+  {
+    "mobile": true,
+    "reduced": true,
+    "route": "/vacas/historia",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1.5
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 390,
+      "height": 844
+    },
+    "effects": {
+      "hero": "none",
+      "sanity": "82",
+      "drip": "translate3d(0px, 0px, 0px) scale(1, 0.3691)",
+      "lines": 10
+    }
+  },
+  {
+    "mobile": true,
+    "reduced": true,
+    "route": "/ceniza",
+    "canvas": {
+      "nonblack": "true",
+      "alpha": true,
+      "dpr": 1.5
+    },
+    "cover": {
+      "fit": "cover",
+      "width": 390,
+      "height": 844
+    },
+    "effects": {
+      "hero": "none",
+      "lines": 4
+    }
+  },
+  {
+    "fallback": "saveData",
+    "route": "/vacas",
+    "passed": true
+  },
+  {
+    "fallback": "saveData",
+    "route": "/ceniza",
+    "passed": true
+  },
+  {
+    "fallback": "webgl",
+    "route": "/vacas",
+    "passed": true
+  },
+  {
+    "fallback": "webgl",
+    "route": "/ceniza",
+    "passed": true
+  }
+]

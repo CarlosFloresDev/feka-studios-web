@@ -13,6 +13,7 @@ import '@fontsource/special-elite/400.css';
 import './vacas.css';
 import { vacasPage as vp, type VacasImg, vacasViews, vacasArchive, vacasInterface as vi, vacasProcess, devlog } from '../content';
 import { useLang } from '../i18n';
+import { useScrollAtmosphere } from '../components/useScrollAtmosphere';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -168,8 +169,8 @@ function HeroArt({ art }: { art: string }) {
   const [foreground, setForeground] = useState(!document.hidden);
   useEffect(() => {
     const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean; effectiveType?: string } };
-    const mq = window.matchMedia('(max-width: 720px), (prefers-reduced-motion: reduce)');
-    const check = () => setCapable(!mq.matches && !nav.connection?.saveData && !/2g/.test(nav.connection?.effectiveType || '') && (nav.deviceMemory ?? 8) >= 4);
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const check = () => setCapable(!nav.connection?.saveData);
     check();
     mq.addEventListener('change', check);
     const visibility = () => setForeground(!document.hidden);
@@ -180,7 +181,7 @@ function HeroArt({ art }: { art: string }) {
   }, []);
   return <div ref={host} className="vhero__visual" aria-hidden>
     <img className="vhero__still" src={`/media/vacas/${art}`} alt="" fetchPriority="high" />
-    {capable && !reduced && <SceneBoundary key={art}><Suspense fallback={null}><Scene art={art} active={visible && foreground} /></Suspense></SceneBoundary>}
+    {capable && <SceneBoundary key={art}><Suspense fallback={null}><Scene art={art} active={visible && foreground} reduced={reduced} /></Suspense></SceneBoundary>}
   </div>;
 }
 
@@ -199,6 +200,7 @@ function Page({ reveal }: { reveal: Reveal }) {
   const selected = vacasViews.find(v => v.id === view);
   const v = selected || vacasViews[0];
   const routeTween = useRef<gsap.core.Tween | null>(null);
+  useScrollAtmosphere(root, `${view}-${lang}`, reduced, 'vacas');
   useEffect(() => {
     const back = () => { routeTween.current?.kill(); navigating.current = false; pendingFocus.current = true; keyboardNavigation.current = true; setView(currentView()); window.scrollTo({ top: 0, behavior: 'instant' }); };
     window.addEventListener('popstate', back);
@@ -267,6 +269,7 @@ function Page({ reveal }: { reveal: Reveal }) {
       </nav>
     </header>
     <div className="fx fx--fog" aria-hidden><span /><span /></div><div className="fx fx--vignette" aria-hidden /><div className="fx fx--grain" aria-hidden />
+    <div className="scroll-blood" aria-hidden>{Array.from({length:7},(_,i)=><i className="drip" key={i} style={{left:`${8+i*14}%`,width: i%2 ? 3 : 5,height:`${45+(i%3)*35}px`}} />)}</div>
     <main id="contenido" ref={main}>
       <section className={`zone zone--${v.zone} vhero`} aria-labelledby="vacas-h1">
         <HeroArt art={v.art} />
@@ -286,14 +289,14 @@ function Page({ reveal }: { reveal: Reveal }) {
             <dl className="tag__rows vfacts">{vp.tag.rows.map(r => <div key={r.label.es}><dt>{t(r.label)}</dt><dd>{t(r.value)}</dd></div>)}</dl>
             <div className="vdoors">{vacasViews.slice(1).map((tab, i) => <Link key={tab.id} id={tab.id}><span className="vdoors__n">0{i + 1}</span><h2>{t(tab.label)}</h2><p>{t(tab.line)}</p><span aria-hidden>↗</span></Link>)}</div>
           </>}
-          {view === 'historia' && vp.zones.map((z, i) => <article className="vstory" key={z.id}><header className="zone__head"><p className="zone__sign"><span>{i + 1}</span>{t(z.name)}</p><h2>{t(z.title)}</h2><div className="zone__body">{z.body.map(p => <p key={p.es}>{t(p)}</p>)}</div></header><Pic img={z.gallery[0]} reveal={reveal} /></article>)}
+          {view === 'historia' && vp.zones.map((z, i) => <article className={`vstory zone zone--${z.id}`} data-scroll-zone={z.id} key={z.id}><header className="zone__head"><p className="zone__sign"><span>{i + 1}</span>{t(z.name)}</p><h2>{t(z.title)}</h2><div className="zone__body">{z.body.map(p => <p key={p.es}>{t(p)}</p>)}</div></header><Pic img={z.gallery[0]} reveal={reveal} /></article>)}
           {view === 'jugabilidad' && <><div className="feats">{vp.zones.flatMap(z => z.features).map(f => <article className={f.img ? 'feat' : 'note'} key={f.title.es}><div className="feat__copy"><h3>{t(f.title)}</h3><p>{t(f.body)}</p></div>{f.img && <Pic img={f.img} reveal={reveal} />}</article>)}</div><Link id="galeria" className="vbtn vmore">{t(vp.labels.visions)} ↗</Link></>}
           {view === 'galeria' && <>
             <h2 className="vsection-title">{t(vi.actFive)}</h2><div className="gallery">{vacasArchive.map(img => <Pic key={img.id} img={img} reveal={reveal} />)}</div>
             <h2 className="zone__label">{t(vp.labels.visions)}</h2><p className="zone__lead">{t(vp.labels.visionsLead)}</p><div className="visions">{vp.visions.map(img => <Pic key={img.id} img={img} reveal={reveal} className="pic--vision" />)}</div>
-            {vp.zones.map(z => <section className="varchive" key={z.id}><h2 className="zone__label">{t(z.name)}</h2><div className="gallery">{z.gallery.map(img => <Pic key={img.id} img={img} reveal={reveal} />)}</div></section>)}
+            {vp.zones.map(z => <section className={`varchive zone zone--${z.id}`} data-scroll-zone={z.id} key={z.id}><h2 className="zone__label">{t(z.name)}</h2><div className="gallery">{z.gallery.map(img => <Pic key={img.id} img={img} reveal={reveal} />)}</div></section>)}
           </>}
-          {view === 'personajes' && vp.zones.map(z => <section key={z.id}><h2 className="zone__label">{t(z.name)}</h2><ul className="cast vportraits">{z.cast.map(c => <li className="cast__item" key={c.img.id}><div className="cast__portrait"><img src={c.img.src} alt={t(c.img.alt)} width={c.img.w} height={c.img.h} loading="lazy" /></div><div><h3 className="cast__name">{t(c.name)}</h3><p className="cast__line">{t(c.line)}</p></div></li>)}</ul></section>)}
+          {view === 'personajes' && vp.zones.map(z => <section className={`zone zone--${z.id}`} data-scroll-zone={z.id} key={z.id}><h2 className="zone__label">{t(z.name)}</h2><ul className="cast vportraits">{z.cast.map(c => <li className="cast__item" key={c.img.id}><div className="cast__portrait"><img src={c.img.src} alt={t(c.img.alt)} width={c.img.w} height={c.img.h} loading="lazy" /></div><div><h3 className="cast__name">{t(c.name)}</h3><p className="cast__line">{t(c.line)}</p></div></li>)}</ul></section>)}
           {view === 'personajes' && <section><h2 className="zone__label">{t(vi.process)}</h2><div className="vprocess"><Pic img={vacasProcess} reveal={reveal} /></div></section>}
           {view === 'bitacora' && <ol className="vlog">{devlog.filter(p => p.title.es.startsWith('Vacas:')).map((post, i) => <li key={i}><time dateTime={post.date || undefined}>{post.date?.split('-').reverse().join(' / ')}</time><h2>{t(post.title)}</h2><p>{t(post.body)}</p></li>)}</ol>}
           {!selected && <Link id="" className="vbtn">{t(vacasViews[0].label)}</Link>}

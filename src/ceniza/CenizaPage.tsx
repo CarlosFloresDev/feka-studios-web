@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,10 +7,11 @@ import { useLang } from '../i18n';
 import { art, data, heroes, labels, localCharacters, localDistricts, localPosts, localRoadmap, localWiki, route, routeNames, text, type View } from './data';
 import Markdown from './Markdown';
 import './ceniza.css';
+import { useScrollAtmosphere } from '../components/useScrollAtmosphere';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 const Scene = lazy(() => import('./CenizaScene'));
-const RANKING = 'https://ceniza-neon.chefsitturchey.workers.dev/api/ranking';
+const RANKING = '/api/ceniza/ranking';
 class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
@@ -142,7 +143,7 @@ export default function CenizaPage() {
   const [motion, setMotion] = useState(false);
   const [ready, setReady] = useState(false);
   const [active, setActive] = useState(true);
-  const [slow, setSlow] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
   const root = useRef<HTMLDivElement>(null);
   const hero = useRef<HTMLElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -151,16 +152,15 @@ export default function CenizaPage() {
   const index = view === null ? 0 : routeNames.indexOf(view);
   const h = heroes[index];
   const tx = (es: string, en: string) => text(lang, es, en);
-  const onSlow = useCallback(() => setSlow(true), []);
+  useScrollAtmosphere(root, `${view}-${lang}`, reducedMotion, 'ceniza');
   useEffect(() => {
     document.body.classList.add('ceniza-page');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const compact = window.matchMedia('(max-width: 700px)');
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    const evaluate = () => setMotion(!reduced.matches && !compact.matches && !connection?.saveData && !['slow-2g', '2g'].includes(connection?.effectiveType || '') && (!navigator.hardwareConcurrency || navigator.hardwareConcurrency > 2));
-    evaluate(); reduced.addEventListener('change', evaluate); compact.addEventListener('change', evaluate);
+    const evaluate = () => { setMotion(!connection?.saveData); setReducedMotion(reduced.matches); };
+    evaluate(); reduced.addEventListener('change', evaluate);
     const timer = window.setTimeout(() => setReady(true), 450);
-    return () => { document.body.classList.remove('ceniza-page'); reduced.removeEventListener('change', evaluate); compact.removeEventListener('change', evaluate); window.clearTimeout(timer); };
+    return () => { document.body.classList.remove('ceniza-page'); reduced.removeEventListener('change', evaluate); window.clearTimeout(timer); };
   }, []);
   useEffect(() => {
     const onHistory = () => { navigated.current = true; setView(readView()); window.scrollTo({ top: 0, behavior: 'instant' }); };
@@ -187,10 +187,10 @@ export default function CenizaPage() {
     if (navigated.current) heading.current?.focus({ preventScroll: true });
   }, [view, lang, index]);
   useGSAP(() => {
-    if (!motion || keyboardNav.current) return;
+    if (reducedMotion || keyboardNav.current) return;
     gsap.fromTo('.cn-hero-copy', { opacity: .45, y: 14 }, { opacity: 1, y: 0, duration: .65, ease: 'expo.out', clearProps: 'all' });
-    gsap.to('.cn-hero-art', { yPercent: 7, ease: 'none', scrollTrigger: { trigger: hero.current, start: 'top top', end: 'bottom top', scrub: .8 } });
-  }, { scope: root, dependencies: [view, motion], revertOnUpdate: true });
+
+  }, { scope: root, dependencies: [view, reducedMotion], revertOnUpdate: true });
   const navigate = (event: MouseEvent<HTMLAnchorElement>, next: View) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
@@ -204,8 +204,8 @@ export default function CenizaPage() {
     <a className="cn-skip" href="#cn-content">{tx('Saltar al contenido', 'Skip to content')}</a>
     <header className="cn-header"><div className="cn-header-top"><a className="cn-back" href="/"><ArrowLeft aria-hidden /> Feka Studios</a><a className="cn-brand" href="/ceniza" onClick={e => navigate(e, '')}>Ceniza Neón</a><div className="cn-languages" aria-label="Idioma / Language">{(['es', 'en'] as const).map(l => <button key={l} type="button" aria-pressed={lang === l} onClick={() => setLang(l)}>{l.toUpperCase()}</button>)}</div></div><nav className="cn-tabs" aria-label={tx('Apartados de Ceniza Neón', 'Ceniza Neón sections')}>{routeNames.map((name, i) => <a href={route(name)} key={name} aria-current={view === name ? 'page' : undefined} onClick={e => navigate(e, name)}>{labels[lang][i]}</a>)}</nav></header>
     <main>
-      <section className={`cn-hero cn-hero--${h.key}`} ref={hero} aria-labelledby="cn-title" data-renderer={motion && ready && !slow ? '3d' : 'static'}>
-        <div className="cn-hero-art" aria-hidden><img src={art[h.key]} alt="" fetchPriority="high" decoding="async" />{motion && ready && !slow && <SceneBoundary><Suspense fallback={null}><Scene key={h.key} image={art[h.key]} actor={['lamp', 'drone', 'ranger', 'builder', 'drone', 'train', 'portador-back'][index]} active={active} onSlow={onSlow} /></Suspense></SceneBoundary>}</div>
+      <section className={`cn-hero cn-hero--${h.key}`} ref={hero} aria-labelledby="cn-title" data-renderer={motion && ready ? '3d' : 'static'}>
+        <div className="cn-hero-art" aria-hidden><img src={art[h.key]} alt="" fetchPriority="high" decoding="async" />{motion && ready && <SceneBoundary><Suspense fallback={null}><Scene key={h.key} image={art[h.key]} active={active} reduced={reducedMotion} /></Suspense></SceneBoundary>}</div>
         <div className="cn-hero-shade" aria-hidden />
         <div className="cn-hero-copy"><h1 ref={heading} id="cn-title" tabIndex={-1}>{view === null ? tx('Esta señal no existe.', 'This signal does not exist.') : h.title[lang === 'es' ? 0 : 1]}</h1><p>{view === null ? tx('Vuelve al inicio para encontrar el camino a la ciudad.', 'Return home to find your way to the city.') : h.lead[lang === 'es' ? 0 : 1]}</p><div className="cn-hero-actions">{view === '' ? <a className="cn-button cn-button--primary" href="/ceniza/descargar" onClick={e => navigate(e, 'descargar')}><Play aria-hidden weight="fill" />{tx('Jugar la alfa', 'Play the alpha')}</a> : view === null ? <a className="cn-button cn-button--primary" href="/ceniza" onClick={e => navigate(e, '')}>{tx('Volver al inicio', 'Return home')}</a> : null}<a className="cn-button" href="#cn-content"><ArrowDown aria-hidden />{view === '' ? tx('Descubre el juego', 'Discover the game') : labels[lang][index]}</a></div></div>
         <div className="cn-hero-bottom"><p>{['journal', 'download'].includes(h.key) ? tx('Arte ambiental del juego', 'Game environment art') : tx('Ilustración pintada, no es una captura', 'Painted illustration, not a screenshot')}</p><span>Feka Studios · 0.2.1-alpha</span></div>

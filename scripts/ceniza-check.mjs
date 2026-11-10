@@ -5,9 +5,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 const base = process.argv[2] || 'http://127.0.0.1:4173';
 const dir = process.argv[3] || 'capturas/ceniza';
 const paths = ['', 'universo', 'wiki', 'bitacora', 'banda-sonora', 'hoja-de-ruta', 'descargar'];
-const endpoint = 'https://ceniza-neon.chefsitturchey.workers.dev/api/ranking';
+const endpoint = '**/api/ceniza/ranking';
 await mkdir(dir, { recursive: true });
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const report = {};
 try {
   for (const [name, width, height] of [['escritorio', 1440, 900], ['movil', 390, 844]]) {
@@ -40,8 +40,7 @@ try {
       assert.equal(await overflow(), 0, path);
       const hero = await page.locator('.cn-hero').boundingBox();
       assert.ok(hero.height >= height - 1);
-      if (width === 390) assert.equal(await page.locator('canvas').count(), 0);
-      else assert.ok(await page.locator('canvas').count() === 1 || await page.locator('.cn-hero').getAttribute('data-renderer') === 'static', 'R3F o respaldo por rendimiento');
+      assert.equal(await page.locator('canvas').count(), 1, 'R3F también en móvil');
       await shot(id || 'inicio');
       await page.evaluate(() => window.scrollTo({ top: document.getElementById('cn-content').offsetTop - 125, behavior: 'instant' }));
       await page.locator('#cn-content img').evaluateAll(async imgs => Promise.all(imgs.map(async img => { img.loading = 'eager'; await img.decode(); })));
@@ -121,8 +120,8 @@ try {
   const page = await reduced.newPage(), requests = [];
   page.on('request', request => requests.push(request.url()));
   await page.goto(base + '/ceniza', { waitUntil: 'networkidle' });
-  assert.equal(await page.locator('canvas').count(), 0);
-  assert.equal(requests.some(url => /CenizaScene-|dist-.*\.js/.test(url)), false);
+  assert.equal(await page.locator('canvas').count(), 1, 'Movimiento reducido conserva R3F');
+  assert.equal(requests.some(url => /CenizaScene-/.test(url)), true);
   await page.screenshot({ path: `${dir}/movimiento-reducido.jpg`, type: 'jpeg' });
   await reduced.close();
   await writeFile(`${dir}/resultado.json`, JSON.stringify(report, null, 2));
