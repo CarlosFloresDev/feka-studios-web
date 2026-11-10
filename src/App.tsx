@@ -176,7 +176,7 @@ function Ceniza({ reduced }: { reduced: boolean }) {
   return (
     <section className="ceniza" id="juegos" ref={root} aria-labelledby="ceniza-title">
       <div className="ceniza__key" id={ceniza.id}>
-        <img src="/media/ceniza/citadel.webp" alt="" width="1600" height="900" fetchPriority="high" />
+        <img src="/media/ceniza/periphery_alive_v2.webp" alt="" width="1600" height="900" fetchPriority="high" />
         <div className="wrap ceniza__head">
           <p className="ceniza__kicker">{t(ui.sections.featured)}</p>
           <span className="pill pill--live ceniza__status"><span className="pill__dot" aria-hidden />{t(ceniza.status)}</span>

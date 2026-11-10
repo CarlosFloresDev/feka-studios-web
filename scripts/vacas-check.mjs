@@ -1,49 +1,116 @@
-// Comprobación de /vacas con Playwright: aviso +18, imágenes tapadas, scroll horizontal y capturas.
-// Uso: node scripts/vacas-check.mjs [url base] [carpeta de capturas]
+// npm run preview -- --host 127.0.0.1; node scripts/vacas-check.mjs
 import { chromium } from 'playwright';
-const base = process.argv[2] || 'http://localhost:4173';
+import assert from 'node:assert/strict';
+import { mkdir, writeFile } from 'node:fs/promises';
+const base = process.argv[2] || 'http://127.0.0.1:4173';
 const dir = process.argv[3] || 'capturas/vacas';
+const routes = ['', 'historia', 'jugabilidad', 'galeria', 'personajes', 'bitacora'];
+await mkdir(dir, { recursive: true });
 const browser = await chromium.launch();
-const out = {};
-for (const [name, width, height] of [['escritorio', 1440, 900], ['movil', 390, 844]]) {
-  const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1 });
-  const page = await ctx.newPage();
-  const errs = [];
-  page.on('pageerror', (e) => errs.push(String(e)));
-  page.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
-  page.on('response', (r) => { if (r.status() >= 400) errs.push(r.status() + ' ' + r.url()); });
-  const r = {};
-  const resp = await page.goto(base + '/vacas', { waitUntil: 'networkidle' });
-  r.status = resp.status();
-  r.gate = await page.locator('.gate h1').innerText();
-  r.imgsAntes = await page.locator('img').count();
-  await page.screenshot({ path: `${dir}/${name}-aviso.jpg`, type: 'jpeg', quality: 55 });
-  await page.getByRole('button', { name: /continuar|continue/i }).click();
-  await page.waitForSelector('.hero__title');
-  await page.waitForTimeout(2600);
-  await page.screenshot({ path: `${dir}/${name}-hero.jpg`, type: 'jpeg', quality: 55 });
-  r.tapadas = await page.locator('.pic[data-covered="true"]').count();
-  const over = () => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  r.overflowX = await over();
-  for (const [sel, tag] of [['#piso', 'piso'], ['.visions', 'visiones'], ['#alcantarillas', 'alcantarillas'], ['.acts', 'estado']]) {
-    await page.evaluate((s) => { const e = document.querySelector(s); window.scrollTo(0, e.getBoundingClientRect().top + scrollY - 90); }, sel);
-    await page.waitForTimeout(1300);
-    await page.screenshot({ path: `${dir}/${name}-${tag}.jpg`, type: 'jpeg', quality: 55 });
+const report = {};
+try {
+  for (const [name, width, height] of [['escritorio', 1440, 900], ['movil', 390, 844]]) {
+    const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1 });
+    const page = await context.newPage();
+    const errors = [];
+    const goreRequests = [];
+    page.on('pageerror', e => errors.push(String(e)));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    page.on('response', r => { if (r.status() >= 400) errors.push(`${r.status()} ${r.url()}`); });
+    page.on('request', r => { if (/\/g_.*\.webp/.test(r.url())) goreRequests.push(r.url()); });
+    const overflow = () => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    const shot = async tag => page.screenshot({ path: `${dir}/${name}-${tag}.jpg`, type: 'jpeg', quality: 78 });
+    await page.goto(base + '/vacas/historia', { waitUntil: 'networkidle' });
+    assert.equal(await page.locator('.gate').count(), 1);
+    assert.equal(await page.locator('img').count(), 0);
+    assert.equal(await page.locator('canvas').count(), 0);
+    await shot('aviso');
+    await page.getByRole('button', { name: /continuar/i }).click();
+    await page.locator('#vacas-h1').waitFor();
+    assert.equal(new URL(page.url()).pathname, '/vacas/historia');
+    const result = { routes: {}, errors };
+    for (const id of routes) {
+      const route = '/vacas' + (id ? '/' + id : '');
+      const response = await page.goto(base + route, { waitUntil: 'networkidle' });
+      assert.equal(response.status(), 200, route);
+      assert.equal(await page.locator('.gate').count(), 0);
+      await page.locator('#vacas-h1').waitFor();
+      await page.waitForTimeout(1200);
+      assert.equal(await page.locator('.vtabs a[aria-current="page"]').getAttribute('href'), route);
+      const hero = await page.locator('.vhero').boundingBox();
+      assert.ok(hero.height >= height - 1, 'Hero de pantalla completa');
+      assert.equal(await overflow(), 0, route + ' / hero');
+      if (width === 390) assert.equal(await page.locator('canvas').count(), 0, 'Móvil: respaldo estático');
+      else assert.equal(await page.locator('.vhero canvas').count(), 1, 'Escritorio: R3F');
+      await shot(id || 'inicio');
+      await page.locator('img').evaluateAll(async imgs => {
+        await Promise.all(imgs.map(async img => { img.loading = 'eager'; await img.decode(); }));
+      });
+      await page.evaluate(() => window.scrollTo({ top: document.querySelector('#archivo').offsetTop - 145, behavior: 'instant' }));
+      await page.waitForTimeout(350);
+      assert.equal(await overflow(), 0, route + ' / contenido');
+      await shot(`${id || 'inicio'}-contenido`);
+      result.routes[route] = { status: response.status(), overflow: await overflow(), hero: Math.round(hero.height), title: await page.locator('h1').innerText() };
+    }
+    assert.equal(goreRequests.length, 0, 'Ningún gore se descarga antes de destaparlo');
+    await page.evaluate(() => { window.__navigationSentinel = 'same-document'; });
+    await page.locator('.vtabs a[href="/vacas/jugabilidad"]').click();
+    await page.waitForURL('**/vacas/jugabilidad');
+    await page.waitForTimeout(950);
+    assert.equal(await page.evaluate(() => window.__navigationSentinel), 'same-document');
+    assert.equal(await page.locator('#vacas-h1').evaluate(el => el === document.activeElement), true);
+    await page.goBack();
+    await page.waitForTimeout(900);
+    assert.equal(new URL(page.url()).pathname, '/vacas/bitacora');
+    await page.goForward();
+    await page.waitForTimeout(900);
+    assert.equal(new URL(page.url()).pathname, '/vacas/jugabilidad');
+    await page.goto(base + '/vacas/galeria', { waitUntil: 'networkidle' });
+    assert.equal(await page.locator('.pic[data-covered="true"]').count(), 7);
+    await page.locator('.pic[data-covered="true"] button').first().click();
+    assert.equal(await page.locator('.pic[data-covered="true"]').count(), 6);
+    await page.reload({ waitUntil: 'networkidle' });
+    assert.equal(await page.locator('.pic[data-covered="true"]').count(), 6);
+    await page.locator('.pic__hide').first().click();
+    assert.equal(await page.locator('.pic[data-covered="true"]').count(), 7);
+    assert.equal(await page.evaluate(() => localStorage.getItem('feka-vacas-adulto')), '1');
+    await page.getByRole('button', { name: 'EN', exact: true }).click();
+    for (const id of routes) {
+      await page.goto(base + '/vacas' + (id ? '/' + id : ''), { waitUntil: 'networkidle' });
+      assert.equal(await page.locator('html').getAttribute('lang'), 'en');
+      assert.equal(await page.locator('.vtabs').getAttribute('aria-label'), 'Vacas sections');
+      assert.equal(await overflow(), 0);
+    }
+    await shot('english');
+    await page.getByRole('button', { name: 'ES', exact: true }).click();
+    await page.goto(base + '/', { waitUntil: 'networkidle' });
+    await page.locator('#vacas').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1200);
+    await shot('portada-vacas');
+    assert.ok(await page.locator('a[href="/vacas"]').count());
+    assert.ok(await page.getByText('Vacas: Acto V «La matanza»', { exact: true }).count());
+    assert.equal(await overflow(), 0, 'Portada');
+    await page.locator('#juegos').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(700);
+    await shot('portada-ceniza');
+    assert.deepEqual(errors, [], 'Errores del navegador');
+    report[name] = result;
+    await context.close();
+    console.log(`${name}: seis rutas, historial, ES/EN, aviso y gore correctos`);
   }
-  r.zona = await page.locator('.vbar__zone').innerText();
-  r.cordura = await page.locator('[data-sanity]').innerText();
-  await page.evaluate(() => document.querySelector('.visions .pic[data-covered="true"] button').click());
-  r.tapadasTrasVer = await page.locator('.pic[data-covered="true"]').count();
-  r.ls = await page.evaluate(() => [localStorage.getItem('feka-vacas-adulto'), localStorage.getItem('feka-vacas-gore')]);
-  await page.reload({ waitUntil: 'networkidle' });
-  r.trasRecargar = { aviso: await page.locator('.gate').count(), tapadas: await page.locator('.pic[data-covered="true"]').count() };
-  r.overflowX2 = await over();
-  // portada
-  await page.goto(base + '/', { waitUntil: 'networkidle' });
-  r.portada = { enlace: await page.locator('a[href="/vacas"]').count(), bitacora: await page.locator('.log__item').count(), overflowX: await over() };
-  r.errs = errs;
-  out[name] = r;
-  await ctx.close();
-}
-await browser.close();
-console.log(JSON.stringify(out, null, 1));
+  const reduced = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+  await reduced.addInitScript(() => localStorage.setItem('feka-vacas-adulto', '1'));
+  const page = await reduced.newPage();
+  const requests = [];
+  page.on('request', r => requests.push(r.url()));
+  await page.goto(base + '/vacas', { waitUntil: 'networkidle' });
+  await page.locator('.vtabs a[href="/vacas/personajes"]').click();
+  await page.waitForURL('**/vacas/personajes');
+  assert.equal(await page.locator('canvas').count(), 0);
+  assert.equal(requests.some(url => /VacasScene-|react-three-fiber/.test(url)), false);
+  await page.screenshot({ path: `${dir}/movimiento-reducido.jpg`, type: 'jpeg', quality: 78 });
+  await reduced.close();
+  report.movimientoReducido = 'Sin 3D ni descarga de R3F';
+  await writeFile(`${dir}/resultado.json`, JSON.stringify(report, null, 2));
+  console.log(JSON.stringify(report, null, 2));
+} finally { await browser.close(); }

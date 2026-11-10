@@ -1,7 +1,7 @@
 /* Página propia de Vacas (/vacas).
    Estética del juego, no la del estudio: piso con nicotina, matadero de azulejo
    y alcantarillas. Nada de neón. Los textos viven en src/content.ts (vacasPage). */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode, type MouseEvent } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -11,7 +11,7 @@ import '@fontsource/stardos-stencil/400.css';
 import '@fontsource/stardos-stencil/700.css';
 import '@fontsource/special-elite/400.css';
 import './vacas.css';
-import { vacasPage as vp, type VacasImg, type VacasZone } from '../content';
+import { vacasPage as vp, type VacasImg, vacasViews, vacasArchive, vacasInterface as vi, vacasProcess, devlog } from '../content';
 import { useLang } from '../i18n';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -111,118 +111,8 @@ function Gate({ onAccept }: { onAccept: () => void }) {
   );
 }
 
-/* ------------------------------------------------------------ barra superior */
-function Bar({ zone }: { zone: VacasZone['id'] }) {
-  const { t, lang, setLang } = useLang();
-  const z = vp.zones.find((x) => x.id === zone)!;
-  const n = vp.zones.indexOf(z) + 1;
-  return (
-    <header className="vbar">
-      <a className="vbar__back" href="/"><ArrowLeft size={16} aria-hidden /> <span>{t(vp.bar.back)}</span></a>
-      <p className="vbar__zone" aria-live="polite"><span className="vbar__n">{n}/{vp.zones.length}</span> {t(z.name)}</p>
-      <div className="vbar__sanity" role="img" aria-label={t(vp.bar.sanity)}>
-        <span className="vbar__label">{t(vp.bar.sanity)}</span>
-        <span className="vbar__track"><span className="vbar__fill" /><span className="vbar__poison" /></span>
-        <span className="vbar__num" data-sanity>100</span>
-      </div>
-      <div className="vlang" role="group" aria-label="Idioma / Language">
-        <button type="button" aria-pressed={lang === 'es'} onClick={() => setLang('es')}>ES</button>
-        <button type="button" aria-pressed={lang === 'en'} onClick={() => setLang('en')}>EN</button>
-      </div>
-    </header>
-  );
-}
-
-/* ------------------------------------------------------------ umbral entre zonas */
-const DRIPS = [
-  { x: 7, w: 5, h: 46 }, { x: 19, w: 3, h: 78 }, { x: 31, w: 7, h: 30 }, { x: 44, w: 4, h: 92 },
-  { x: 58, w: 6, h: 54 }, { x: 69, w: 3, h: 38 }, { x: 81, w: 5, h: 84 }, { x: 92, w: 4, h: 60 },
-];
-
-function Threshold({ to }: { to: VacasZone['id'] }) {
-  return (
-    <div className={`threshold threshold--${to}`} aria-hidden>
-      <div className="threshold__beam" />
-      {DRIPS.map((d) => (
-        <span key={d.x} className="drip" style={{ left: `${d.x}%`, width: d.w, height: `${d.h}%` }} />
-      ))}
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------ zona */
-function Zone({ zone, index, reveal }: { zone: VacasZone; index: number; reveal: Reveal }) {
-  const { t } = useLang();
-  const withImg = zone.features.filter((f) => f.img);
-  const notes = zone.features.filter((f) => !f.img);
-  return (
-    <section className={`zone zone--${zone.id}`} id={zone.id} data-zone={zone.id} aria-labelledby={`${zone.id}-title`}>
-      <div className="vwrap">
-        <header className="zone__head">
-          <p className="zone__sign"><span>{index + 1}</span>{t(zone.name)}</p>
-          {zone.id === 'matadero' ? <div className="tube tube--zone lit" aria-hidden /> : null}
-          <h2 id={`${zone.id}-title`}>{t(zone.title)}</h2>
-          <div className="zone__body">{zone.body.map((p) => <p key={p.es}>{t(p)}</p>)}</div>
-        </header>
-
-        <h3 className="zone__label">{t(vp.labels.cast)}</h3>
-        <ul className="cast">
-          {zone.cast.map((c) => (
-            <li className="cast__item" key={c.img.id}>
-              <div className="cast__portrait">
-                <img src={c.img.src} alt={t(c.img.alt)} width={c.img.w} height={c.img.h} loading="lazy" decoding="async" />
-              </div>
-              <div>
-                <p className="cast__name">{t(c.name)}</p>
-                <p className="cast__line">{t(c.line)}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="feats">
-          {withImg.map((f) => (
-            <article className="feat" key={f.title.es}>
-              <div className="feat__copy">
-                <h3>{t(f.title)}</h3>
-                <p>{t(f.body)}</p>
-              </div>
-              <Pic img={f.img!} reveal={reveal} />
-            </article>
-          ))}
-        </div>
-        {notes.length > 0 && (
-          <div className="notes">
-            {notes.map((f) => (
-              <article className="note" key={f.title.es}>
-                <h3>{t(f.title)}</h3>
-                <p>{t(f.body)}</p>
-              </article>
-            ))}
-          </div>
-        )}
-
-        {zone.id === 'matadero' && (
-          <>
-            <h3 className="zone__label">{t(vp.labels.visions)}</h3>
-            <p className="zone__lead">{t(vp.labels.visionsLead)}</p>
-            <div className="visions">
-              {vp.visions.map((v) => <Pic key={v.id} img={v} reveal={reveal} className="pic--vision" />)}
-            </div>
-          </>
-        )}
-
-        <h3 className="zone__label">{t(vp.labels.gallery)}</h3>
-        <div className="gallery">
-          {zone.gallery.map((g) => <Pic key={g.id} img={g} reveal={reveal} className={g.w / g.h > 1.8 ? 'pic--wide' : ''} />)}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ------------------------------------------------------------ estado */
-function Status({ reveal }: { reveal: Reveal }) {
+function Status({ reveal, onDevlog }: { reveal: Reveal; onDevlog: (event: MouseEvent<HTMLAnchorElement>) => void }) {
   const { t } = useLang();
   const s = vp.status;
   return (
@@ -255,7 +145,7 @@ function Status({ reveal }: { reveal: Reveal }) {
           <p className="stamp">{t(s.soonTitle)}</p>
           <p className="soon__body">{t(s.soonBody)}</p>
           <div className="soon__actions">
-            <a className="vbtn vbtn--primary" href="/#diario">{t(s.devlog)}</a>
+            <a className="vbtn vbtn--primary" href="/vacas/bitacora" onClick={onDevlog}>{t(s.devlog)}</a>
             <a className="vbtn" href="/">{t(s.home)}</a>
           </div>
         </div>
@@ -264,167 +154,145 @@ function Status({ reveal }: { reveal: Reveal }) {
   );
 }
 
-/* ------------------------------------------------------------ página */
-function Page({ reveal }: { reveal: Reveal }) {
-  const { t } = useLang();
-  const reduced = useReducedMotion();
-  const root = useRef<HTMLDivElement>(null);
-  const [zone, setZone] = useState<VacasZone['id']>('piso');
-
-  useGSAP(() => {
-    const el = root.current!;
-    const num = el.querySelector<HTMLElement>('[data-sanity]');
-
-    // 1. Zona activa: la sección que cruza el centro de la pantalla
-    gsap.utils.toArray<HTMLElement>('[data-zone]', el).forEach((sec) => {
-      ScrollTrigger.create({
-        trigger: sec,
-        start: 'top 55%',
-        end: 'bottom 55%',
-        onToggle: (self) => { if (self.isActive) setZone(sec.dataset.zone as VacasZone['id']); },
-      });
-    });
-
-    // 2. La cordura baja con el scroll: barra, grano y viñeta
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        el.style.setProperty('--veneno', self.progress.toFixed(3));
-        if (num) num.textContent = String(Math.round(100 - self.progress * 88));
-      },
-    });
-
-    if (reduced) return;
-
-    // 3. Entrada: el tubo arranca a tirones y el rótulo queda estampado
-    gsap.set('.lit', { '--tube': 0 });
-    const intro = gsap.timeline({ delay: 0.15 });
-    intro
-      .to('.lit', { '--tube': 0.7, duration: 0.05 })
-      .to('.lit', { '--tube': 0.1, duration: 0.09 })
-      .to('.lit', { '--tube': 0.9, duration: 0.04 })
-      .to('.lit', { '--tube': 0.25, duration: 0.14 })
-      .to('.lit', { '--tube': 1, duration: 0.5, ease: 'power2.out' })
-      .from('.hero__title span', { autoAlpha: 0, scale: 1.12, duration: 0.45, ease: 'power3.out', stagger: 0.07 }, 0.25)
-      .from('.hero__art', { autoAlpha: 0, duration: 1.4, ease: 'power1.out' }, 0.45)
-      .from('.hero__reveal', { autoAlpha: 0, y: 10, duration: 0.8, ease: 'power2.out', stagger: 0.1 }, 0.8);
-
-    // 4. Fluorescente viejo: parpadeo breve cada pocos segundos
-    const flicker = gsap.timeline({ repeat: -1, repeatDelay: 5.3, delay: 4 });
-    flicker
-      .to('.lit', { '--tube': 0.62, duration: 0.04 })
-      .to('.lit', { '--tube': 1, duration: 0.05 })
-      .to('.lit', { '--tube': 0.8, duration: 0.03 }, '+=0.12')
-      .to('.lit', { '--tube': 1, duration: 0.09 })
-      .to('.lit', { '--tube': 0.5, duration: 0.03 }, '+=2.4')
-      .to('.lit', { '--tube': 0.95, duration: 0.06 })
-      .to('.lit', { '--tube': 0.7, duration: 0.04 })
-      .to('.lit', { '--tube': 1, duration: 0.3, ease: 'power1.out' });
-
-    // 5. El ojo de la rejilla se acerca apenas al bajar
-    gsap.fromTo('.hero__art img', { scale: 1 }, {
-      scale: 1.08, ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
-    });
-
-    // 6. Goteos: la sangre baja del dintel al cruzar cada umbral
-    gsap.utils.toArray<HTMLElement>('.threshold', el).forEach((th) => {
-      gsap.fromTo(th.querySelectorAll('.drip'), { scaleY: 0.04 }, {
-        scaleY: 1, ease: 'none', stagger: 0.06,
-        scrollTrigger: { trigger: th, start: 'top 85%', end: 'bottom 35%', scrub: 0.8 },
-      });
-    });
-  }, { scope: root, dependencies: [reduced] });
-
-  useEffect(() => {
-    // fuentes e imágenes cambian alturas: recalcular disparadores
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
-    const onLoad = () => ScrollTrigger.refresh();
-    window.addEventListener('load', onLoad);
-    return () => window.removeEventListener('load', onLoad);
-  }, []);
-  // destapar una imagen no cambia la altura (la caja reserva su proporción)
-
-  const h = vp.hero;
-  return (
-    <div className="vp" ref={root} data-zone-now={zone}>
-      <a className="vskip" href="#contenido">{lang_skip(t)}</a>
-      <Bar zone={zone} />
-      <div className="fx fx--fog" aria-hidden><span /><span /></div>
-      <div className="fx fx--vignette" aria-hidden />
-      <div className="fx fx--grain" aria-hidden />
-
-      <main id="contenido">
-        <section className="zone zone--piso hero lit" data-zone="piso" aria-labelledby="vacas-h1">
-          <div className="tube tube--hero" aria-hidden />
-          <div className="hero__cone" aria-hidden />
-          <div className="vwrap hero__grid">
-            <div className="hero__copy">
-              <h1 id="vacas-h1" className="hero__title" aria-label="Vacas">
-                {'VACAS'.split('').map((ch, i) => <span key={i} aria-hidden>{ch}</span>)}
-              </h1>
-              <p className="hero__tagline hero__reveal">{t(h.tagline)}</p>
-              <p className="hero__pitch hero__reveal">{t(h.pitch)}</p>
-              <p className="hero__lead hero__reveal">{t(h.lead)}</p>
-              <div className="hero__actions hero__reveal">
-                <p className="stamp">{t(h.stamp)}</p>
-                <span className="vbtn" aria-disabled="true">{t(h.download)}</span>
-                <a className="vbtn vbtn--ghost" href="#estado">{t(h.progress)} <ArrowDown size={16} aria-hidden /></a>
-              </div>
-            </div>
-            <figure className="hero__art">
-              <div className="hero__vent">
-                <img src={h.img.src} alt={t(h.img.alt)} width={h.img.w} height={h.img.h} fetchPriority="high" decoding="async" />
-              </div>
-            </figure>
-          </div>
-
-          <div className="vwrap">
-            <section className="tag" aria-labelledby="ficha-title">
-              <span className="tag__hole" aria-hidden />
-              <header className="tag__head">
-                <h2 id="ficha-title">{t(vp.tag.title)}</h2>
-                <p>Vacas</p>
-                <p className="tag__age" aria-label={t(vp.gate.title)}>{t(vp.gate.badge)}</p>
-              </header>
-              <dl className="tag__rows">
-                {vp.tag.rows.map((r) => (
-                  <div key={r.label.es}><dt>{t(r.label)}</dt><dd>{t(r.value)}</dd></div>
-                ))}
-              </dl>
-            </section>
-          </div>
-        </section>
-
-        <Zone zone={vp.zones[0]} index={0} reveal={reveal} />
-        <Threshold to="matadero" />
-        <Zone zone={vp.zones[1]} index={1} reveal={reveal} />
-        <Threshold to="alcantarillas" />
-        <Zone zone={vp.zones[2]} index={2} reveal={reveal} />
-        <Status reveal={reveal} />
-      </main>
-
-      <footer className="vfoot zone zone--alcantarillas">
-        <div className="vwrap vfoot__inner">
-          <a href="/" aria-label="Feka Studios"><img src="/press/feka-logo.svg" alt="Feka Studios" width="130" height="44" /></a>
-          <p>{t(vp.footer.note)}</p>
-          <p>© {new Date().getFullYear()} Feka Studios</p>
-        </div>
-      </footer>
-    </div>
-  );
+/* ------------------------------------------------------------ vistas */
+const Scene = lazy(() => import('./VacasScene'));
+class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() { return this.state.failed ? null : this.props.children; }
 }
 
-const lang_skip = (t: ReturnType<typeof useLang>['t']) => t({ es: 'Saltar al contenido', en: 'Skip to content' });
+function HeroArt({ art }: { art: string }) {
+  const reduced = useReducedMotion();
+  const host = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [capable, setCapable] = useState(false);
+  useEffect(() => {
+    const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean; effectiveType?: string } };
+    const mq = window.matchMedia('(max-width: 720px), (prefers-reduced-motion: reduce)');
+    const check = () => setCapable(!mq.matches && !nav.connection?.saveData && !/2g/.test(nav.connection?.effectiveType || '') && (nav.deviceMemory ?? 8) >= 4);
+    check();
+    mq.addEventListener('change', check);
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    if (host.current) observer.observe(host.current);
+    return () => { observer.disconnect(); mq.removeEventListener('change', check); };
+  }, []);
+  return <div ref={host} className="vhero__visual" aria-hidden>
+    <img className="vhero__still" src={`/media/vacas/${art}`} alt="" fetchPriority="high" />
+    {capable && !reduced && <SceneBoundary key={art}><Suspense fallback={null}><Scene art={art} active={visible} /></Suspense></SceneBoundary>}
+  </div>;
+}
+
+const pathFor = (id: string) => `/vacas${id ? '/' + id : ''}`;
+const currentView = () => window.location.pathname.replace(/^\/vacas\/?/i, '').replace(/\/$/, '').toLowerCase();
+
+function Page({ reveal }: { reveal: Reveal }) {
+  const { t, lang, setLang } = useLang();
+  const reduced = useReducedMotion();
+  const root = useRef<HTMLDivElement>(null);
+  const main = useRef<HTMLElement>(null);
+  const navigating = useRef(false);
+  const [view, setView] = useState(currentView);
+  const selected = vacasViews.find(v => v.id === view);
+  const v = selected || vacasViews[0];
+  const routeTween = useRef<gsap.core.Tween | null>(null);
+  useEffect(() => {
+    const back = () => { routeTween.current?.kill(); navigating.current = false; setView(currentView()); window.scrollTo({ top: 0, behavior: 'instant' }); };
+    window.addEventListener('popstate', back);
+    return () => { window.removeEventListener('popstate', back); routeTween.current?.kill(); };
+  }, []);
+  useEffect(() => { document.title = `${t(v.label)} · ${t(vp.meta.title)}`; }, [v, t]);
+
+  const navigate = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    if (id === view || navigating.current) return;
+    navigating.current = true;
+    const change = () => {
+      window.history.pushState({}, '', pathFor(id));
+      setView(id);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      navigating.current = false;
+      requestAnimationFrame(() => main.current?.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true }));
+    };
+    if (reduced) change();
+    else routeTween.current = gsap.to(main.current, { opacity: 0, y: -12, duration: 0.18, onComplete: change });
+  };
+
+  useGSAP(() => {
+    gsap.set(main.current, { opacity: 1, y: 0 });
+    root.current?.style.setProperty('--veneno', '0');
+    const sanity = root.current?.querySelector('[data-sanity]');
+    if (sanity) sanity.textContent = '100';
+    if (!reduced) {
+      gsap.fromTo('.vhero__copy > *', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.09, ease: 'power2.out' });
+      gsap.fromTo('.vhero__visual', { opacity: 0 }, { opacity: 1, duration: 0.9 });
+    }
+    ScrollTrigger.create({ trigger: main.current, start: 'top top', end: 'bottom bottom', onUpdate: self => {
+      root.current?.style.setProperty('--veneno', String(self.progress));
+      const number = root.current?.querySelector('[data-sanity]');
+      if (number) number.textContent = String(Math.round(100 - self.progress * 88));
+    } });
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }, { scope: root, dependencies: [view, reduced], revertOnUpdate: true });
+
+  const Link = ({ id, children, className = '' }: { id: string; children: ReactNode; className?: string }) => <a href={pathFor(id)} className={className} onClick={e => navigate(e, id)}>{children}</a>;
+  return <div className="vp" ref={root} data-zone-now={v.zone}>
+    <a className="vskip" href="#contenido">{t(vi.skip)}</a>
+    <header className="vbar">
+      <a className="vbar__back" href="/" aria-label={t(vp.bar.back)}><ArrowLeft size={16} aria-hidden /><span>Feka Studios</span></a>
+      <p className="vbar__zone">VACAS <span className="vbar__n">/ {t(v.label)}</span></p>
+      <div className="vbar__sanity" role="img" aria-label={t(vp.bar.sanity)}><span className="vbar__label">{t(vp.bar.sanity)}</span><span className="vbar__track"><span className="vbar__fill" /><span className="vbar__poison" /></span><span className="vbar__num" data-sanity>100</span></div>
+      <div className="vlang" role="group" aria-label="Idioma / Language"><button onClick={() => setLang('es')} aria-pressed={lang === 'es'}>ES</button><button onClick={() => setLang('en')} aria-pressed={lang === 'en'}>EN</button></div>
+      <nav className="vtabs" aria-label={t(vi.navigation)}>
+        {vacasViews.map((tab, i) => <a key={tab.id} href={pathFor(tab.id)} aria-current={view === tab.id ? 'page' : undefined} onClick={e => navigate(e, tab.id)}><span aria-hidden>{String(i).padStart(2, '0')}</span>{t(tab.label)}</a>)}
+      </nav>
+    </header>
+    <div className="fx fx--fog" aria-hidden><span /><span /></div><div className="fx fx--vignette" aria-hidden /><div className="fx fx--grain" aria-hidden />
+    <main id="contenido" ref={main}>
+      <section className={`zone zone--${v.zone} vhero`} aria-labelledby="vacas-h1">
+        <HeroArt art={v.art} />
+        <div className="vhero__shade" aria-hidden />
+        <div className="vwrap vhero__inner"><div className="vhero__copy">
+          <p className="vhero__eyebrow">VACAS / {t(v.label)} <span>+18</span></p>
+          <h1 id="vacas-h1" tabIndex={-1} className={view === '' ? 'vhero__title vhero__title--home' : 'vhero__title'}>{selected ? t(v.title) : t(vi.missing)}</h1>
+          <p className="vhero__line">{t(v.line)}</p><p className="vhero__lead">{t(v.lead)}</p>
+          <div className="vhero__actions"><a className="vbtn" href="#archivo">{t(vi.enter)}<ArrowDown size={16} aria-hidden /></a>{view === '' && <span className="vhero__status">{t(vp.hero.stamp)}</span>}</div>
+        </div></div>
+        <p className="vhero__folio" aria-hidden>FEKA STUDIOS / {String(vacasViews.indexOf(v)).padStart(2, '0')} — VI</p>
+      </section>
+      <div id="archivo" className={`zone zone--${v.zone} vcontent`}>
+        <div className="vwrap">
+          {view === '' && <>
+            <header className="zone__head"><h2>{t(vp.tag.title)}</h2><p className="zone__body">{t(vp.hero.pitch)}</p></header>
+            <dl className="tag__rows vfacts">{vp.tag.rows.map(r => <div key={r.label.es}><dt>{t(r.label)}</dt><dd>{t(r.value)}</dd></div>)}</dl>
+            <div className="vdoors">{vacasViews.slice(1).map((tab, i) => <Link key={tab.id} id={tab.id}><span className="vdoors__n">0{i + 1}</span><h2>{t(tab.label)}</h2><p>{t(tab.line)}</p><span aria-hidden>↗</span></Link>)}</div>
+          </>}
+          {view === 'historia' && vp.zones.map((z, i) => <article className="vstory" key={z.id}><header className="zone__head"><p className="zone__sign"><span>{i + 1}</span>{t(z.name)}</p><h2>{t(z.title)}</h2><div className="zone__body">{z.body.map(p => <p key={p.es}>{t(p)}</p>)}</div></header><Pic img={z.gallery[0]} reveal={reveal} /></article>)}
+          {view === 'jugabilidad' && <><div className="feats">{vp.zones.flatMap(z => z.features).map(f => <article className={f.img ? 'feat' : 'note'} key={f.title.es}><div className="feat__copy"><h3>{t(f.title)}</h3><p>{t(f.body)}</p></div>{f.img && <Pic img={f.img} reveal={reveal} />}</article>)}</div><Link id="galeria" className="vbtn vmore">{t(vp.labels.visions)} ↗</Link></>}
+          {view === 'galeria' && <>
+            <h2 className="vsection-title">{t(vi.actFive)}</h2><div className="gallery">{vacasArchive.map(img => <Pic key={img.id} img={img} reveal={reveal} />)}</div>
+            <h2 className="zone__label">{t(vp.labels.visions)}</h2><p className="zone__lead">{t(vp.labels.visionsLead)}</p><div className="visions">{vp.visions.map(img => <Pic key={img.id} img={img} reveal={reveal} className="pic--vision" />)}</div>
+            {vp.zones.map(z => <section className="varchive" key={z.id}><h2 className="zone__label">{t(z.name)}</h2><div className="gallery">{z.gallery.map(img => <Pic key={img.id} img={img} reveal={reveal} />)}</div></section>)}
+          </>}
+          {view === 'personajes' && vp.zones.map(z => <section key={z.id}><h2 className="zone__label">{t(z.name)}</h2><ul className="cast vportraits">{z.cast.map(c => <li className="cast__item" key={c.img.id}><div className="cast__portrait"><img src={c.img.src} alt={t(c.img.alt)} width={c.img.w} height={c.img.h} loading="lazy" /></div><div><h3 className="cast__name">{t(c.name)}</h3><p className="cast__line">{t(c.line)}</p></div></li>)}</ul></section>)}
+          {view === 'personajes' && <section><h2 className="zone__label">{t(vi.process)}</h2><div className="vprocess"><Pic img={vacasProcess} reveal={reveal} /></div></section>}
+          {view === 'bitacora' && <ol className="vlog">{devlog.filter(p => p.title.es.startsWith('Vacas:')).map((post, i) => <li key={i}><time dateTime={post.date || undefined}>{post.date?.split('-').reverse().join(' / ')}</time><h2>{t(post.title)}</h2><p>{t(post.body)}</p></li>)}</ol>}
+          {!selected && <Link id="" className="vbtn">{t(vacasViews[0].label)}</Link>}
+        </div>
+      </div>
+      {(view === '' || view === 'bitacora') && <Status reveal={reveal} onDevlog={e => navigate(e, 'bitacora')} />}
+    </main>
+    <footer className="vfoot zone zone--alcantarillas"><div className="vwrap vfoot__inner"><a href="/"><img src="/press/feka-logo.svg" alt="Feka Studios" width="130" height="44" /></a><p>{t(vp.footer.note)}</p><p>© {new Date().getFullYear()} Feka Studios</p></div></footer>
+  </div>;
+}
 
 export default function VacasPage() {
   const { t } = useLang();
   const [adult, setAdult] = useState(readAdult);
   const [revealed, setRevealed] = useState(readRevealed);
 
-  useEffect(() => { document.title = t(vp.meta.title); }, [t]);
+  useEffect(() => { if (!adult) document.title = t(vp.meta.title); }, [t, adult]);
 
   const toggle = useCallback((id: string) => {
     setRevealed((prev) => {
