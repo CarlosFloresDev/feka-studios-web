@@ -1,0 +1,104 @@
+[
+  {
+    "file": "public/media/ceniza/archivo/home.webp",
+    "source": "/media/heroes/home.webp",
+    "manifest": {
+      "src": "/media/heroes/home.webp",
+      "route": "/",
+      "width": 1942,
+      "height": 809,
+      "tool": "OpenAI image_gen vía Codex CLI 0.166.0",
+      "created": "2026-10-31",
+      "prompt": "Painterly illustration with impressionistic rendering in the spirit of episodic indie narrative adventure games: hand-painted textures like watercolor and gouache, visible brushstrokes, soft edges like concept art, simplified 3D forms, slightly simplified faces with natural proportions (not anime, not photorealistic). Lighting: low lateral golden-hour sunlight with bloom and soft sun rays cutting through haze and dust. Scene: a rusted industrial periphery of a ruined city at sunset: an elevated rail viaduct, tall brick smokestacks, small workshops with warm windows and a still canal reflecting the sky. seen from behind, a young man with messy black hair in a long dark brown leather coat with brass buttons and a grey scarf, a faint cyan glow line along his cheek, standing on the quay looking at the city beside a tall old street lamp; further right a guardian in heavy scuffed armor with a tall riot shield painted with a gear emblem; behind them a small worker in a yellow hooded coat and gas mask carrying a wrench. Quiet, hopeful mood despite the decay. Palette: warm desaturated amber and orange light, pastel pink clouds, washed-out pale sky blue, violet-tinted shadows (#f2a94e, #e9844a, #e8a6a1, #9cc3d9, #4a3d63); low saturation overall. Melancholic indie film mood with cinematic widescreen framing. Composition: the left 40% of the frame stays calm and soft (hazy sky, wall, shadow or distant silhouettes) for a headline; the subject sits in the right half; horizon in the lower third; characters full body at human scale. No text, no letters, no logos, no watermark, no border, no film grain.",
+      "sha256": "cfd09d210443cee310f31b73640358b5a2d0e8ef8948bce76ceabe9e0d52a178"
+    }
+  },
+  {
+    "file": "public/media/ceniza/archivo/universe.webp",
+    "source": "/media/heroes/universe.webp",
+    "manifest": {
+      "src": "/media/heroes/universe.webp",
+      "route": "/universo/",
+      "width": 1942,
+      "height": 809,
+      "tool": "OpenAI image_gen vía Codex CLI 0.166.0",
+      "created": "2026-10-31",
+      "prompt": "Painterly illustration with impressionistic rendering in the spirit of episodic indie narrative adventure games: hand-painted textures like watercolor and gouache, visible brushstrokes, soft edges like concept art, simplified 3D forms, slightly simplified faces with natural proportions (not anime, not photorealistic). Lighting: low lateral golden-hour sunlight with bloom and soft sun rays cutting through haze and dust. Scene: the edge of a machine network complex at sunset: an enormous circular aperture, cable-wrapped server towers with small cyan lights and a metal deck. a young man with messy black hair in a long dark brown leather coat with brass buttons and a grey scarf, a faint cyan glow line along his cheek, facing the viewer in front of the great aperture, with a small white hovering medical drone with a cyan eye and claw arms hovering at his shoulder. Solemn, awe-struck mood. Palette: warm desaturated amber and orange light, pastel pink clouds, washed-out pale sky blue, violet-tinted shadows (#f2a94e, #e9844a, #e8a6a1, #9cc3d9, #4a3d63); low saturation overall. Melancholic indie film mood with cinematic widescreen framing. Composition: the left 40% of the frame stays calm and soft (hazy sky, wall, shadow or distant silhouettes) for a headline; the subject sits in the right half; horizon in the lower third; characters full body at human scale. No text, no letters, no logos, no watermark, no border, no film grain.",
+      "sha256": "1426fde566eb466bcceeddf3823b8cfdf2353dde3b3a5576c301e33c348b6b7d"
+    }
+  },
+  {
+    "file": "public/media/ceniza/archivo/wiki.webp",
+    "source": "/media/heroes/wiki.webp",
+    "manifest": {
+      "src": "/media/heroes/wiki.webp",
+      "route": "/wiki/",
+      "width": 1916,
+      "height": 821,
+      "tool": "OpenAI image_gen vía Codex CLI 0.166.0",
+      "created": "2026-10-31",
+      "prompt": "Painterly illustration with impressionistic rendering in the spirit of episodic indie narrative adventure games: hand-painted textures like watercolor and gouache, visible brushstrokes, soft edges like concept art, simplified 3D forms, slightly simplified faces with natural proportions (not anime, not photorealistic). Lighting: low lateral golden-hour sunlight with bloom and soft sun rays cutting through haze and dust. Scene: a corporate citadel at sunset: a monumental stone gate with a brass circular emblem, hanging banners and a wet plaza catching the golden light. a scout in a grey hooded cloak with a cyan visor and a long rifle on a ledge studying the citadel through his scope next to a hand-painted warning sign. Palette: warm desaturated amber and orange light, pastel pink clouds, washed-out pale sky blue, violet-tinted shadows (#f2a94e, #e9844a, #e8a6a1, #9cc3d9, #4a3d63); low saturation overall. Melancholic indie film mood with cinematic widescreen framing. Composition: the left 40% of the frame stays calm and soft (hazy sky, wall, shadow or distant silhouettes) for a headline; the subject sits in the right half; horizon in the lower third; characters full body at human scale. No text, no letters, no logos, no watermark, no border, no film grain.",
+      "sha256": "9f4621472b8eb35897af12e09ac297e2930a867ac6d374791312e537b9fe3d61"
+    }
+  },
+  {
+    "file": "public/media/ceniza/archivo/music.webp",
+    "source": "/media/heroes/music.webp",
+    "manifest": {
+      "src": "/media/heroes/music.webp",
+      "route": "/banda-sonora/",
+      "width": 1672,
+      "height": 941,
+      "tool": "OpenAI image_gen vía Codex CLI 0.166.0",
+      "created": "2026-10-31",
+      "prompt": "Painterly illustration with impressionistic rendering in the spirit of episodic indie narrative adventure games: hand-painted textures like watercolor and gouache, visible brushstrokes, soft edges like concept art, simplified 3D forms, slightly simplified faces with natural proportions (not anime, not photorealistic). Lighting: low lateral golden-hour sunlight with bloom and soft sun rays cutting through haze and dust. Scene: a flooded neighbourhood at sunset: wooden walkways over still water, leaning radio antennas, reflections of the low sun and pastel clouds. a lone street lamp over the water with a small white hovering medical drone with a cyan eye and claw arms hovering beside an old radio speaker, faint sound rings rippling on the water. Melancholic, musical mood. Palette: warm desaturated amber and orange light, pastel pink clouds, washed-out pale sky blue, violet-tinted shadows (#f2a94e, #e9844a, #e8a6a1, #9cc3d9, #4a3d63); low saturation overall. Melancholic indie film mood with cinematic widescreen framing. Composition: the left 40% of the frame stays calm and soft (hazy sky, wall, shadow or distant silhouettes) for a headline; the subject sits in the right half; horizon in the lower third; characters full body at human scale. No text, no letters, no logos, no watermark, no border, no film grain.",
+      "sha256": "8356888705830f623466b4f34708fd4f54fba55f0e6354063f821d05e8a50cb2"
+    }
+  },
+  {
+    "file": "public/media/ceniza/archivo/roadmap.webp",
+    "source": "/media/heroes/roadmap.webp",
+    "manifest": {
+      "src": "/media/heroes/roadmap.webp",
+      "route": "/roadmap/",
+      "width": 1942,
+      "height": 809,
+      "tool": "OpenAI image_gen vía Codex CLI 0.166.0",
+      "created": "2026-10-31",
+      "prompt": "Painterly illustration with impressionistic rendering in the spirit of episodic indie narrative adventure games: hand-painted textures like watercolor and gouache, visible brushstrokes, soft edges like concept art, simplified 3D forms, slightly simplified faces with natural proportions (not anime, not photorealistic). Lighting: low lateral golden-hour sunlight with bloom and soft sun rays cutting through haze and dust. Scene: a rusted industrial periphery of a ruined city at sunset: an elevated rail viaduct, tall brick smokestacks, small workshops with warm windows and a still canal reflecting the sky. a small service train waiting at a lonely platform, a traveler in a brown hood, scarf and heavy backpack standing at the edge watching the tracks curve away into the city. Palette: warm desaturated amber and orange light, pastel pink clouds, washed-out pale sky blue, violet-tinted shadows (#f2a94e, #e9844a, #e8a6a1, #9cc3d9, #4a3d63); low saturation overall. Melancholic indie film mood with cinematic widescreen framing. Composition: the left 40% of the frame stays calm and soft (hazy sky, wall, shadow or distant silhouettes) for a headline; the subject sits in the right half; horizon in the lower third; characters full body at human scale. No text, no letters, no logos, no watermark, no border, no film grain.",
+      "sha256": "d6e90b16f9721d0a25f089049021c48a45a2977063f15e1d30cee7ce39174048"
+    }
+  },
+  {
+    "file": "public/media/ceniza/archivo/portador-back.webp",
+    "source": "/media/scene/portador-back.webp"
+  },
+  {
+    "file": "public/media/ceniza/archivo/builder.webp",
+    "source": "/media/scene/builder.webp"
+  },
+  {
+    "file": "public/media/ceniza/archivo/portador.webp",
+    "source": "/media/portador.webp"
+  },
+  {
+    "file": "public/media/ceniza/archivo/mara.webp",
+    "source": "/media/mara.webp"
+  },
+  {
+    "file": "public/media/ceniza/archivo/ivo.webp",
+    "source": "/media/ivo.webp"
+  },
+  {
+    "file": "public/media/ceniza/archivo/vera.webp",
+    "source": "/media/vera.webp"
+  },
+  {
+    "file": "public/media/ceniza/archivo/nox.webp",
+    "source": "/media/nox.webp"
+  },
+  {
+    "file": "public/media/ceniza/archivo/eco.webp",
+    "source": "/media/eco.webp"
+  }
+]

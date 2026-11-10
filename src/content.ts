@@ -161,7 +161,7 @@ export const ceniza: Game = {
   ],
   links: [
     { label: { es: 'Descargar la alfa', en: 'Download the alpha' }, href: 'https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.2.1-alpha', primary: true },
-    { label: { es: 'Web del juego', en: 'Game website' }, href: 'https://ceniza-neon.chefsitturchey.workers.dev/' },
+    { label: { es: 'Web del juego', en: 'Game website' }, href: '/ceniza' },
     { label: { es: 'Jugar en itch.io', en: 'Play on itch.io' }, href: 'https://chefsitturchey.itch.io/ceniza-neon' },
   ],
 };
@@ -244,6 +244,8 @@ export const proyecto3 = {
 };
 
 export const devlog: Post[] = [
+  { date: '2026-11-10', title: { es: 'Ceniza Neón dentro de Feka Studios', en: 'Ceniza Neón joins Feka Studios’ website' },
+    body: { es: 'Alfa de prueba para Windows, Android y navegador. La página del juego reúne las descargas y el Top Boss Rush en línea.', en: 'Test alpha for Windows, Android and browser. The game page brings together downloads and the online Top Boss Rush.' }, href: '/ceniza/descargar' },
   { date: '2026-11-10', title: { es: 'Vacas: Acto V «La matanza»', en: 'Vacas: Act V “The slaughter”' },
     body: { es: 'Acto V «La matanza»: infiltración en el matadero, minijuego La noria, jefe final del acto, 6 mapas nuevos', en: 'Act V “The slaughter”: slaughterhouse infiltration, La noria minigame, final boss of the act, 6 new maps' }, href: '/vacas/bitacora' },
   {
@@ -370,6 +372,16 @@ export const devlog: Post[] = [
     },
     "href": "https://github.com/chefsitturchey-web/Ceniza-ne-n/releases/tag/v0.1.0-alpha"
   },
+  {"date":"2026-10-29","title":{"es":"Ceniza Neón: Caminar es más que mover un sprite","en":"Ceniza Neón: Walking is more than moving a sprite"},"body":{"es":"Apoyo, dirección y ritmo: una revisión del Portador, el Prefecto y Madre Cero, con fuentes independientes para seguir trabajando.","en":"Support, direction and rhythm: a review of the Portador, El Prefecto and Madre Cero, with independent working sources."},"href":"/ceniza/bitacora#caminar-es-mas-que-mover-un-sprite"},
+  {"date":"2026-10-29","title":{"es":"Ceniza Neón: Una ciudad que respira","en":"Ceniza Neón: A city that breathes"},"body":{"es":"Cinco distritos, varias capas de profundidad y pequeños movimientos que cuentan dónde estás. Así estamos dando vida a los escenarios.","en":"Five districts, several depth layers and small movements that tell you where you are. This is how the environments come alive."},"href":"/ceniza/bitacora#una-ciudad-que-respira"},
+  {"date":"2026-10-29","title":{"es":"Ceniza Neón: Lo que ya existe. Lo que falta.","en":"Ceniza Neón: What exists. What is missing."},"body":{"es":"Abrimos el archivo de desarrollo con una promesa sencilla: mostrar el trabajo real y distinguirlo de lo que queremos construir.","en":"We opened the development archive to show real work and distinguish it from what we hope to build."},"href":"/ceniza/bitacora#lo-que-ya-existe-y-lo-que-falta"},
+  {"date":"2026-10-29","title":{"es":"Ceniza Neón: Cinco jefes, cinco lenguajes","en":"Ceniza Neón: Five bosses, five languages"},"body":{"es":"Coberturas, calor, antenas, duelo y relés. La dificultad necesita reglas que puedas aprender, no solamente más vida.","en":"Cover, heat, antennas, duelling and relays. Difficulty needs learnable rules, not simply more health."},"href":"/ceniza/bitacora#cinco-jefes-cinco-lenguajes"},
+  {"date":"2026-10-29","title":{"es":"Ceniza Neón: El diseño aprobado llega al combate","en":"Ceniza Neón: Approved designs reach combat"},"body":{"es":"El 29 de octubre se renovaron el Portador y los jefes con poses ilustradas y animaciones montadas en LibreSprite.","en":"On 29 October, the Portador and bosses received illustrated poses and LibreSprite animations."},"href":"/ceniza/bitacora#el-diseno-aprobado-llega-al-combate"},
+  {"date":"2026-10-28","title":{"es":"Ceniza Neón: La historia encuentra sus rostros","en":"Ceniza Neón: The story finds its faces"},"body":{"es":"Los retratos manga y las conversaciones de novela visual se integraron el 28 de octubre, junto con una revisión de coherencia de las estructuras.","en":"Manga portraits and visual novel conversations were integrated on 28 October, alongside a structure consistency review."},"href":"/ceniza/bitacora#la-historia-encuentra-sus-rostros"},
+  {"date":"2026-10-28","title":{"es":"Ceniza Neón: Cinco capítulos, una ruta","en":"Ceniza Neón: Five chapters, one route"},"body":{"es":"El 28 de octubre se conectaron los cinco capítulos, sus operaciones narrativas y los encuentros finales de la Ciudadela y la Red.","en":"On 28 October the five chapters, narrative operations and final Citadel and Network encounters were connected."},"href":"/ceniza/bitacora#cinco-capitulos-una-ruta"},
+  {"date":"2026-10-12","title":{"es":"Ceniza Neón: El ferrocarril llega a la arena","en":"Ceniza Neón: The railway reaches the arena"},"body":{"es":"El 12 de octubre se integró la arena cenital del Recaudador. La dirección de la colonia y el combate personal empezaban a encontrar espacios distintos.","en":"On 12 October the top-down Recaudador arena was integrated, separating colony command from personal combat."},"href":"/ceniza/bitacora#el-ferrocarril-llega-a-la-arena"},
+  {"date":"2026-09-23","title":{"es":"Ceniza Neón: El Errante empieza a moverse","en":"Ceniza Neón: The Errante starts moving"},"body":{"es":"El 23 de septiembre llegaron los sprites y cinco animaciones del Errante. Un primer paso para que el enemigo tuviera presencia propia.","en":"On 23 September, sprites and five Errante animations gave the enemy its own presence."},"href":"/ceniza/bitacora#el-errante-empieza-a-moverse"},
+  {"date":"2026-09-22","title":{"es":"Ceniza Neón: El primer paso","en":"Ceniza Neón: The first step"},"body":{"es":"El 22 de septiembre empezó el prototipo: movimiento, combate de práctica y las primeras reglas de una colonia que debía resistir.","en":"The prototype began on 22 September with movement, practice combat and the first rules of a colony that had to survive."},"href":"/ceniza/bitacora#el-primer-paso"},
   {
     "date": null,
     "title": {

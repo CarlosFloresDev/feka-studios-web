@@ -1,0 +1,88 @@
+{
+  "escritorio": {
+    "routes": {
+      "/ceniza": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900
+      },
+      "/ceniza/universo": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900
+      },
+      "/ceniza/wiki": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900
+      },
+      "/ceniza/bitacora": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900
+      },
+      "/ceniza/banda-sonora": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900
+      },
+      "/ceniza/hoja-de-ruta": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900
+      },
+      "/ceniza/descargar": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 900
+      }
+    },
+    "errors": [],
+    "expectedNetworkErrors": [
+      "Failed to load resource: net::ERR_INTERNET_DISCONNECTED"
+    ]
+  },
+  "movil": {
+    "routes": {
+      "/ceniza": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844
+      },
+      "/ceniza/universo": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844
+      },
+      "/ceniza/wiki": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844
+      },
+      "/ceniza/bitacora": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844
+      },
+      "/ceniza/banda-sonora": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844
+      },
+      "/ceniza/hoja-de-ruta": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844
+      },
+      "/ceniza/descargar": {
+        "status": 200,
+        "overflow": 0,
+        "hero": 844
+      }
+    },
+    "errors": [],
+    "expectedNetworkErrors": [
+      "Failed to load resource: net::ERR_INTERNET_DISCONNECTED"
+    ]
+  }
+}
