@@ -309,6 +309,32 @@ section { position: relative; }
 .p3__status { color: var(--sodium); }
 .p3__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
 .p3__tags li { padding: 0.3rem 0.7rem; background: rgb(239 233 242 / 0.06); border: 1px solid var(--line); font-size: 0.9rem; }
+/* Una forma de querer: atardecer de Arequipa sobre el perfil del Misti */
+.p3--ufq .p3__card { border-color: rgb(241 196 170 / 0.22); background: #1b1420; min-height: clamp(480px, 70vh, 700px); }
+.ufq-card__wash { position: absolute; inset: 0; z-index: -1; overflow: hidden;
+  background:
+    radial-gradient(60% 45% at 62% 52%, rgb(255 205 150 / 0.55), transparent 70%),
+    linear-gradient(to bottom, #3a3a6e 0%, #8a5a86 34%, #e08a7a 58%, #f3c18a 72%, #1b1420 72.5%);
+}
+.ufq-card__wash::before { /* veladura bajo el texto, para que se lea sobre el cielo */
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, rgb(27 20 32 / 0.94) 0%, rgb(27 20 32 / 0.72) 42%, rgb(27 20 32 / 0.18) 68%, transparent 82%),
+    linear-gradient(to right, rgb(27 20 32 / 0.55) 0%, transparent 60%);
+}
+.ufq-card__wash::after { /* grano de papel */
+  content: ''; position: absolute; inset: 0; opacity: 0.22; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.ufq-card__sun { position: absolute; left: 80%; top: 30%; width: clamp(70px, 8vw, 120px); aspect-ratio: 1; border-radius: 50%; background: #ffe2b8; box-shadow: 0 0 60px 20px rgb(255 214 160 / 0.45); transform: translate(-50%, -50%); }
+@media (max-width: 700px) { .ufq-card__sun { left: 84%; top: 9%; } }
+.ufq-card__ridge { position: absolute; left: 0; right: 0; bottom: 27.5%; width: 100%; height: 34%; fill: #2a1f2c; }
+.ufq-card__title { font-family: 'Fraunces Variable', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.8rem, 7.5vw, 6rem); line-height: 0.95; letter-spacing: -0.02em; color: #fbefe0; text-wrap: balance; max-width: 14ch; }
+.ufq-card__pitch { font-size: clamp(1.15rem, 1.8vw, 1.45rem); color: #f6dcc4; max-width: 40ch; }
+.ufq-card__desc { color: #d9c9cf; max-width: 60ch; }
+.p3--ufq .p3__status { color: #f6c493; }
+.p3--ufq .p3__tags li { background: rgb(251 239 224 / 0.07); border-color: rgb(251 239 224 / 0.16); color: #f1e3d6; }
+.btn--primary.ufq-card__cta { --bg: #f3c18a; --bd: #f3c18a; --fg: #1b1420; }
+@media (hover: hover) and (pointer: fine) { .btn--primary.ufq-card__cta:hover { --bg: #fbefe0; --bd: #fbefe0; } }
 .p3__imgs { position: absolute; inset: 0; z-index: -1; display: grid; grid-auto-flow: column; }
 .p3__imgs img { width: 100%; height: 100%; object-fit: cover; opacity: 0.45; }
 

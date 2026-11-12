@@ -3,10 +3,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { ArrowUpRight, DownloadSimple, List, X, ArrowUp, EnvelopeSimple } from '@phosphor-icons/react';
-import { ceniza, contact, devlog, press, proyecto3, socials, studio, team, ui, vacas } from './content';
+import { ceniza, contact, devlog, press, socials, studio, team, ui, unaForma, vacas } from './content';
 import { useLang } from './i18n';
 import '@fontsource-variable/big-shoulders-display';
 import '@fontsource-variable/schibsted-grotesk';
+import '@fontsource-variable/fraunces/wght-italic.css';
 import './styles.css';
 import { Trailer } from './components/Trailer';
 
@@ -296,29 +297,26 @@ function Vacas({ reduced }: { reduced: boolean }) {
   );
 }
 
-/* ------------------------------------------------------------------ Proyecto 3 */
-function Proyecto3() {
+/* ------------------------------------------------------------------ Una forma de querer */
+function UnaForma() {
   const { t } = useLang();
-  const p = proyecto3;
+  const p = unaForma;
   return (
-    <section className="p3" id="proyecto-3" aria-labelledby="p3-title">
+    <section className="p3 p3--ufq" id={p.id} aria-labelledby="ufq-card-title">
       <div className="wrap">
         <article className="p3__card">
-          {p.images.length > 0 ? (
-            <div className="p3__imgs" aria-hidden>
-              {p.images.map((s) => <img key={s.src} src={s.src} alt="" loading="lazy" />)}
-            </div>
-          ) : (
-            <div className="p3__stage" aria-hidden><div className="p3__floor" /></div>
-          )}
+          <div className="ufq-card__wash" aria-hidden>
+            <span className="ufq-card__sun" />
+            <svg className="ufq-card__ridge" viewBox="0 0 1200 300" preserveAspectRatio="none">
+              <path d="M0 300 L0 230 C120 210 220 200 330 170 L520 70 C548 58 572 58 600 70 L760 150 C860 180 980 190 1200 200 L1200 300 Z" />
+            </svg>
+          </div>
           <span className="pill p3__status"><span className="pill__dot" aria-hidden />{t(p.status)}</span>
-          <h2 id="p3-title" className="p3__code">{p.name ?? p.codename}</h2>
-          <p className="vacas__pitch">{t(p.pitch)}</p>
-          <p className="muted">{t(p.description)}</p>
+          <h2 id="ufq-card-title" className="ufq-card__title">{p.name}</h2>
+          <p className="ufq-card__pitch">{t(p.pitch)}</p>
+          <p className="ufq-card__desc">{t(p.description)}</p>
           <ul className="p3__tags">{p.tags.map((tag) => <li key={tag.es}>{t(tag)}</li>)}</ul>
-          {(p.trailer.youtube || p.trailer.mp4) && (
-            <div style={{ width: 'min(100%, 720px)' }}><Trailer trailer={p.trailer} title={p.name ?? p.codename} /></div>
-          )}
+          <a className="btn btn--primary ufq-card__cta" href={p.href}>{t(p.cta)} <ArrowUpRight size={18} aria-hidden /></a>
         </article>
       </div>
     </section>
@@ -505,7 +503,7 @@ export default function App() {
         <Hero reduced={reduced} />
         <Ceniza reduced={reduced} />
         <Vacas reduced={reduced} />
-        <Proyecto3 />
+        <UnaForma />
         <Devlog />
         <Studio />
         <Press />

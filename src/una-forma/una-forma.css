@@ -1,0 +1,266 @@
+/* Una forma de querer · mundo propio
+   Papel de cuaderno, grafito y acuarela de Arequipa. Claro porque se lee como
+   una tarde en la azotea, no de noche. El dorado es el único color saturado:
+   se desea, y luego se apaga hasta el color del papel. */
+
+@property --gilt { syntax: '<number>'; inherits: true; initial-value: 1; }
+
+.ufq {
+  --paper: #f5efe3;
+  --paper-2: #ece3d1;
+  --ink: #2a2420;
+  --ink-2: #5a4f45;
+  --rule: rgb(42 36 32 / 0.14);
+  --rule-strong: rgb(42 36 32 / 0.28);
+  --gold: #c8962e;
+  --gold-deep: #8a6414;
+  --cream: #e9dcc0;
+  --buganvilla: #a8325f;
+  --sky: #6fa8dc;
+  --serif: 'Fraunces Variable', Georgia, serif;
+  --hand: 'Caveat', 'Segoe Print', cursive;
+  --sans: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  --gutter: clamp(1.1rem, 4.5vw, 4rem);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+html.ufq-root { background: #f5efe3; color-scheme: light; scrollbar-color: #b8a98f #f5efe3; }
+html.ufq-root body { background: #f5efe3; margin: 0; }
+.ufq ::selection { background: rgb(200 150 46 / 0.32); color: var(--ink); }
+.ufq :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+.ufq a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.ufq h1, .ufq h2, .ufq h3, .ufq p, .ufq ol, .ufq ul, .ufq dl, .ufq dd, .ufq figure, .ufq blockquote { margin: 0; }
+.ufq h2 { font-family: var(--serif); font-weight: 480; font-variation-settings: 'SOFT' 80, 'opsz' 144; font-size: clamp(2.2rem, 4.6vw, 4rem); line-height: 1.02; letter-spacing: -0.02em; text-wrap: balance; max-width: 18ch; }
+.ufq-wrap { width: min(100% - 2 * var(--gutter), 1320px); margin-inline: auto; }
+.ufq-section { padding-block: clamp(5rem, 11vw, 9.5rem); }
+.ufq-prose { max-width: 62ch; color: var(--ink-2); margin-top: 1.1rem; }
+.ufq-prose + .ufq-prose { margin-top: 0.9rem; }
+
+.ufq-skip { position: absolute; left: 1rem; top: -4rem; z-index: 60; background: var(--ink); color: var(--paper); padding: 0.6rem 1rem; }
+.ufq-skip:focus { top: 1rem; }
+
+/* ------------------------------------------------------------ barra */
+.ufq-bar {
+  position: fixed; inset: 0 0 auto; z-index: 40; height: 58px;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem;
+  padding-inline: var(--gutter);
+  background: rgb(245 239 227 / 0.94);
+  border-bottom: 1px solid var(--rule);
+}
+.ufq-bar__back { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 600; font-size: 0.92rem; text-decoration: none; justify-self: start; padding: 0.4rem 0; }
+.ufq-bar__title { font-family: var(--serif); font-style: italic; font-size: 1.15rem; font-weight: 500; }
+.ufq-lang { justify-self: end; display: inline-flex; border: 1px solid var(--rule-strong); }
+.ufq-lang button { appearance: none; border: 0; background: transparent; color: var(--ink-2); font: 600 0.8rem/1 var(--sans); padding: 0.55rem 0.7rem; cursor: pointer; min-height: 36px; }
+.ufq-lang button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+@media (max-width: 560px) { .ufq-bar__title { display: none; } .ufq-bar { grid-template-columns: 1fr auto; } }
+
+/* ------------------------------------------------------------ botones */
+.ufq-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 46px; padding: 0.7rem 1.25rem;
+  border: 1px solid var(--ink); color: var(--ink); background: transparent; font-weight: 600; text-decoration: none;
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.18s var(--ease);
+}
+.ufq .ufq-btn--ink { background: var(--ink); color: var(--paper); }
+.ufq-btn:active { transform: translateY(1px); }
+@media (hover: hover) and (pointer: fine) {
+  .ufq .ufq-btn:hover { background: var(--ink); color: var(--paper); }
+  .ufq .ufq-btn--ink:hover { background: #4a3f37; border-color: #4a3f37; }
+}
+
+/* ------------------------------------------------------------ hero / diorama */
+.ufq-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: 100svh;
+  padding: calc(58px + clamp(2rem, 5vh, 4rem)) 0 clamp(220px, 34vh, 380px);
+}
+.ufq-sky { position: absolute; inset: 0; z-index: -3; }
+.ufq-sky--noon { background: linear-gradient(to bottom, #5f9fd8 0%, #9cc6ea 45%, #e4eef4 78%, #f5efe3 100%); }
+.ufq-sky--dusk { opacity: 0; background: linear-gradient(to bottom, #5e5a92 0%, #b9788f 38%, #ee9f86 62%, #f7cf9e 82%, #f5efe3 100%); }
+.ufq-diorama { position: absolute; left: 0; right: 0; bottom: 0; z-index: -2; width: 100%; height: min(78%, 900px); }
+.ufq-dusk-wash { /* el sillar se vuelve rosado al atardecer */
+  position: absolute; inset: 0; z-index: -1; opacity: 0; pointer-events: none; mix-blend-mode: multiply;
+  background: linear-gradient(to bottom, transparent 30%, rgb(236 150 140 / 0.5) 62%, rgb(214 120 120 / 0.55) 100%);
+}
+.ufq-paper-grain {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .48 0 0 0 0 .4 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.ufq-hero__copy { position: relative; display: grid; gap: 1.1rem; justify-items: start; }
+.ufq-hero__status { display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em; }
+.ufq-hero__status span { padding: 0.3rem 0.7rem; background: rgb(245 239 227 / 0.86); border: 1px solid var(--rule-strong); }
+.ufq-hero__title {
+  font-family: var(--serif); font-style: italic; font-weight: 420;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
+  font-size: clamp(3.1rem, 9vw, 6rem); line-height: 0.92; letter-spacing: -0.03em;
+  max-width: 11ch; text-wrap: balance; color: #1f1a17;
+}
+.ufq-hero__line { font-family: var(--hand); font-weight: 600; font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.15; color: #2c2622; max-width: 26ch; }
+.ufq-hero__lead { max-width: 54ch; color: #2f2925; background: rgb(245 239 227 / 0.78); padding: 0.9rem 1.1rem; box-shadow: 0 10px 30px -18px rgb(42 36 32 / 0.5); }
+.ufq-hero__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.4rem; }
+.ufq-hero__ctas .ufq-btn:not(.ufq-btn--ink) { background: rgb(245 239 227 / 0.86); }
+.ufq-hero__hint { position: absolute; right: var(--gutter); bottom: 1.2rem; font-family: var(--hand); font-size: 1.35rem; color: #3a2f2a; background: rgb(245 239 227 / 0.8); padding: 0.1rem 0.6rem; }
+.ufq-hero__copy { max-width: 620px; margin-left: max(var(--gutter), calc((100% - 1320px) / 2)); margin-right: auto; }
+/* En móvil el diorama va arriba y el texto debajo, sobre el papel: la primera
+   pantalla siempre muestra Arequipa y el título. */
+@media (max-width: 700px) {
+  .ufq-hero { padding: calc(58px + 46svh + 1.75rem) 0 3.5rem; min-height: 0; }
+  .ufq-sky, .ufq-dusk-wash { bottom: auto; height: calc(58px + 46svh); }
+  .ufq-diorama { top: 58px; bottom: auto; height: 46svh; }
+  .ufq-hero__copy { margin-inline: var(--gutter); }
+  .ufq-hero__lead { background: transparent; padding: 0; box-shadow: none; }
+  .ufq-hero__hint { display: none; }
+}
+
+/* ------------------------------------------------------------ premisa + celular */
+.ufq-premise__grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr); gap: clamp(2.5rem, 7vw, 7rem); align-items: center; }
+@media (max-width: 860px) { .ufq-premise__grid { grid-template-columns: 1fr; } }
+.ufq-phone {
+  justify-self: center; width: min(100%, 330px); padding: 14px; border-radius: 38px;
+  background: #24201d; box-shadow: 0 30px 60px -30px rgb(42 36 32 / 0.6), 0 2px 0 rgb(255 255 255 / 0.06) inset;
+  transform: rotate(2.5deg);
+}
+.ufq-phone__screen { border-radius: 26px; background: #fbf8f2; padding: 1.1rem 1rem 1.4rem; min-height: 440px; display: flex; flex-direction: column; gap: 0.9rem; }
+.ufq-phone__head { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; padding-bottom: 0.8rem; border-bottom: 1px solid var(--rule); }
+.ufq-phone__avatar { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #f0c34a; color: var(--ink); font-family: var(--serif); font-style: italic; }
+.ufq-phone__time { margin-left: auto; font-weight: 500; color: var(--ink-2); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.ufq-bubble { max-width: 82%; padding: 0.6rem 0.85rem; border-radius: 16px; font-size: 0.97rem; line-height: 1.4; }
+.ufq-bubble--in { background: #ece4d4; border-bottom-left-radius: 4px; }
+.ufq-bubble--draft { align-self: flex-end; background: #dfe9f2; border-bottom-right-radius: 4px; color: #4b5560; margin-top: auto; }
+.ufq-caret { display: inline-block; width: 2px; height: 1.05em; background: #3d6ea8; margin-left: 2px; vertical-align: -0.15em; animation: ufq-blink 1.1s steps(1) infinite; }
+.ufq-typing { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--ink-2); }
+.ufq-typing__dots { display: inline-flex; gap: 3px; padding: 0.45rem 0.6rem; background: #ece4d4; border-radius: 12px; }
+.ufq-typing__dots i { width: 6px; height: 6px; border-radius: 50%; background: #8a7d70; animation: ufq-dot 1.3s var(--ease) infinite; }
+.ufq-typing__dots i:nth-child(2) { animation-delay: 0.15s; }
+.ufq-typing__dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes ufq-blink { 50% { opacity: 0; } }
+@keyframes ufq-dot { 0%, 60%, 100% { transform: translateY(0); opacity: 0.45; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+/* ------------------------------------------------------------ cuaderno de señales */
+.ufq-notebook { --gilt: 1; background: var(--paper-2); }
+.ufq-notebook__lead { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+.ufq-notebook__spread {
+  position: relative; padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem) clamp(2.5rem, 5vw, 4rem);
+  background:
+    radial-gradient(circle at 12px 12px, var(--paper-2) 5px, transparent 6px) 0 6px / 38px 26px repeat-x,
+    repeating-linear-gradient(to bottom, transparent 0 33px, rgb(95 135 180 / 0.18) 33px 34px) 0 70px,
+    #fbf7ef;
+  box-shadow: 0 30px 60px -36px rgb(42 36 32 / 0.55), 0 1px 0 var(--rule);
+}
+.ufq-notebook__cover {
+  font-family: var(--hand); font-weight: 600; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1;
+  color: color-mix(in srgb, var(--gold-deep) calc(var(--gilt) * 100%), var(--ink-2));
+  text-shadow: 0 0 calc(var(--gilt) * 18px) rgb(232 186 74 / calc(var(--gilt) * 0.7));
+  margin-bottom: 1.6rem; transform: rotate(-2deg); display: inline-block;
+}
+.ufq-notebook__pages { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2.5rem); }
+@media (max-width: 900px) { .ufq-notebook__pages { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .ufq-notebook__pages { grid-template-columns: 1fr; } }
+.ufq-page {
+  position: relative; padding: 1.4rem 1.3rem 1.2rem; background: #fffdf8;
+  border: 1.5px solid color-mix(in srgb, var(--gold) calc(var(--gilt) * 100%), var(--rule-strong));
+  box-shadow:
+    0 calc(4px + var(--gilt) * 6px) calc(10px + var(--gilt) * 22px) rgb(214 164 54 / calc(var(--gilt) * 0.42)),
+    0 2px 6px -2px rgb(42 36 32 / 0.18);
+  transform: rotate(var(--tilt, 0deg));
+}
+.ufq-page:nth-child(3n + 1) { --tilt: -1.2deg; }
+.ufq-page:nth-child(3n + 2) { --tilt: 0.8deg; }
+.ufq-page:nth-child(3n) { --tilt: -0.4deg; }
+.ufq-page::before { /* cinta adhesiva */
+  content: ''; position: absolute; top: -10px; left: 50%; width: 64px; height: 18px; translate: -50% 0; rotate: -3deg;
+  background: rgb(233 220 192 / 0.85); box-shadow: 0 1px 2px rgb(42 36 32 / 0.12);
+}
+.ufq-page__quote { font-family: var(--hand); font-weight: 600; font-size: clamp(1.55rem, 2.3vw, 1.9rem); line-height: 1.12; color: color-mix(in srgb, var(--gold-deep) calc(var(--gilt) * 80%), var(--ink)); }
+.ufq-page__place { margin-top: 0.8rem; font-size: 0.85rem; color: var(--ink-2); letter-spacing: 0.01em; }
+.ufq-notebook__question {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem); text-align: center;
+  font-family: var(--serif); font-style: italic; font-weight: 420; font-size: clamp(1.6rem, 3.4vw, 2.6rem); line-height: 1.1;
+  opacity: calc(0.12 + (1 - var(--gilt)) * 0.88);
+  translate: 0 calc(var(--gilt) * 10px);
+}
+
+/* ------------------------------------------------------------ mecánicas */
+.ufq-mech { margin-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--rule-strong); }
+.ufq-mech__row { display: grid; grid-template-columns: minmax(10rem, 0.6fr) minmax(0, 1.2fr) minmax(0, 1fr); gap: 1rem clamp(1.5rem, 4vw, 3.5rem); align-items: start; padding-block: clamp(2rem, 4vw, 3rem); border-bottom: 1px solid var(--rule); }
+.ufq-mech__row .ufq-prose { margin-top: 0; }
+.ufq-mech__name { font-family: var(--serif); font-style: italic; font-weight: 460; font-size: clamp(1.7rem, 2.8vw, 2.4rem); line-height: 1; }
+@media (max-width: 900px) { .ufq-mech__row { grid-template-columns: 1fr; } }
+
+.ufq-keep { justify-self: start; display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.55rem 1rem; font-weight: 700; color: #3b2c0c; background: #f3d88e; box-shadow: 0 6px 22px -6px rgb(214 164 54 / 0.75); }
+.ufq-keep__heart { width: 16px; height: 16px; background: #b9861f; clip-path: path('M8 15 C8 15 1 10 1 5.5 C1 3 3 1 5.3 1 C6.6 1 7.5 1.7 8 2.6 C8.5 1.7 9.4 1 10.7 1 C13 1 15 3 15 5.5 C15 10 8 15 8 15 Z'); }
+
+.ufq-lens { display: grid; gap: 0.9rem; justify-items: start; }
+.ufq-lens__bubble { position: relative; padding: 0.9rem 1.1rem; background: #fffdf8; border: 1.5px solid var(--ink); border-radius: 18px 18px 18px 4px; font-size: 1.05rem; line-height: 1.4; }
+.ufq-lens__word { display: inline-block; font-weight: 600; transition: color 0.3s var(--ease), font-size 0.3s var(--ease); animation: ufq-tremble 2.6s ease-in-out infinite; }
+.ufq-lens[data-warm='true'] .ufq-lens__word { font-family: var(--hand); font-size: 1.45em; color: var(--buganvilla); line-height: 1; }
+.ufq-lens__choices { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.ufq-lens__choices button { appearance: none; border: 1px solid var(--rule-strong); background: transparent; color: var(--ink); font: 600 0.88rem/1.2 var(--sans); padding: 0.55rem 0.8rem; min-height: 40px; cursor: pointer; transition: background-color 0.18s var(--ease), color 0.18s var(--ease); }
+.ufq-lens__choices button[aria-pressed='true'] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+@keyframes ufq-tremble { 0%, 100% { transform: rotate(0); } 46% { transform: rotate(0); } 48% { transform: rotate(-1.6deg) translateY(-1px); } 50% { transform: rotate(1.4deg); } 52% { transform: rotate(-0.8deg); } 54% { transform: rotate(0); } }
+
+.ufq-wait { padding: 1rem 1.1rem; background: #fffdf8; border: 1px dashed var(--rule-strong); color: var(--ink-2); max-width: 30ch; }
+.ufq-wait__n { font-family: var(--serif); font-weight: 600; font-size: 1.6em; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------ recorrido */
+.ufq-route { padding-bottom: 0; }
+.ufq-cities { list-style: none; padding: 0; margin-top: clamp(3rem, 6vw, 4.5rem); }
+.ufq-city { position: relative; isolation: isolate; padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+.ufq-city__wash { position: absolute; inset: 0; z-index: -1; }
+.ufq-city__wash::after { content: ''; position: absolute; inset: 0; opacity: 0.4; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .05' numOctaves='4'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .55 0 0 0 0 .5 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.ufq-city--arequipa .ufq-city__wash { background: linear-gradient(100deg, #cfe2f2 0%, #f6f1e8 55%, #f1c6d6 100%); }
+.ufq-city--mollendo .ufq-city__wash { background: linear-gradient(100deg, #a9dcd6 0%, #d8efe9 50%, #f6c79a 100%); }
+.ufq-city--lima .ufq-city__wash { background: linear-gradient(100deg, #c9cccf 0%, #e1e1df 55%, #d7c3a3 100%); }
+.ufq-city--colca .ufq-city__wash { background: linear-gradient(100deg, #f3d9a2 0%, #f8e9c6 50%, #cdbca2 100%); }
+.ufq-city__inner { display: grid; grid-template-columns: minmax(12rem, 0.9fr) minmax(0, 1.1fr); gap: 0.4rem clamp(2rem, 6vw, 6rem); align-items: end; }
+.ufq-city__when { grid-column: 1; font-size: 0.9rem; font-weight: 600; color: #3f3630; }
+.ufq-city__name { grid-column: 1; font-family: var(--serif); font-weight: 520; font-variation-settings: 'SOFT' 60, 'opsz' 144; font-size: clamp(2.6rem, 7vw, 5.6rem); line-height: 0.95; letter-spacing: -0.025em; }
+.ufq-city__mood { grid-column: 1; font-family: var(--hand); font-weight: 600; font-size: clamp(1.5rem, 2.4vw, 2rem); color: #3a302a; }
+.ufq-city__body { grid-column: 2; grid-row: 1 / span 3; align-self: center; max-width: 46ch; color: #2f2925; }
+@media (max-width: 760px) { .ufq-city__inner { grid-template-columns: 1fr; } .ufq-city__body { grid-column: 1; grid-row: auto; margin-top: 0.8rem; } }
+
+/* ------------------------------------------------------------ personajes */
+.ufq-people { list-style: none; padding: 0; margin-top: clamp(2.5rem, 5vw, 4rem); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem); }
+@media (max-width: 900px) { .ufq-people { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .ufq-people { grid-template-columns: 1fr; } }
+.ufq-person { position: relative; isolation: isolate; padding-top: 2.6rem; }
+.ufq-person__wash { position: absolute; left: -0.6rem; top: 0; z-index: -1; width: 8.5rem; height: 6rem; border-radius: 48% 52% 41% 59% / 55% 45% 55% 45%; background: var(--tone); opacity: 0.55; filter: blur(5px); }
+.ufq-person[data-tone='sillar'] { --tone: #d8cbb2; }
+.ufq-person[data-tone='buganvilla'] { --tone: #e58fb4; }
+.ufq-person[data-tone='garua'] { --tone: #b7c0c8; }
+.ufq-person[data-tone='tintero'] { --tone: #a7bfe0; }
+.ufq-person[data-tone='libro'] { --tone: #d9b98a; }
+.ufq-person[data-tone='mar'] { --tone: #93d0c8; }
+.ufq-person__name { font-family: var(--serif); font-style: italic; font-weight: 480; font-size: clamp(1.9rem, 3vw, 2.5rem); line-height: 1; }
+.ufq-person__age { font-family: var(--hand); font-style: normal; font-size: 0.6em; color: var(--ink-2); margin-left: 0.2rem; }
+.ufq-person__line { margin-top: 0.75rem; color: var(--ink-2); max-width: 38ch; }
+
+/* ------------------------------------------------------------ estado */
+.ufq-status { background: var(--paper-2); }
+.ufq-status__grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+.ufq-status__grid .ufq-btn { margin-top: 1.8rem; }
+@media (max-width: 860px) { .ufq-status__grid { grid-template-columns: 1fr; } }
+.ufq-facts { border-top: 1px solid var(--rule-strong); }
+.ufq-facts > div { display: grid; grid-template-columns: minmax(9rem, 0.7fr) minmax(0, 1.3fr); gap: 0.4rem 1.5rem; padding-block: 1rem; border-bottom: 1px solid var(--rule); }
+.ufq-facts dt { font-weight: 600; color: var(--ink-2); font-size: 0.92rem; }
+.ufq-facts dd { color: var(--ink); }
+@media (max-width: 520px) { .ufq-facts > div { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------------------ pie */
+.ufq-foot { padding-block: 3rem; border-top: 1px solid var(--rule); }
+.ufq-foot__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; color: var(--ink-2); font-size: 0.92rem; }
+.ufq-foot__inner p:first-of-type { font-family: var(--hand); font-size: 1.3rem; color: var(--ink); }
+
+/* ------------------------------------------------------------ movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .ufq-caret, .ufq-typing__dots i, .ufq-lens__word { animation: none; }
+  .ufq-btn, .ufq-lens__word, .ufq-lens__choices button { transition: none; }
+}

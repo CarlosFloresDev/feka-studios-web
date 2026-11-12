@@ -45,8 +45,8 @@ export const studio = {
     en: 'A three-person independent studio. We make horror, survival and role-playing games under neon light.',
   },
   about: {
-    es: 'Feka Studios nace de tres programadores que quieren hacer los juegos que les quitaban el sueño. Cada proyecto prueba un motor y una forma distinta de asustar: la gestión bajo asedio, el horror psicológico de pasillo estrecho y el combate por turnos de los clásicos de los noventa.',
-    en: 'Feka Studios is three programmers making the kind of games that used to keep them awake. Each project tries a different engine and a different way to scare you: management under siege, narrow-corridor psychological horror and the turn-based combat of nineties classics.',
+    es: 'Feka Studios nace de tres programadores que quieren hacer los juegos que les quitaban el sueño. Cada proyecto prueba un motor y una forma distinta de llegarte: la gestión bajo asedio, el horror psicológico de pasillo estrecho y, en Una forma de querer, el miedo más callado de todos: el de confundir cariño con amor.',
+    en: 'Feka Studios is three programmers making the kind of games that used to keep them awake. Each project tries a different engine and a different way to reach you: management under siege, narrow-corridor psychological horror and, in Una forma de querer, the quietest fear of all: mistaking kindness for love.',
   },
   boilerplate: {
     es: 'Feka Studios es un estudio independiente de videojuegos de terror. Su primer título, Ceniza Neón, está disponible en alfa para Windows, Android y navegador.',
@@ -210,40 +210,196 @@ export type VacasZone = {
   features: { title: L; body: L; img?: VacasImg }[]; gallery: VacasImg[];
 };
 
-export const proyecto3 = {
-  "codename": "Proyecto 3",
-  "name": null,
-  "status": {
-    "es": "Próximamente",
-    "en": "Coming soon"
+// ---------------------------------------------------------------------
+// UNA FORMA DE QUERER (tercer juego; antes «Proyecto 3»)
+// Página propia en /una-forma-de-querer. Es promocional: NO contar giros,
+// el sueño del capítulo 4, lo que siente Valeria ni los finales.
+// ---------------------------------------------------------------------
+export const unaForma = {
+  id: 'una-forma-de-querer',
+  href: '/una-forma-de-querer',
+  name: 'Una forma de querer',
+  status: { es: 'En desarrollo', en: 'In development' },
+  pitch: {
+    es: '¿Cómo íbamos a terminar, si nunca fuimos nada?',
+    en: 'How could we end, if we were never anything?',
   },
-  "pitch": {
-    "es": "Rol por turnos y terror en pixel art HD-2D.",
-    "en": "Turn-based horror RPG in HD-2D pixel art."
+  description: {
+    es: 'Una aventura narrativa en 3D, corta y pintada como un diorama de acuarela. Arequipa, un cuarto de azotea, un cuaderno de dibujo y una chica que vive en el piso de abajo y se acuerda de todo.',
+    en: 'A short 3D narrative adventure, painted like a watercolor diorama. Arequipa, a rooftop room, a sketchbook and a girl who lives downstairs and remembers everything.',
   },
-  "description": {
-    "es": "Un RPG de terror por turnos con combate cinematográfico al estilo de los clásicos japoneses de los noventa, en pixel art con profundidad y luz al estilo HD-2D.",
-    "en": "A turn-based horror RPG with cinematic combat in the style of nineties Japanese classics, in pixel art with HD-2D depth and lighting."
-  },
-  "tags": [
-    {
-      "es": "Rol por turnos",
-      "en": "Turn-based RPG"
-    },
-    {
-      "es": "Pixel art HD-2D",
-      "en": "HD-2D pixel art"
-    },
-    {
-      "es": "Terror",
-      "en": "Horror"
-    }
+  tags: [
+    { es: 'Aventura narrativa 3D', en: '3D narrative adventure' },
+    { es: 'Arequipa, Perú', en: 'Arequipa, Peru' },
+    { es: 'Decisiones', en: 'Choices' },
   ],
-  "images": [] as Shot[],
-  "trailer": { youtube: null, mp4: null, poster: "" } as Trailer
+  cta: { es: 'Abrir el cuaderno', en: 'Open the sketchbook' },
+};
+
+type UfqPhrase = { quote: L; place: L };
+type UfqCity = { id: 'arequipa' | 'mollendo' | 'lima' | 'colca'; name: string; when: L; mood: L; body: L };
+type UfqPerson = { name: string; age: string; tone: 'sillar' | 'buganvilla' | 'garua' | 'tintero' | 'libro' | 'mar'; line: L };
+
+export const unaFormaPage: {
+  meta: { title: L; description: L };
+  bar: { back: L; skip: L };
+  hero: { title: string; line: L; lead: L; status: L; platform: L; cta: L; cta2: L; scroll: L };
+  premise: { title: L; body: L[]; phone: { contact: string; time: string; incoming: L; draft: L; typing: L; label: L } };
+  notebook: { title: L; lead: L; cover: string; pages: UfqPhrase[]; question: L };
+  mechanics: {
+    title: L;
+    signals: { name: L; body: L };
+    lens: { name: L; body: L; before: L; plain: L; warm: L; after: L; friend: L; more: L; hint: L };
+    wait: { name: L; body: L; waiting: L; seconds: L };
+  };
+  route: { title: L; lead: L; cities: UfqCity[] };
+  cast: { title: L; people: UfqPerson[] };
+  status: { title: L; lead: L; rows: { label: L; value: L }[]; home: L };
+  footer: { note: L };
+} = {
+  meta: {
+    title: { es: 'Una forma de querer · Feka Studios', en: 'Una forma de querer · Feka Studios' },
+    description: {
+      es: 'Aventura narrativa 3D ambientada en Arequipa, Perú. Un cuaderno, una azotea y todo lo que guardamos de alguien que nos trata con cariño.',
+      en: 'A 3D narrative adventure set in Arequipa, Peru. A sketchbook, a rooftop room and everything we keep from someone who treats us kindly.',
+    },
+  },
+  bar: { back: { es: 'Volver a Feka Studios', en: 'Back to Feka Studios' }, skip: { es: 'Saltar al contenido', en: 'Skip to content' } },
+  hero: {
+    title: 'Una forma de querer',
+    line: { es: '¿Cómo íbamos a terminar, si nunca fuimos nada?', en: 'How could we end, if we were never anything?' },
+    lead: {
+      es: 'Mateo se muda a un cuarto de azotea en Arequipa con una maleta, la casaca de su papá y un cuaderno en blanco. Abajo vive Abril. Le pregunta si durmió, le guarda un sitio, le escribe a las dos de la mañana. Y él empieza a dibujar cada gesto, por si acaso significa algo.',
+      en: 'Mateo moves into a rooftop room in Arequipa with a suitcase, his late father’s jacket and a blank sketchbook. Abril lives downstairs. She asks if he slept, saves him a seat, texts him at two in the morning. And he starts drawing every gesture, just in case it means something.',
+    },
+    status: { es: 'En desarrollo', en: 'In development' },
+    platform: { es: 'Objetivo: PC', en: 'Target: PC' },
+    cta: { es: 'Abrir el cuaderno', en: 'Open the sketchbook' },
+    cta2: { es: 'Ver el recorrido', en: 'See the journey' },
+    scroll: { es: 'Baja: la tarde también avanza', en: 'Scroll: the afternoon moves too' },
+  },
+  premise: {
+    title: { es: 'Nadie le prometió nada', en: 'Nobody promised him anything' },
+    body: [
+      {
+        es: 'Una forma de querer es una aventura narrativa corta, de dos a tres horas, sobre esa amistad que se siente como algo más. La que te hace esperar mensajes, sonreírle a una pantalla y llenar los silencios de significados.',
+        en: 'Una forma de querer is a short narrative adventure, two to three hours long, about the kind of friendship that feels like something more. The kind that has you waiting for texts, smiling at a screen and filling every silence with meaning.',
+      },
+      {
+        es: 'No hay villanos. Nadie engaña a nadie. Solo un año entre la Ciudad Blanca, el mar de Mollendo, la garúa de Lima y el Valle del Colca, y las decisiones que tomas cuando por fin tienes que decir algo.',
+        en: 'There are no villains. Nobody lies to anybody. Just one year between the White City, the sea at Mollendo, the drizzle of Lima and the Colca Valley, and the choices you make when you finally have to say something.',
+      },
+    ],
+    phone: {
+      contact: 'Abril',
+      time: '2:07',
+      incoming: { es: '¿Sigues despierto? 😊', en: 'Still awake? 😊' },
+      draft: { es: 'Abril, tengo que decirte algo que llevo meses', en: 'Abril, there’s something I’ve been meaning to tell you for months' },
+      typing: { es: 'escribiendo…', en: 'typing…' },
+      label: { es: 'Conversación en el celular de Mateo', en: 'Conversation on Mateo’s phone' },
+    },
+  },
+  notebook: {
+    title: { es: 'El Cuaderno de Señales', en: 'The Book of Signs' },
+    lead: {
+      es: 'Cuando Abril hace algo amable, el gesto brilla en dorado y puedes guardarlo. Cada página guardada colorea un corazón a lápiz en la esquina. Nadie te obliga. Nadie te dice que esté mal.',
+      en: 'When Abril does something kind, the gesture glows gold and you can keep it. Every page you keep colors in a pencil heart in the corner. Nobody makes you. Nobody tells you it’s wrong.',
+    },
+    cover: 'SEÑALES',
+    pages: [
+      { quote: { es: 'Te ves cansado. ¿Dormiste?', en: 'You look tired. Did you sleep?' }, place: { es: 'Aula 3B, el primer día', en: 'Room 3B, the first day' } },
+      { quote: { es: 'Te guardé el sitio.', en: 'I saved you a seat.' }, place: { es: 'Biblioteca Regional', en: 'Regional Library' } },
+      { quote: { es: 'este eres tú jajaja', en: 'this is you lol' }, place: { es: '2:07 de la mañana', en: '2:07 in the morning' } },
+      { quote: { es: 'Este es especial. Para ti.', en: 'This one is special. For you.' }, place: { es: 'Un separador pintado a mano', en: 'A hand-painted bookmark' } },
+      { quote: { es: 'Para que te acuerdes de este día.', en: 'So you remember this day.' }, place: { es: 'Feria del carnaval, Mollendo', en: 'Carnival fair, Mollendo' } },
+      { quote: { es: 'Para que te acuerdes de que aquí sí sale el sol.', en: 'So you remember the sun does come out here.' }, place: { es: 'Un paraguas amarillo', en: 'A yellow umbrella' } },
+    ],
+    question: { es: '¿Y si nadie te prometió nada?', en: 'What if nobody promised you anything?' },
+  },
+  mechanics: {
+    title: { es: 'Cómo se juega lo que se siente', en: 'Playing what it feels like' },
+    signals: {
+      name: { es: 'Guardar', en: 'Keep' },
+      body: {
+        es: 'Exploras Arequipa, trabajas en El Tintero, haces el proyecto de clase. Los gestos de Abril brillan. Guardarlos es satisfactorio a propósito: una nota de piano, un trazo dorado, una página más en el cuaderno.',
+        en: 'You explore Arequipa, work shifts at El Tintero, finish the class project. Abril’s gestures glow. Keeping them is satisfying on purpose: a piano note, a golden stroke, one more page in the sketchbook.',
+      },
+    },
+    lens: {
+      name: { es: 'La Lente', en: 'The Lens' },
+      body: {
+        es: 'Algunas frases tiemblan dentro del globo de texto. Tú decides cómo leerlas. Lo que ella dijo no cambia; cambia lo que Mateo cree que dijo.',
+        en: 'Some lines tremble inside the speech bubble. You decide how to read them. What she said doesn’t change; what Mateo believes she said does.',
+      },
+      before: { es: 'Me alegra tanto que estés', en: 'I’m so glad you’re' },
+      plain: { es: 'aquí', en: 'here' },
+      warm: { es: 'conmigo', en: 'with me' },
+      after: { es: '.', en: '.' },
+      friend: { es: 'Leer como amistad', en: 'Read it as friendship' },
+      more: { es: 'Leer como algo más', en: 'Read it as something more' },
+      hint: { es: 'Prueba a leerla de las dos formas.', en: 'Try reading it both ways.' },
+    },
+    wait: {
+      name: { es: 'La espera', en: 'The wait' },
+      body: {
+        es: 'Cuando Mateo manda un mensaje aparece «escribiendo…». Puedes quedarte mirando el celular o guardarlo y seguir con tu vida. El juego no dice nada. Pero lo cuenta.',
+        en: 'When Mateo sends a text, “typing…” appears. You can keep staring at the phone or put it away and get on with your life. The game says nothing. But it keeps count.',
+      },
+      waiting: { es: 'Llevas', en: 'You’ve been waiting' },
+      seconds: { es: 'segundos esperando una respuesta.', en: 'seconds for a reply.' },
+    },
+  },
+  route: {
+    title: { es: 'Un año, cuatro lugares', en: 'One year, four places' },
+    lead: {
+      es: 'Cada lugar es una estación y un estado de ánimo, con su propia paleta. Los nombres, las comidas y las fiestas son reales; las personas y algunos locales, inventados.',
+      en: 'Each place is a season and a mood, with its own palette. The names, food and festivities are real; the people and some of the places are made up.',
+    },
+    cities: [
+      { id: 'arequipa', name: 'Arequipa', when: { es: 'Capítulo 1 · de agosto a Año Nuevo', en: 'Chapter 1 · August to New Year' }, mood: { es: 'El comienzo', en: 'The beginning' },
+        body: { es: 'Casonas de sillar, el Misti siempre a la vista, el Mercado San Camilo y los arcos de Yanahuara en la noche de Año Nuevo.', en: 'Volcanic-stone mansions, El Misti always in sight, San Camilo market and the arches of Yanahuara on New Year’s Eve.' } },
+      { id: 'mollendo', name: 'Mollendo', when: { es: 'Capítulo 2 · febrero, carnavales', en: 'Chapter 2 · February, carnival' }, mood: { es: 'La ilusión', en: 'The hope' },
+        body: { es: 'La Primera Playa, la feria, la rueda de Chicago y el viejo muelle. Un verano que dura más de lo que debería.', en: 'The First Beach, the fair, the Ferris wheel and the old pier. A summer that lasts longer than it should.' } },
+      { id: 'lima', name: 'Lima', when: { es: 'Capítulo 3 · invierno de garúa', en: 'Chapter 3 · winter drizzle' }, mood: { es: 'La duda', en: 'The doubt' },
+        body: { es: 'Prácticas en un estudio de Barranco, el cielo panza de burro, las combis y un celular que pesa más cada día.', en: 'An internship at a studio in Barranco, a leaden sky, crowded minibuses and a phone that grows heavier every day.' } },
+      { id: 'colca', name: 'Valle del Colca', when: { es: 'Epílogo', en: 'Epilogue' }, mood: { es: 'Lo que queda', en: 'What remains' },
+        body: { es: 'Yanque, los andenes de piedra y la casa del padre de Mateo. Allí arriba el aire es delgado y el amanecer, enorme.', en: 'Yanque, the stone terraces and Mateo’s father’s house. Up there the air is thin and the dawn is enormous.' } },
+    ],
+  },
+  cast: {
+    title: { es: 'Gente que vas a querer', en: 'People you’ll come to love' },
+    people: [
+      { name: 'Mateo', age: '22', tone: 'sillar', line: { es: 'Estudiante de diseño, limeño. Dejó de dibujar cuando murió su papá. En Arequipa vuelve a hacerlo.', en: 'Design student from Lima. He stopped drawing when his father died. In Arequipa he starts again.' } },
+      { name: 'Abril', age: '22', tone: 'buganvilla', line: { es: 'Vive en el piso de abajo, entre los libros de su abuela. Ríe con todo el cuerpo y se acuerda de todo.', en: 'Lives downstairs, among her grandmother’s books. Laughs with her whole body and remembers everything.' } },
+      { name: 'Nico', age: '23', tone: 'garua', line: { es: 'Vecino de Abril desde los seis años. Chullo, guitarra a la espalda y cero filtro.', en: 'Abril’s neighbor since they were six. Wool hat, guitar on his back and no filter at all.' } },
+      { name: 'Valeria', age: '21', tone: 'tintero', line: { es: 'Compañera de turno en El Tintero. Te enseña a servir el café sin que se corte la leche.', en: 'Mateo’s coworker at El Tintero. She teaches him to pour coffee without curdling the milk.' } },
+      { name: 'Doña Inés', age: '78', tone: 'libro', line: { es: 'Dueña de la librería La Pluma Quieta. Tres reglas: nada de música después de las once, el alquiler los días cinco… y el gato manda.', en: 'Owner of the La Pluma Quieta bookshop. Three rules: no music after eleven, rent on the fifth… and the cat is in charge.' } },
+      { name: 'Daniel', age: '24', tone: 'mar', line: { es: 'Toca la guitarra al final del muelle antiguo de Mollendo, bajo un farol.', en: 'Plays guitar at the end of Mollendo’s old pier, under a streetlamp.' } },
+    ],
+  },
+  status: {
+    title: { es: 'En qué punto está', en: 'Where it stands' },
+    lead: {
+      es: 'Estamos en preproducción. La historia está escrita de principio a fin y el proyecto ya tiene su base técnica.',
+      en: 'We’re in pre-production. The story is written from start to finish and the project already has its technical foundation.',
+    },
+    rows: [
+      { label: { es: 'Fase', en: 'Phase' }, value: { es: 'Preproducción', en: 'Pre-production' } },
+      { label: { es: 'Guion', en: 'Script' }, value: { es: 'Completo: prólogo, cinco capítulos, epílogo y cuatro finales', en: 'Complete: prologue, five chapters, epilogue and four endings' } },
+      { label: { es: 'Duración', en: 'Length' }, value: { es: 'De dos a tres horas', en: 'Two to three hours' } },
+      { label: { es: 'Motor', en: 'Engine' }, value: { es: 'Unity 6.3 LTS con URP', en: 'Unity 6.3 LTS with URP' } },
+      { label: { es: 'Base técnica', en: 'Foundation' }, value: { es: 'Arquitectura por capas, reglas de la historia con pruebas automáticas, diálogos en Ink', en: 'Layered architecture, story rules covered by automated tests, dialogue in Ink' } },
+      { label: { es: 'Plataforma objetivo', en: 'Target platform' }, value: { es: 'PC', en: 'PC' } },
+      { label: { es: 'Lanzamiento', en: 'Release' }, value: { es: 'Sin fecha', en: 'No date yet' } },
+    ],
+    home: { es: 'Ver los otros juegos del estudio', en: 'See the studio’s other games' },
+  },
+  footer: { note: { es: 'Una historia sin villanos, pintada en Arequipa.', en: 'A story without villains, painted in Arequipa.' } },
 };
 
 export const devlog: Post[] = [
+  { date: '2026-11-12', title: { es: 'Una forma de querer: el tercer juego tiene nombre', en: 'Una forma de querer: the third game has a name' },
+    body: { es: 'Una aventura narrativa en 3D ambientada en Arequipa. El guion está completo, con cuatro finales, y el proyecto ya arrancó en Unity 6.3 LTS.', en: 'A 3D narrative adventure set in Arequipa. The script is complete, with four endings, and the project is now up and running in Unity 6.3 LTS.' }, href: '/una-forma-de-querer' },
   { date: '2026-11-10', title: { es: 'Vacas: arte propio en los 32 mapas', en: 'Vacas: original art across all 32 maps' },
     body: { es: 'Revisamos cada imagen del juego: enemigos nuevos para los actos V y VI, sustos, la madre envejecida, 50 iconos y utilería HD-2D en todos los mapas, sin mover un solo tile.', en: 'We reviewed every image in the game: new enemies for acts V and VI, scares, the aged mother, 50 icons and HD-2D props on every map, without moving a single tile.' }, href: '/vacas/galeria' },
   { date: '2026-11-10', title: { es: 'Vacas: cinemáticas y repaso completo', en: 'Vacas: cinematics and full pass' },
@@ -388,17 +544,6 @@ export const devlog: Post[] = [
   {"date":"2026-10-12","title":{"es":"Ceniza Neón: El ferrocarril llega a la arena","en":"Ceniza Neón: The railway reaches the arena"},"body":{"es":"El 12 de octubre se integró la arena cenital del Recaudador. La dirección de la colonia y el combate personal empezaban a encontrar espacios distintos.","en":"On 12 October the top-down Recaudador arena was integrated, separating colony command from personal combat."},"href":"/ceniza/bitacora#el-ferrocarril-llega-a-la-arena"},
   {"date":"2026-09-23","title":{"es":"Ceniza Neón: El Errante empieza a moverse","en":"Ceniza Neón: The Errante starts moving"},"body":{"es":"El 23 de septiembre llegaron los sprites y cinco animaciones del Errante. Un primer paso para que el enemigo tuviera presencia propia.","en":"On 23 September, sprites and five Errante animations gave the enemy its own presence."},"href":"/ceniza/bitacora#el-errante-empieza-a-moverse"},
   {"date":"2026-09-22","title":{"es":"Ceniza Neón: El primer paso","en":"Ceniza Neón: The first step"},"body":{"es":"El 22 de septiembre empezó el prototipo: movimiento, combate de práctica y las primeras reglas de una colonia que debía resistir.","en":"The prototype began on 22 September with movement, practice combat and the first rules of a colony that had to survive."},"href":"/ceniza/bitacora#el-primer-paso"},
-  {
-    "date": null,
-    "title": {
-      "es": "Proyecto 3 en preproducción",
-      "en": "Project 3 in pre-production"
-    },
-    "body": {
-      "es": "Un RPG de terror por turnos. Pronto, las primeras imágenes.",
-      "en": "A turn-based horror RPG. First images soon."
-    }
-  }
 ];
 
 export const press = {
@@ -429,8 +574,8 @@ export const press = {
         "en": "Games"
       },
       "value": {
-        "es": "Ceniza Neón (alfa), Vacas (en desarrollo), Proyecto 3",
-        "en": "Ceniza Neón (alpha), Vacas (in development), Project 3"
+        "es": "Ceniza Neón (alfa), Vacas (en desarrollo), Una forma de querer (en desarrollo)",
+        "en": "Ceniza Neón (alpha), Vacas (in development), Una forma de querer (in development)"
       }
     },
     {
