@@ -125,10 +125,15 @@ export type Game = {
   trailer: Trailer;
   shots: Shot[];
   links: { label: L; href: string | null; primary?: boolean }[];
+  /** Acento visual del módulo de la portada. */
+  theme: 'ceniza' | 'vacas' | 'ufq';
+  /** Arte dibujado en lugar de capturas (Una forma de querer, por ahora). */
+  art?: { kind: 'diorama'; caption: L };
 };
 
 export const ceniza: Game = {
   id: 'ceniza-neon',
+  theme: 'ceniza',
   title: 'Ceniza Neón',
   status: { es: 'Alfa 0.2 disponible', en: 'Alpha 0.2 available' },
   pitch: {
@@ -168,6 +173,7 @@ export const ceniza: Game = {
 
 export const vacas: Game = {
   id: 'vacas',
+  theme: 'vacas',
   title: 'Vacas',
   status: { es: 'Historia completa · 6 actos y 3 finales · en pruebas', en: 'Story complete · 6 acts and 3 endings · playtesting' },
   pitch: {
@@ -210,52 +216,85 @@ export type VacasZone = {
   features: { title: L; body: L; img?: VacasImg }[]; gallery: VacasImg[];
 };
 
+/** Botón de menú de las cabeceras de juego en móvil (Vacas y Una forma de querer). */
+export const gameMenu = {
+  label: { es: 'Menú', en: 'Menu' },
+  open: { es: 'Abrir el menú de secciones', en: 'Open the sections menu' },
+  close: { es: 'Cerrar el menú de secciones', en: 'Close the sections menu' },
+};
+
 // ---------------------------------------------------------------------
 // UNA FORMA DE QUERER (tercer juego; antes «Proyecto 3»)
 // Página propia en /una-forma-de-querer. Es promocional: NO contar giros,
 // el sueño del capítulo 4, lo que siente Valeria ni los finales.
 // ---------------------------------------------------------------------
-export const unaForma = {
+export const unaForma: Game = {
   id: 'una-forma-de-querer',
-  href: '/una-forma-de-querer',
-  name: 'Una forma de querer',
+  title: 'Una forma de querer',
+  theme: 'ufq',
   status: { es: 'En desarrollo', en: 'In development' },
   pitch: {
     es: '¿Cómo íbamos a terminar, si nunca fuimos nada?',
     en: 'How could we end, if we were never anything?',
   },
   description: {
-    es: 'Una aventura narrativa en 3D, corta y pintada como un diorama de acuarela. Arequipa, un cuarto de azotea, un cuaderno de dibujo y una chica que vive en el piso de abajo y se acuerda de todo.',
-    en: 'A short 3D narrative adventure, painted like a watercolor diorama. Arequipa, a rooftop room, a sketchbook and a girl who lives downstairs and remembers everything.',
+    es: 'Mateo se muda a un cuarto de azotea en Arequipa con la casaca de su papá y un cuaderno en blanco. Abajo vive Abril, que le pregunta si durmió y le guarda un sitio. Una aventura narrativa corta, pintada como un diorama de acuarela, sobre todo lo que guardamos de alguien que nos trata con cariño.',
+    en: 'Mateo moves into a rooftop room in Arequipa with his late father’s jacket and a blank sketchbook. Abril lives downstairs; she asks if he slept and saves him a seat. A short narrative adventure, painted like a watercolor diorama, about everything we keep from someone who treats us kindly.',
   },
-  tags: [
-    { es: 'Aventura narrativa 3D', en: '3D narrative adventure' },
-    { es: 'Arequipa, Perú', en: 'Arequipa, Peru' },
-    { es: 'Decisiones', en: 'Choices' },
+  facts: [
+    { label: { es: 'Género', en: 'Genre' }, value: { es: 'Aventura narrativa 3D', en: '3D narrative adventure' } },
+    { label: { es: 'Motor', en: 'Engine' }, value: { es: 'Unity 6.3 LTS (URP)', en: 'Unity 6.3 LTS (URP)' } },
+    { label: { es: 'Progreso', en: 'Progress' }, value: { es: 'Guion completo (prólogo, 5 capítulos, epílogo, 4 finales); preproducción', en: 'Script complete (prologue, 5 chapters, epilogue, 4 endings); pre-production' } },
+    { label: { es: 'Duración', en: 'Length' }, value: { es: '2 a 3 horas', en: '2 to 3 hours' } },
+    { label: { es: 'Público', en: 'Audience' }, value: { es: 'Mayores de 13', en: 'Ages 13 and up' } },
+    { label: { es: 'Estado', en: 'Status' }, value: { es: 'En desarrollo', en: 'In development' } },
   ],
-  cta: { es: 'Abrir el cuaderno', en: 'Open the sketchbook' },
+  trailer: { youtube: null, mp4: null, poster: '' },
+  shots: [],
+  art: {
+    kind: 'diorama',
+    caption: { es: 'Arequipa al mediodía: el Misti, la ciudad de sillar y los arcos de Yanahuara. Estudio de color.', en: 'Arequipa at noon: El Misti, the volcanic-stone city and the arches of Yanahuara. Color study.' },
+  },
+  links: [{ label: { es: 'Página de Una forma de querer', en: 'Una forma de querer game page' }, href: '/una-forma-de-querer', primary: true }],
 };
 
-type UfqPhrase = { quote: L; place: L };
+export type UfqTime = 'noon' | 'afternoon' | 'dusk' | 'night';
+export type UfqViewId = '' | 'historia' | 'jugabilidad' | 'arte' | 'personajes' | 'ciudades' | 'bitacora';
 type UfqCity = { id: 'arequipa' | 'mollendo' | 'lima' | 'colca'; name: string; when: L; mood: L; body: L };
-type UfqPerson = { name: string; age: string; tone: 'sillar' | 'buganvilla' | 'garua' | 'tintero' | 'libro' | 'mar'; line: L };
+type UfqPerson = { name: string; age: string; tone: 'sillar' | 'buganvilla' | 'garua' | 'tintero' | 'libro' | 'mar' | 'sol' | 'tinta'; line: L };
+type UfqBlock = { title: L; body: L[] };
+
+export const unaFormaViews: { id: UfqViewId; label: L; title: L; line: L; time: UfqTime }[] = [
+  { id: '', label: { es: 'Inicio', en: 'Home' }, title: { es: 'Una forma de querer', en: 'Una forma de querer' }, line: { es: '¿Cómo íbamos a terminar, si nunca fuimos nada?', en: 'How could we end, if we were never anything?' }, time: 'noon' },
+  { id: 'historia', label: { es: 'Historia', en: 'Story' }, title: { es: 'Un año sin villanos', en: 'A year without villains' }, line: { es: 'Nadie engaña a nadie. Nadie le prometió nada.', en: 'Nobody lies to anybody. Nobody promised him anything.' }, time: 'afternoon' },
+  { id: 'jugabilidad', label: { es: 'Jugabilidad', en: 'Gameplay' }, title: { es: 'Lo que guardas', en: 'What you keep' }, line: { es: 'Un cuaderno, una lente y un celular que no suena.', en: 'A sketchbook, a lens and a phone that won’t ring.' }, time: 'noon' },
+  { id: 'arte', label: { es: 'Arte', en: 'Art' }, title: { es: 'Pintado en sillar', en: 'Painted in volcanic stone' }, line: { es: 'Acuarela, profundidad de campo y una ciudad blanca que se pone rosada.', en: 'Watercolor, depth of field and a white city that turns pink.' }, time: 'dusk' },
+  { id: 'personajes', label: { es: 'Personajes', en: 'Characters' }, title: { es: 'Gente que vas a querer', en: 'People you’ll come to love' }, line: { es: 'Una librería, una cafetería, un muelle.', en: 'A bookshop, a café, a pier.' }, time: 'afternoon' },
+  { id: 'ciudades', label: { es: 'Ciudades', en: 'Places' }, title: { es: 'Un año, cuatro lugares', en: 'One year, four places' }, line: { es: 'Del sol de Arequipa a la garúa de Lima.', en: 'From Arequipa’s sun to Lima’s drizzle.' }, time: 'noon' },
+  { id: 'bitacora', label: { es: 'Bitácora', en: 'Devlog' }, title: { es: 'Bitácora', en: 'Devlog' }, line: { es: 'Cómo va el juego, entrada a entrada.', en: 'How the game is going, entry by entry.' }, time: 'night' },
+];
 
 export const unaFormaPage: {
   meta: { title: L; description: L };
-  bar: { back: L; skip: L };
-  hero: { title: string; line: L; lead: L; status: L; platform: L; cta: L; cta2: L; scroll: L };
-  premise: { title: L; body: L[]; phone: { contact: string; time: string; incoming: L; draft: L; typing: L; label: L } };
-  notebook: { title: L; lead: L; cover: string; pages: UfqPhrase[]; question: L };
+  bar: { back: L; skip: L; navigation: L };
+  hero: { lead: L; status: L; platform: L; enter: L; scroll: L };
+  home: { pitchTitle: L; pitch: L[]; factsTitle: L };
+  story: { blocks: UfqBlock[]; tone: L };
+  phone: { contact: string; time: string; incoming: L; draft: L; typing: L; label: L };
+  notebook: { title: L; lead: L; cover: string; pages: { quote: L; place: L }[]; question: L };
   mechanics: {
     title: L;
     signals: { name: L; body: L };
     lens: { name: L; body: L; before: L; plain: L; warm: L; after: L; friend: L; more: L; hint: L };
     wait: { name: L; body: L; waiting: L; seconds: L };
   };
-  route: { title: L; lead: L; cities: UfqCity[] };
-  cast: { title: L; people: UfqPerson[] };
-  status: { title: L; lead: L; rows: { label: L; value: L }[]; home: L };
-  footer: { note: L };
+  life: { title: L; lead: L; items: L[] };
+  choices: { title: L; body: L };
+  art: { pillars: UfqBlock[]; studiesTitle: L; studiesLead: L; studies: { time: UfqTime; caption: L }[]; paletteTitle: L; music: UfqBlock };
+  route: { lead: L; cities: UfqCity[] };
+  cast: { people: UfqPerson[] };
+  log: { entries: { date: string; title: L; body: L[] }[]; statusTitle: L; rows: { label: L; value: L }[] };
+  footer: { note: L; home: L };
 } = {
   meta: {
     title: { es: 'Una forma de querer · Feka Studios', en: 'Una forma de querer · Feka Studios' },
@@ -264,40 +303,61 @@ export const unaFormaPage: {
       en: 'A 3D narrative adventure set in Arequipa, Peru. A sketchbook, a rooftop room and everything we keep from someone who treats us kindly.',
     },
   },
-  bar: { back: { es: 'Volver a Feka Studios', en: 'Back to Feka Studios' }, skip: { es: 'Saltar al contenido', en: 'Skip to content' } },
+  bar: {
+    back: { es: 'Volver a Feka Studios', en: 'Back to Feka Studios' },
+    skip: { es: 'Saltar al contenido', en: 'Skip to content' },
+    navigation: { es: 'Secciones del juego', en: 'Game sections' },
+  },
   hero: {
-    title: 'Una forma de querer',
-    line: { es: '¿Cómo íbamos a terminar, si nunca fuimos nada?', en: 'How could we end, if we were never anything?' },
     lead: {
       es: 'Mateo se muda a un cuarto de azotea en Arequipa con una maleta, la casaca de su papá y un cuaderno en blanco. Abajo vive Abril. Le pregunta si durmió, le guarda un sitio, le escribe a las dos de la mañana. Y él empieza a dibujar cada gesto, por si acaso significa algo.',
       en: 'Mateo moves into a rooftop room in Arequipa with a suitcase, his late father’s jacket and a blank sketchbook. Abril lives downstairs. She asks if he slept, saves him a seat, texts him at two in the morning. And he starts drawing every gesture, just in case it means something.',
     },
     status: { es: 'En desarrollo', en: 'In development' },
     platform: { es: 'Objetivo: PC', en: 'Target: PC' },
-    cta: { es: 'Abrir el cuaderno', en: 'Open the sketchbook' },
-    cta2: { es: 'Ver el recorrido', en: 'See the journey' },
+    enter: { es: 'Seguir leyendo', en: 'Keep reading' },
     scroll: { es: 'Baja: la tarde también avanza', en: 'Scroll: the afternoon moves too' },
   },
-  premise: {
-    title: { es: 'Nadie le prometió nada', en: 'Nobody promised him anything' },
-    body: [
-      {
-        es: 'Una forma de querer es una aventura narrativa corta, de dos a tres horas, sobre esa amistad que se siente como algo más. La que te hace esperar mensajes, sonreírle a una pantalla y llenar los silencios de significados.',
-        en: 'Una forma de querer is a short narrative adventure, two to three hours long, about the kind of friendship that feels like something more. The kind that has you waiting for texts, smiling at a screen and filling every silence with meaning.',
-      },
-      {
-        es: 'No hay villanos. Nadie engaña a nadie. Solo un año entre la Ciudad Blanca, el mar de Mollendo, la garúa de Lima y el Valle del Colca, y las decisiones que tomas cuando por fin tienes que decir algo.',
-        en: 'There are no villains. Nobody lies to anybody. Just one year between the White City, the sea at Mollendo, the drizzle of Lima and the Colca Valley, and the choices you make when you finally have to say something.',
-      },
+  home: {
+    pitchTitle: { es: 'Nadie le prometió nada', en: 'Nobody promised him anything' },
+    pitch: [
+      { es: 'Una aventura narrativa corta, de dos a tres horas, sobre esa amistad que se siente como algo más. La que te hace esperar mensajes, sonreírle a una pantalla y llenar los silencios de significados.', en: 'A short narrative adventure, two to three hours long, about the kind of friendship that feels like something more. The kind that has you waiting for texts, smiling at a screen and filling every silence with meaning.' },
+      { es: 'Un año entre la Ciudad Blanca, el mar de Mollendo, la garúa de Lima y el Valle del Colca, y las decisiones que tomas cuando por fin tienes que decir algo.', en: 'One year between the White City, the sea at Mollendo, the drizzle of Lima and the Colca Valley, and the choices you make when you finally have to say something.' },
     ],
-    phone: {
-      contact: 'Abril',
-      time: '2:07',
-      incoming: { es: '¿Sigues despierto? 😊', en: 'Still awake? 😊' },
-      draft: { es: 'Abril, tengo que decirte algo que llevo meses', en: 'Abril, there’s something I’ve been meaning to tell you for months' },
-      typing: { es: 'escribiendo…', en: 'typing…' },
-      label: { es: 'Conversación en el celular de Mateo', en: 'Conversation on Mateo’s phone' },
+    factsTitle: { es: 'Ficha', en: 'Fact sheet' },
+  },
+  story: {
+    blocks: [
+      { title: { es: 'Una maleta y la casaca de papá', en: 'A suitcase and his father’s jacket' },
+        body: [
+          { es: 'Mateo tiene veintidós años, estudia Diseño y llega a Arequipa desde Lima con una beca. Su papá era carpintero, nació en Yanque, en el Valle del Colca, y dibujaba a todo el mundo. Murió hace dos años. Desde entonces Mateo no ha vuelto a dibujar.', en: 'Mateo is twenty-two, studies Design and arrives in Arequipa from Lima on a scholarship. His father was a carpenter born in Yanque, in the Colca Valley, who drew everyone he met. He died two years ago. Mateo hasn’t drawn since.' },
+          { es: '«Papá decía que Arequipa tenía el cielo más azul del Perú.»', en: '“Dad used to say Arequipa had the bluest sky in Peru.”' },
+        ] },
+      { title: { es: 'La Pluma Quieta', en: 'La Pluma Quieta' },
+        body: [
+          { es: 'Doña Inés le alquila el cuarto de la azotea, encima de su librería en San Lázaro. Abajo duerme su nieta, Abril. «Si necesitas algo, da dos golpes en el piso.» Esa misma noche, Mateo abre el cuaderno y, por primera vez en dos años, dibuja.', en: 'Doña Inés rents him the rooftop room above her bookshop in San Lázaro. Her granddaughter, Abril, sleeps right below. “If you need anything, knock twice on the floor.” That same night, Mateo opens the sketchbook and, for the first time in two years, he draws.' },
+        ] },
+      { title: { es: 'El mapa de la ciudad que no sale en los mapas', en: 'The map of the city that isn’t on any map' },
+        body: [
+          { es: 'Un proyecto de clase lo junta con Abril, con Nico y con Sofi: recorrer Arequipa buscando rincones, oficios e historias. Mateo trabaja por las tardes en El Tintero, donde Valeria le enseña a servir el café. Y el año termina en los arcos de Yanahuara, con un papelito de deseos que se quema a medianoche.', en: 'A class project brings him together with Abril, Nico and Sofi: wandering Arequipa in search of hidden corners, trades and stories. In the afternoons Mateo works at El Tintero, where Valeria teaches him to make coffee. And the year ends under the arches of Yanahuara, with a slip of paper holding a wish that burns at midnight.' },
+        ] },
+      { title: { es: 'Un verano, una garúa', en: 'One summer, one drizzle' },
+        body: [
+          { es: 'En febrero, carnavales en Mollendo: playa, feria, la rueda de Chicago y un castillo frente al mar. Después, cinco meses de prácticas en Lima, lejos de la azotea, donde cada mensaje empieza a pesar más que el anterior.', en: 'In February, carnival in Mollendo: beach, fair, a Ferris wheel and a castle facing the sea. Then five months of internship in Lima, far from the rooftop, where every text starts to weigh more than the last.' },
+        ] },
+    ],
+    tone: {
+      es: 'No hay villanos. Nadie engaña a nadie. Es una historia cálida y melancólica sobre lo que guardamos de los demás, y sobre lo que decidimos mirar.',
+      en: 'There are no villains. Nobody lies to anybody. It is a warm, melancholic story about what we keep from other people, and about what we choose to look at.',
     },
+  },
+  phone: {
+    contact: 'Abril',
+    time: '2:07',
+    incoming: { es: '¿Sigues despierto? 😊', en: 'Still awake? 😊' },
+    draft: { es: 'Abril, tengo que decirte algo que llevo meses', en: 'Abril, there’s something I’ve been meaning to tell you for months' },
+    typing: { es: 'escribiendo…', en: 'typing…' },
+    label: { es: 'Conversación en el celular de Mateo', en: 'Conversation on Mateo’s phone' },
   },
   notebook: {
     title: { es: 'El Cuaderno de Señales', en: 'The Book of Signs' },
@@ -321,8 +381,8 @@ export const unaFormaPage: {
     signals: {
       name: { es: 'Guardar', en: 'Keep' },
       body: {
-        es: 'Exploras Arequipa, trabajas en El Tintero, haces el proyecto de clase. Los gestos de Abril brillan. Guardarlos es satisfactorio a propósito: una nota de piano, un trazo dorado, una página más en el cuaderno.',
-        en: 'You explore Arequipa, work shifts at El Tintero, finish the class project. Abril’s gestures glow. Keeping them is satisfying on purpose: a piano note, a golden stroke, one more page in the sketchbook.',
+        es: 'Los gestos de Abril brillan. Guardarlos es satisfactorio a propósito: una nota de piano, un trazo dorado, una página más en el cuaderno.',
+        en: 'Abril’s gestures glow. Keeping them is satisfying on purpose: a piano note, a golden stroke, one more page in the sketchbook.',
       },
     },
     lens: {
@@ -349,8 +409,43 @@ export const unaFormaPage: {
       seconds: { es: 'segundos esperando una respuesta.', en: 'seconds for a reply.' },
     },
   },
+  life: {
+    title: { es: 'La vida, mientras tanto', en: 'Life, meanwhile' },
+    lead: { es: 'Entre conversación y conversación, el año se vive con las manos.', en: 'Between one conversation and the next, the year is lived with your hands.' },
+    items: [
+      { es: 'Servir cafés en El Tintero sin que se corte la leche.', en: 'Pour coffee at El Tintero without curdling the milk.' },
+      { es: 'Dibujar en el cuaderno con trazos guiados.', en: 'Draw in the sketchbook with guided strokes.' },
+      { es: 'Recorrer el Mercado San Camilo y una picantería de Sachaca.', en: 'Wander San Camilo market and a picantería in Sachaca.' },
+      { es: 'Vóley playa, globos de agua y tiro al blanco en Mollendo.', en: 'Beach volleyball, water balloons and a shooting gallery in Mollendo.' },
+      { es: 'Acariciar a Tinta, el gato de la librería, en cada visita.', en: 'Pet Tinta, the bookshop cat, on every visit.' },
+      { es: 'Encontrar los recuerdos que dejó el papá de Mateo.', en: 'Find the keepsakes Mateo’s father left behind.' },
+    ],
+  },
+  choices: {
+    title: { es: 'Decisiones', en: 'Choices' },
+    body: {
+      es: 'Pocas, pero pesan. Lo que dices, lo que callas y a quién miras cambian las conversaciones, las amistades y la manera en que termina el año.',
+      en: 'Few, but they matter. What you say, what you keep to yourself and who you look at change the conversations, the friendships and the way the year ends.',
+    },
+  },
+  art: {
+    pillars: [
+      { title: { es: 'Un diorama de acuarela', en: 'A watercolor diorama' }, body: [{ es: 'Escenarios en 3D con acabado pictórico: bordes de pincel, papel con grano y profundidad de campo que convierte cada calle en una maqueta.', en: '3D sets with a painterly finish: brush-stroke edges, grainy paper and depth of field that turns every street into a model.' }] },
+      { title: { es: 'Sillar y luz', en: 'Volcanic stone and light' }, body: [{ es: 'La piedra volcánica de Arequipa es blanca al mediodía y rosada al atardecer. La hora del día es parte de la historia.', en: 'Arequipa’s volcanic stone is white at noon and pink at dusk. The time of day is part of the story.' }] },
+      { title: { es: 'El dorado', en: 'The gold' }, body: [{ es: 'El único color saturado del juego es el de las señales. Está ahí para que lo desees.', en: 'The only saturated color in the game belongs to the signs. It is there so you’ll want it.' }] },
+      { title: { es: 'Murmullos y globos de texto', en: 'Murmurs and speech bubbles' }, body: [{ es: 'Los personajes no hablan un idioma real: murmuran, ríen, suspiran, con la cadencia cantada del español arequipeño. Lo que dicen aparece escrito.', en: 'The characters don’t speak a real language: they murmur, laugh and sigh with the singsong cadence of Arequipa Spanish. What they say appears in writing.' }] },
+    ],
+    studiesTitle: { es: 'Estudios de luz', en: 'Light studies' },
+    studiesLead: { es: 'La misma azotea a tres horas del día. Son estudios de color hechos para la web; las capturas del juego llegarán con la producción.', en: 'The same rooftop view at three times of day. These are color studies made for the web; in-game screenshots will come with production.' },
+    studies: [
+      { time: 'noon', caption: { es: 'Mediodía. El cielo más azul del Perú.', en: 'Noon. The bluest sky in Peru.' } },
+      { time: 'dusk', caption: { es: 'Atardecer. El sillar se pone rosado.', en: 'Dusk. The stone turns pink.' } },
+      { time: 'night', caption: { es: '14 de agosto. La serenata, a lo lejos.', en: 'August 14. The serenade, far away.' } },
+    ],
+    paletteTitle: { es: 'Una paleta por lugar', en: 'One palette per place' },
+    music: { title: { es: 'Música', en: 'Music' }, body: [{ es: 'Un vals de la Ciudad Blanca con piano, violín y guitarra; yaraví en la radio de El Tintero; quena y charango en el Colca. Cada lugar tiene su tema, y el último los junta todos.', en: 'A White City waltz for piano, violin and guitar; yaraví on El Tintero’s radio; quena and charango in the Colca. Every place has its theme, and the last one brings them all together.' }] },
+  },
   route: {
-    title: { es: 'Un año, cuatro lugares', en: 'One year, four places' },
     lead: {
       es: 'Cada lugar es una estación y un estado de ánimo, con su propia paleta. Los nombres, las comidas y las fiestas son reales; las personas y algunos locales, inventados.',
       en: 'Each place is a season and a mood, with its own palette. The names, food and festivities are real; the people and some of the places are made up.',
@@ -363,38 +458,44 @@ export const unaFormaPage: {
       { id: 'lima', name: 'Lima', when: { es: 'Capítulo 3 · invierno de garúa', en: 'Chapter 3 · winter drizzle' }, mood: { es: 'La duda', en: 'The doubt' },
         body: { es: 'Prácticas en un estudio de Barranco, el cielo panza de burro, las combis y un celular que pesa más cada día.', en: 'An internship at a studio in Barranco, a leaden sky, crowded minibuses and a phone that grows heavier every day.' } },
       { id: 'colca', name: 'Valle del Colca', when: { es: 'Epílogo', en: 'Epilogue' }, mood: { es: 'Lo que queda', en: 'What remains' },
-        body: { es: 'Yanque, los andenes de piedra y la casa del padre de Mateo. Allí arriba el aire es delgado y el amanecer, enorme.', en: 'Yanque, the stone terraces and Mateo’s father’s house. Up there the air is thin and the dawn is enormous.' } },
+        body: { es: 'Yanque, los andenes de piedra y la casa del papá de Mateo. Allí arriba el aire es delgado y el amanecer, enorme.', en: 'Yanque, the stone terraces and Mateo’s father’s house. Up there the air is thin and the dawn is enormous.' } },
     ],
   },
   cast: {
-    title: { es: 'Gente que vas a querer', en: 'People you’ll come to love' },
     people: [
       { name: 'Mateo', age: '22', tone: 'sillar', line: { es: 'Estudiante de diseño, limeño. Dejó de dibujar cuando murió su papá. En Arequipa vuelve a hacerlo.', en: 'Design student from Lima. He stopped drawing when his father died. In Arequipa he starts again.' } },
       { name: 'Abril', age: '22', tone: 'buganvilla', line: { es: 'Vive en el piso de abajo, entre los libros de su abuela. Ríe con todo el cuerpo y se acuerda de todo.', en: 'Lives downstairs, among her grandmother’s books. Laughs with her whole body and remembers everything.' } },
       { name: 'Nico', age: '23', tone: 'garua', line: { es: 'Vecino de Abril desde los seis años. Chullo, guitarra a la espalda y cero filtro.', en: 'Abril’s neighbor since they were six. Wool hat, guitar on his back and no filter at all.' } },
       { name: 'Valeria', age: '21', tone: 'tintero', line: { es: 'Compañera de turno en El Tintero. Te enseña a servir el café sin que se corte la leche.', en: 'Mateo’s coworker at El Tintero. She teaches him to pour coffee without curdling the milk.' } },
+      { name: 'Sofi', age: '22', tone: 'sol', line: { es: 'La mejor amiga de Abril. Su familia tiene casa de playa en Mollendo y ella, lentes de sol en la cabeza todo el año.', en: 'Abril’s best friend. Her family has a beach house in Mollendo, and she has sunglasses on her head all year round.' } },
       { name: 'Doña Inés', age: '78', tone: 'libro', line: { es: 'Dueña de la librería La Pluma Quieta. Tres reglas: nada de música después de las once, el alquiler los días cinco… y el gato manda.', en: 'Owner of the La Pluma Quieta bookshop. Three rules: no music after eleven, rent on the fifth… and the cat is in charge.' } },
       { name: 'Daniel', age: '24', tone: 'mar', line: { es: 'Toca la guitarra al final del muelle antiguo de Mollendo, bajo un farol.', en: 'Plays guitar at the end of Mollendo’s old pier, under a streetlamp.' } },
+      { name: 'Tinta', age: '', tone: 'tinta', line: { es: 'El gato negro de la librería. Duerme sobre los diccionarios y no se deja apartar del cuaderno.', en: 'The bookshop’s black cat. Sleeps on the dictionaries and won’t be moved off the sketchbook.' } },
     ],
   },
-  status: {
-    title: { es: 'En qué punto está', en: 'Where it stands' },
-    lead: {
-      es: 'Estamos en preproducción. La historia está escrita de principio a fin y el proyecto ya tiene su base técnica.',
-      en: 'We’re in pre-production. The story is written from start to finish and the project already has its technical foundation.',
-    },
+  log: {
+    entries: [
+      { date: '2026-11-12', title: { es: 'Arranca la producción en Unity', en: 'Production starts in Unity' },
+        body: [
+          { es: 'El guion está completo: prólogo, cinco capítulos, epílogo y cuatro finales, revisado escena por escena para que no queden huecos en la historia.', en: 'The script is complete: prologue, five chapters, epilogue and four endings, reviewed scene by scene so the story has no holes.' },
+          { es: 'Instalamos Unity 6.3 LTS con URP y montamos una arquitectura limpia por capas. Las reglas de la historia viven aparte del motor y tienen pruebas automáticas.', en: 'We installed Unity 6.3 LTS with URP and set up a clean layered architecture. The story rules live apart from the engine and are covered by automated tests.' },
+          { es: 'El Prólogo y el Capítulo 1 ya están escritos en Ink, el lenguaje de diálogos ramificados que usaremos para todo el juego.', en: 'The Prologue and Chapter 1 are already written in Ink, the branching-dialogue language we’ll use for the whole game.' },
+        ] },
+    ],
+    statusTitle: { es: 'En qué punto está', en: 'Where it stands' },
     rows: [
       { label: { es: 'Fase', en: 'Phase' }, value: { es: 'Preproducción', en: 'Pre-production' } },
-      { label: { es: 'Guion', en: 'Script' }, value: { es: 'Completo: prólogo, cinco capítulos, epílogo y cuatro finales', en: 'Complete: prologue, five chapters, epilogue and four endings' } },
-      { label: { es: 'Duración', en: 'Length' }, value: { es: 'De dos a tres horas', en: 'Two to three hours' } },
+      { label: { es: 'Guion', en: 'Script' }, value: { es: 'Completo', en: 'Complete' } },
+      { label: { es: 'Diálogos en Ink', en: 'Dialogue in Ink' }, value: { es: 'Prólogo y Capítulo 1', en: 'Prologue and Chapter 1' } },
       { label: { es: 'Motor', en: 'Engine' }, value: { es: 'Unity 6.3 LTS con URP', en: 'Unity 6.3 LTS with URP' } },
-      { label: { es: 'Base técnica', en: 'Foundation' }, value: { es: 'Arquitectura por capas, reglas de la historia con pruebas automáticas, diálogos en Ink', en: 'Layered architecture, story rules covered by automated tests, dialogue in Ink' } },
       { label: { es: 'Plataforma objetivo', en: 'Target platform' }, value: { es: 'PC', en: 'PC' } },
       { label: { es: 'Lanzamiento', en: 'Release' }, value: { es: 'Sin fecha', en: 'No date yet' } },
     ],
+  },
+  footer: {
+    note: { es: 'Una historia sin villanos, pintada en Arequipa.', en: 'A story without villains, painted in Arequipa.' },
     home: { es: 'Ver los otros juegos del estudio', en: 'See the studio’s other games' },
   },
-  footer: { note: { es: 'Una historia sin villanos, pintada en Arequipa.', en: 'A story without villains, painted in Arequipa.' } },
 };
 
 export const devlog: Post[] = [

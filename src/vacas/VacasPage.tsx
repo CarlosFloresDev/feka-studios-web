@@ -5,15 +5,16 @@ import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, ty
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { ArrowLeft, ArrowDown, EyeSlash, Warning } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowDown, EyeSlash, Warning, List, X } from '@phosphor-icons/react';
 import '@fontsource-variable/schibsted-grotesk';
 import '@fontsource/stardos-stencil/400.css';
 import '@fontsource/stardos-stencil/700.css';
 import '@fontsource/special-elite/400.css';
 import './vacas.css';
-import { vacasPage as vp, type VacasImg, vacasViews, vacasArchive, vacasInterface as vi, vacasProcess, devlog } from '../content';
+import { vacasPage as vp, type VacasImg, vacasViews, vacasArchive, vacasInterface as vi, vacasProcess, devlog, gameMenu } from '../content';
 import { useLang } from '../i18n';
 import { useScrollAtmosphere } from '../components/useScrollAtmosphere';
+import { useMobileMenu } from '../components/useMobileMenu';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -200,6 +201,7 @@ function Page({ reveal }: { reveal: Reveal }) {
   const selected = vacasViews.find(v => v.id === view);
   const v = selected || vacasViews[0];
   const routeTween = useRef<gsap.core.Tween | null>(null);
+  const menu = useMobileMenu('vacas-secciones');
   useScrollAtmosphere(root, `${view}-${lang}`, reduced, 'vacas');
   useEffect(() => {
     const back = () => { routeTween.current?.kill(); navigating.current = false; pendingFocus.current = true; keyboardNavigation.current = true; setView(currentView()); window.scrollTo({ top: 0, behavior: 'instant' }); };
@@ -259,13 +261,16 @@ function Page({ reveal }: { reveal: Reveal }) {
   const Link = ({ id, children, className = '' }: { id: string; children: ReactNode; className?: string }) => <a href={pathFor(id)} className={className} onClick={e => navigate(e, id)}>{children}</a>;
   return <div className="vp" ref={root} data-zone-now={v.zone}>
     <a className="vskip" href="#contenido">{t(vi.skip)}</a>
-    <header className="vbar">
+    <header className="vbar" data-menu={menu.open ? 'open' : 'closed'}>
       <a className="vbar__back" href="/" aria-label={t(vp.bar.back)}><ArrowLeft size={16} aria-hidden /><span>Feka Studios</span></a>
       <p className="vbar__zone">VACAS <span className="vbar__n">/ {t(v.label)}</span></p>
       <div className="vbar__sanity" role="img" aria-label={t(vp.bar.sanity)}><span className="vbar__label">{t(vp.bar.sanity)}</span><span className="vbar__track"><span className="vbar__fill" /><span className="vbar__poison" /></span><span className="vbar__num" data-sanity>100</span></div>
       <div className="vlang" role="group" aria-label="Idioma / Language"><button onClick={() => setLang('es')} aria-pressed={lang === 'es'}>ES</button><button onClick={() => setLang('en')} aria-pressed={lang === 'en'}>EN</button></div>
-      <nav className="vtabs" aria-label={t(vi.navigation)}>
-        {vacasViews.map((tab, i) => <a key={tab.id} href={pathFor(tab.id)} aria-current={view === tab.id ? 'page' : undefined} onClick={e => navigate(e, tab.id)}><span aria-hidden>{String(i).padStart(2, '0')}</span>{t(tab.label)}</a>)}
+      <button {...menu.buttonProps} className="vbar__menu" aria-label={t(menu.open ? gameMenu.close : gameMenu.open)}>
+        {menu.open ? <X size={20} aria-hidden /> : <List size={20} aria-hidden />}<span>{t(gameMenu.label)}</span>
+      </button>
+      <nav ref={menu.panel} id="vacas-secciones" className="vtabs" aria-label={t(vi.navigation)}>
+        {vacasViews.map((tab, i) => <a key={tab.id} href={pathFor(tab.id)} aria-current={view === tab.id ? 'page' : undefined} onClick={e => { menu.close(); navigate(e, tab.id); }}><span aria-hidden>{String(i).padStart(2, '0')}</span>{t(tab.label)}</a>)}
       </nav>
     </header>
     <div className="fx fx--fog" aria-hidden><span /><span /></div><div className="fx fx--vignette" aria-hidden /><div className="fx fx--grain" aria-hidden />

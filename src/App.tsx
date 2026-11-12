@@ -3,11 +3,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { ArrowUpRight, DownloadSimple, List, X, ArrowUp, EnvelopeSimple } from '@phosphor-icons/react';
-import { ceniza, contact, devlog, press, socials, studio, team, ui, unaForma, vacas } from './content';
+import { ceniza, contact, devlog, press, socials, studio, team, ui, unaForma, vacas, type Game } from './content';
+import { Diorama } from './una-forma/Diorama';
 import { useLang } from './i18n';
 import '@fontsource-variable/big-shoulders-display';
 import '@fontsource-variable/schibsted-grotesk';
-import '@fontsource-variable/fraunces/wght-italic.css';
 import './styles.css';
 import { Trailer } from './components/Trailer';
 
@@ -167,127 +167,69 @@ function Hero({ reduced }: { reduced: boolean }) {
   );
 }
 
-/* ------------------------------------------------------------------ Ceniza */
-function Ceniza({ reduced }: { reduced: boolean }) {
+/* ------------------------------------------------------------------ Juegos */
+// Los tres juegos comparten el mismo módulo (el de Vacas): estado, título, lema,
+// párrafo, ficha en filas y enlace a su página; a la derecha, su arte con pie de
+// foto. Cada uno conserva su acento (data-theme) y su imagen.
+function GameShowcase({ game, reduced }: { game: Game; reduced: boolean }) {
   const { t } = useLang();
   const root = useRef<HTMLElement>(null);
+  const video = Boolean(game.trailer.youtube || game.trailer.mp4);
+  const shots = game.shots.slice(0, video ? 2 : 3);
 
-  useGSAP(() => {
-    if (reduced) return;
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 900px)', () => {
-      const track = root.current!.querySelector<HTMLElement>('.pan__track')!;
-      const vp = root.current!.querySelector<HTMLElement>('.pan')!;
-      const dist = () => Math.max(0, track.scrollWidth - window.innerWidth);
-      gsap.to(track, {
-        x: () => -dist(),
-        ease: 'none',
-        scrollTrigger: { trigger: vp, start: 'top top', end: () => `+=${dist()}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
-      });
-      // la imagen clave se aleja levemente al entrar
-      gsap.fromTo('.ceniza__key img', { scale: 1.12 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.ceniza__key', start: 'top bottom', end: 'bottom top', scrub: true } });
-    });
-    return () => mm.revert();
-  }, { scope: root, dependencies: [reduced], revertOnUpdate: true });
-
-  const [first, ...rest] = ceniza.title.split(' ');
-  return (
-    <section className="ceniza" id="juegos" ref={root} aria-labelledby="ceniza-title">
-      <div className="ceniza__key" id={ceniza.id}>
-        <img src="/media/ceniza/periphery_alive_v2.webp" alt="" width="1600" height="900" fetchPriority="high" />
-        <div className="wrap ceniza__head">
-          <p className="ceniza__kicker">{t(ui.sections.featured)}</p>
-          <span className="pill pill--live ceniza__status"><span className="pill__dot" aria-hidden />{t(ceniza.status)}</span>
-          <h2 id="ceniza-title" className="ceniza__title">{first} <span>{rest.join(' ')}</span></h2>
-          <p className="ceniza__pitch">{t(ceniza.pitch)}</p>
-          <div className="ceniza__ctas">
-            {ceniza.links.map((l) =>
-              l.href ? (
-                <a key={l.label.es} className={`btn${l.primary ? ' btn--primary' : ''}`} href={l.href} {...ext(l.href)}>
-                  {l.primary ? <DownloadSimple size={18} aria-hidden /> : null}
-                  {t(l.label)}
-                  {!l.primary ? <ArrowUpRight size={18} aria-hidden /> : null}
-                </a>
-              ) : (
-                <span key={l.label.es} className="btn" aria-disabled="true">{t(l.label)}</span>
-              ),
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="wrap ceniza__body">
-        <Trailer trailer={ceniza.trailer} title={ceniza.title} />
-        <div>
-          <p className="lead">{t(ceniza.description)}</p>
-          <dl className="facts">
-            {ceniza.facts.map((f) => (
-              <div key={f.label.es}><dt>{t(f.label)}</dt><dd>{t(f.value)}</dd></div>
-            ))}
-          </dl>
-        </div>
-      </div>
-
-      <div className="pan">
-        <div className="wrap pan__head"><h3>{t(ui.sections.shotsHint)}</h3></div>
-        <div className="pan__viewport" tabIndex={0} aria-label={t(ui.sections.shotsHint)}>
-          <div className="pan__track">
-            {ceniza.shots.map((s) => (
-              <figure className="pan__item" key={s.src}>
-                <img src={s.src} alt={t(s.alt)} width={s.w} height={s.h} loading="lazy" decoding="async" />
-              </figure>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ Vacas */
-function Vacas({ reduced }: { reduced: boolean }) {
-  const { t } = useLang();
-  const root = useRef<HTMLElement>(null);
   useGSAP((_context, contextSafe) => {
     if (reduced) return;
-    gsap.set('.vacas__map img', { opacity: 0.35 });
-    ScrollTrigger.batch('.vacas__map', {
-      start: 'top 82%',
+    // cada imagen entra una sola vez, desde ya visible (nunca desde cero)
+    gsap.set(root.current!.querySelectorAll('.show__media > *'), { opacity: 0.35, y: 18 });
+    ScrollTrigger.batch(root.current!.querySelectorAll('.show__media > *'), {
+      start: 'top 85%',
       once: true,
       onEnter: contextSafe!((els: Element[]) => {
-        gsap.to(els.map(el => el.querySelector('img')), { opacity: 1, duration: 0.28, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' });
+        gsap.to(els, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'expo.out', overwrite: 'auto' });
       }),
     });
   }, { scope: root, dependencies: [reduced], revertOnUpdate: true });
 
   return (
-    <section className="vacas section" id={vacas.id} ref={root} aria-labelledby="vacas-title">
-      <div className="wrap vacas__grid">
-        <div className="vacas__copy">
-          <span className="pill vacas__status" style={{ justifySelf: 'start' }}><span className="pill__dot" aria-hidden />{t(vacas.status)}</span>
-          <h2 id="vacas-title" className="vacas__title">{vacas.title}</h2>
-          <p className="vacas__pitch">{t(vacas.pitch)}</p>
-          <p className="muted">{t(vacas.description)}</p>
-          <dl className="facts">
-            {vacas.facts.map((f) => (
+    <section className="show section" data-theme={game.theme} id={game.id} ref={root} aria-labelledby={`${game.id}-title`}>
+      <div className="wrap show__grid">
+        <div className="show__copy">
+          <span className="pill show__status"><span className="pill__dot" aria-hidden />{t(game.status)}</span>
+          <h3 id={`${game.id}-title`} className="show__title">{game.title}</h3>
+          <p className="show__pitch">{t(game.pitch)}</p>
+          <p className="muted show__desc">{t(game.description)}</p>
+          <dl className="facts show__facts">
+            {game.facts.map((f) => (
               <div key={f.label.es}><dt>{t(f.label)}</dt><dd>{t(f.value)}</dd></div>
             ))}
           </dl>
-          <div className="vacas__ctas">
-            {vacas.links.map((l) =>
+          <div className="show__ctas">
+            {game.links.map((l) =>
               l.href ? (
                 <a key={l.label.es} className={`btn${l.primary ? ' btn--primary' : ''}`} href={l.href} {...ext(l.href)}>
-                  {t(l.label)} <ArrowUpRight size={18} aria-hidden />
+                  {l.primary && l.href.startsWith('http') ? <DownloadSimple size={18} aria-hidden /> : null}
+                  {t(l.label)}
+                  {!l.primary || !l.href.startsWith('http') ? <ArrowUpRight size={18} aria-hidden /> : null}
                 </a>
               ) : null,
             )}
           </div>
-          <Trailer trailer={vacas.trailer} title={vacas.title} />
         </div>
-        <div className="vacas__maps">
-          {vacas.shots.map((s) => (
-            <figure className="vacas__map" key={s.src}>
-              <img src={s.src} alt={t(s.alt)} width={s.w} height={s.h} loading="lazy" decoding="async" />
+        <div className="show__media">
+          {game.art?.kind === 'diorama' ? (
+            <figure className="show__fig show__fig--art">
+              <div className="show__frame show__frame--diorama"><Diorama time="noon" /></div>
+              <figcaption>{t(game.art.caption)}</figcaption>
+            </figure>
+          ) : null}
+          {video ? (
+            <figure className="show__fig">
+              <Trailer trailer={game.trailer} title={game.title} />
+            </figure>
+          ) : null}
+          {shots.map((s) => (
+            <figure className="show__fig" key={s.src}>
+              <div className="show__frame"><img src={s.src} alt={t(s.alt)} width={s.w} height={s.h} loading="lazy" decoding="async" /></div>
               <figcaption>{t(s.alt)}</figcaption>
             </figure>
           ))}
@@ -297,29 +239,15 @@ function Vacas({ reduced }: { reduced: boolean }) {
   );
 }
 
-/* ------------------------------------------------------------------ Una forma de querer */
-function UnaForma() {
+function Games({ reduced }: { reduced: boolean }) {
   const { t } = useLang();
-  const p = unaForma;
   return (
-    <section className="p3 p3--ufq" id={p.id} aria-labelledby="ufq-card-title">
-      <div className="wrap">
-        <article className="p3__card">
-          <div className="ufq-card__wash" aria-hidden>
-            <span className="ufq-card__sun" />
-            <svg className="ufq-card__ridge" viewBox="0 0 1200 300" preserveAspectRatio="none">
-              <path d="M0 300 L0 230 C120 210 220 200 330 170 L520 70 C548 58 572 58 600 70 L760 150 C860 180 980 190 1200 200 L1200 300 Z" />
-            </svg>
-          </div>
-          <span className="pill p3__status"><span className="pill__dot" aria-hidden />{t(p.status)}</span>
-          <h2 id="ufq-card-title" className="ufq-card__title">{p.name}</h2>
-          <p className="ufq-card__pitch">{t(p.pitch)}</p>
-          <p className="ufq-card__desc">{t(p.description)}</p>
-          <ul className="p3__tags">{p.tags.map((tag) => <li key={tag.es}>{t(tag)}</li>)}</ul>
-          <a className="btn btn--primary ufq-card__cta" href={p.href}>{t(p.cta)} <ArrowUpRight size={18} aria-hidden /></a>
-        </article>
+    <div id="juegos" className="games">
+      <div className="wrap games__head">
+        <h2>{t(ui.nav.games)}</h2>
       </div>
-    </section>
+      {[ceniza, vacas, unaForma].map((g) => <GameShowcase key={g.id} game={g} reduced={reduced} />)}
+    </div>
   );
 }
 
@@ -501,9 +429,7 @@ export default function App() {
       <Nav />
       <main id="main">
         <Hero reduced={reduced} />
-        <Ceniza reduced={reduced} />
-        <Vacas reduced={reduced} />
-        <UnaForma />
+        <Games reduced={reduced} />
         <Devlog />
         <Studio />
         <Press />

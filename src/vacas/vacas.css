@@ -136,14 +136,37 @@
 .vlang button:active { opacity: 0.75; }
 .vlang button[aria-pressed='true'] { background: var(--ink); color: var(--bg); }
 
-@media (max-width: 720px) {
-  .vbar { grid-template-columns: auto 1fr auto; gap: 0.6rem; }
-  .vbar__back span, .vbar__label, .vbar__num { display: none; }
-  .vbar__zone { font-size: 0.9rem; }
-  .vbar__track { width: 56px; }
-  .vbar .vlang { grid-column: auto; }
-  .vbar { grid-template-columns: auto minmax(0, 1fr) auto auto; }
+/* Botón de menú: solo en móvil. En escritorio las pestañas van siempre a la vista. */
+.vbar__menu {
+  display: none; align-items: center; gap: 0.45rem; min-height: 2.75rem; padding: 0 0.85rem;
+  font: inherit; font-family: var(--type); font-size: 0.8rem; color: var(--ink); background: none;
+  border: 1px solid var(--line); cursor: pointer;
 }
+.vbar__menu[aria-expanded='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* Móvil: marca, idioma y menú. Las secciones viven en un panel desplegable. */
+@media (max-width: 720px) {
+  .vbar { grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 0.6rem; padding-bottom: 0.4rem; }
+  .vbar__back span, .vbar__sanity, .vbar__n { display: none; }
+  .vbar__zone { font-size: 0.95rem; }
+  .vbar__menu { display: inline-flex; }
+  .vbar .vtabs { display: none; }
+  .vbar[data-menu='open'] .vtabs {
+    display: flex; flex-direction: column; gap: 0;
+    position: absolute; top: 100%; left: 0; right: 0;
+    max-height: calc(100svh - 4rem); overflow-y: auto; overscroll-behavior: contain;
+    padding: 0.4rem max(var(--gutter), env(safe-area-inset-left, 0px)) calc(1rem + env(safe-area-inset-bottom, 0px));
+    background: var(--bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    box-shadow: 0 24px 40px -12px rgb(0 0 0 / 0.7);
+  }
+  .vbar[data-menu='open'] .vtabs a { justify-content: flex-start; padding: 0.95rem 0.2rem; min-height: 3rem; font-size: 1rem; border-bottom: 1px solid var(--line); border-left: 0; }
+  .vbar[data-menu='open'] .vtabs a span { display: inline; }
+  .vbar[data-menu='open'] .vtabs a[aria-current='page'] { border-bottom-color: #a4524c; }
+}
+@media (max-width: 720px) and (prefers-reduced-motion: no-preference) {
+  .vbar[data-menu='open'] .vtabs { animation: vmenu-in 0.22s var(--ease-out); }
+}
+@keyframes vmenu-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
 /* ------------------------------------------------------------ botones y sello */
 .vbtn {
@@ -437,11 +460,8 @@
 .vmore { margin-top: 3rem; }
 .vprocess { margin-top: 2rem; }
 @media (max-width: 720px) {
-  .vp-root { scroll-padding-top: calc(10.5rem + env(safe-area-inset-top, 0px)); }
-  .vtabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
-  .vtabs a { padding: 0.65rem 0.2rem; min-height: 2.75rem; font-size: 0.8125rem; }
-  .vtabs a span { display: none; }
-  .vhero__inner { padding-top: calc(12rem + env(safe-area-inset-top, 0px)); padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px)); align-items: end; }
+  .vp-root { scroll-padding-top: calc(5rem + env(safe-area-inset-top, 0px)); }
+  .vhero__inner { padding-top: calc(7rem + env(safe-area-inset-top, 0px)); padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px)); align-items: end; }
   .vhero__title { font-size: clamp(3.6rem, 15vw, 5.4rem); max-width: 12ch; }
   .vhero__title--home { font-size: 24vw; }
   .vhero__lead { font-size: 1rem; }
