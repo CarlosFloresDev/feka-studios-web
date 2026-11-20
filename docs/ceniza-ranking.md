@@ -7,7 +7,7 @@ Binding D1: `DB`, base `ceniza-ranking`, ID `727e64fc-e9e2-4aa3-82fe-bd5688627e9
 La próxima versión del juego debe enviar puntuaciones a:
 
 ```text
-https://feka-studios.chefsitturchey.workers.dev/api/ceniza/ranking
+https://feka-studios.pages.dev/api/ceniza/ranking
 ```
 
 En un dominio personalizado de Feka, usar ese dominio con la misma ruta.

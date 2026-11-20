@@ -2,7 +2,7 @@
 
 Sitio del estudio independiente **Feka Studios** (Arequipa, Perú): presentación del equipo, páginas de los juegos (Ceniza Neón, Vacas y Una forma de querer), bitácora y kit de prensa.
 
-**En línea:** https://feka-studios.chefsitturchey.workers.dev
+**En línea:** https://feka-studios.pages.dev
 
 ## Stack
 
